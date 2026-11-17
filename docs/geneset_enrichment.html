@@ -453,10 +453,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -549,15 +549,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229GLIHedgehogSignalingtree45e9dd0ad175f5f2cafa1f75097f6c40aff60080targetblank45e9dd0a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229GLIHedgehogSignalingtree9d5589b3ee4715358b8f41143a581a1f37e57589targetblank9d5589ba">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/tree/45e9dd0ad175f5f2cafa1f75097f6c40aff60080" target="_blank">45e9dd0</a>
+<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/tree/9d5589b3ee4715358b8f41143a581a1f37e57589" target="_blank">9d5589b</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229GLIHedgehogSignalingtree45e9dd0ad175f5f2cafa1f75097f6c40aff60080targetblank45e9dd0a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229GLIHedgehogSignalingtree9d5589b3ee4715358b8f41143a581a1f37e57589targetblank9d5589ba"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -567,7 +567,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/tree/45e9dd0ad175f5f2cafa1f75097f6c40aff60080" target="_blank">45e9dd0</a>.
+<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/tree/9d5589b3ee4715358b8f41143a581a1f37e57589" target="_blank">9d5589b</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -581,15 +581,8 @@ depends on. Below is the status of the Git repository when the results
 were generated:
 </p>
 <pre><code>
-Untracked files:
-    Untracked:  analysis/geneset_enrichment.Rmd
-
 Unstaged changes:
-    Modified:   analysis/about.Rmd
-    Deleted:    analysis/enrichment_fisher.Rmd
-    Deleted:    analysis/gene_sets.Rmd
-    Modified:   analysis/index.Rmd
-    Deleted:    analysis/overview.Rmd
+    Modified:   analysis/geneset_enrichment.Rmd
 
 </code></pre>
 <p>
@@ -604,10 +597,74 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/geneset_enrichment.Rmd</code>)
+and HTML (<code>docs/geneset_enrichment.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/blob/9d5589b3ee4715358b8f41143a581a1f37e57589/analysis/geneset_enrichment.Rmd" target="_blank">9d5589b</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2026-11-17
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/GLI-Hedgehog_Signaling/9d5589b3ee4715358b8f41143a581a1f37e57589/docs/geneset_enrichment.html" target="_blank">9d5589b</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2026-11-17
+</td>
+<td>
+update
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -1040,6 +1097,72 @@ ggplot(h, aes(gene_set, cluster_f, fill = l2)) +
                         &quot;faded cells: not significant. Fold 0 (no overlap) shows as the darkest blue.&quot;)) +
   th + theme(axis.text.x = element_text(angle = 35, hjust = 1), legend.key.height = unit(14, &quot;pt&quot;))</code></pre>
 <p><img src="figure/geneset_enrichment.Rmd/heatmap-1.png" alt="" width="729.6" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-heatmap-1">
+Past versions of heatmap-1.png
+</button>
+</p>
+<div id="fig-heatmap-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/blob/9d5589b3ee4715358b8f41143a581a1f37e57589/docs/figure/geneset_enrichment.Rmd/heatmap-1.png" target="_blank">9d5589b</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2026-11-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="significance-log10-p-vs-all-protein-coding-genes"
+class="section level2">
+<h2>Significance (−log10 p) vs all protein-coding genes</h2>
+<pre class="r"><code>pc &lt;- rc[rc$background == &quot;protein_coding&quot;, ]
+p_cut &lt;- max(pc$p_value[pc$fdr &lt; 0.05])     # largest p that still passes FDR &lt; 0.05</code></pre>
+<p>Two-sided Fisher p-values, signed by direction: positive (red) if the
+cluster has more genes from the set than expected, negative (blue) if
+fewer. With 70 tests, FDR &lt; 0.05 corresponds here to p ≤ 2.0e-04
+(−log10 p ≥ 3.7).</p>
+<pre class="r"><code>pc$slp &lt;- sign(log(pc$odds_ratio + 1e-12)) * -log10(pc$p_value)   # signed -log10 p
+pc$slp_c &lt;- pmax(pmin(pc$slp, 10), -10)
+pc$lab &lt;- ifelse(pc$fdr &lt; 0.05, f2(-log10(pc$p_value)), &quot;&quot;)
+pc$lab_col &lt;- ifelse(abs(pc$slp_c) &gt; 5.5, &quot;#ffffff&quot;, INK)
+cap &lt;- pc[abs(pc$slp) &gt; 10, ]
+cap_txt &lt;- if (nrow(cap)) paste0(&quot;; above the cap: &quot;, paste0(&quot;cluster &quot;, cap$cluster, &quot; &quot;, cap$gene_set, &quot; = &quot;,
+                                 f2(abs(cap$slp)), collapse = &quot;, &quot;)) else &quot;&quot;
+ggplot(pc, aes(gene_set, cluster_f, fill = slp_c)) +
+  geom_tile(colour = SURF, linewidth = 1.2) +
+  geom_text(aes(label = lab, colour = lab_col), size = 3.3, fontface = &quot;bold&quot;) +
+  scale_colour_identity() +
+  scale_fill_gradient2(low = BLUE, mid = MID, high = RED, midpoint = 0, limits = c(-10, 10),
+                       breaks = c(-10, -5, 0, 5, 10), labels = c(&quot;≤10&quot;, &quot;5&quot;, &quot;0&quot;, &quot;5&quot;, &quot;≥10&quot;),
+                       name = &quot;−log10 p\n(red enriched,\nblue depleted)&quot;) +
+  labs(x = NULL, y = &quot;Cluster&quot;,
+       caption = paste0(&quot;Numbers: −log10 p, shown where FDR &lt; 0.05. Colour is capped at 10\n&quot;,
+                        &quot;(numbers are not capped&quot;, cap_txt, &quot;).&quot;)) +
+  th + theme(axis.text.x = element_text(angle = 35, hjust = 1), legend.key.height = unit(14, &quot;pt&quot;))</code></pre>
+<p><img src="figure/geneset_enrichment.Rmd/pheatmap-1.png" alt="" width="729.6" style="display: block; margin: auto;" /></p>
 </div>
 <div id="odds-ratios-with-95-confidence-intervals"
 class="section level2">
@@ -1067,6 +1190,43 @@ ggplot(fp, aes(or, cluster_f, colour = bg, group = bg)) +   # group = bg keeps d
   th + theme(panel.grid.major.x = element_line(colour = GRID, linewidth = 0.3),
              legend.position = &quot;top&quot;, legend.justification = &quot;left&quot;)</code></pre>
 <p><img src="figure/geneset_enrichment.Rmd/forest-1.png" alt="" width="1056" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-forest-1">
+Past versions of forest-1.png
+</button>
+</p>
+<div id="fig-forest-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/blob/9d5589b3ee4715358b8f41143a581a1f37e57589/docs/figure/geneset_enrichment.Rmd/forest-1.png" target="_blank">9d5589b</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2026-11-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="pooled-all-clustered-genes-vs-the-genome"
 class="section level2">

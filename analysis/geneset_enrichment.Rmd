@@ -199,6 +199,39 @@ ggplot(h, aes(gene_set, cluster_f, fill = l2)) +
   th + theme(axis.text.x = element_text(angle = 35, hjust = 1), legend.key.height = unit(14, "pt"))
 ```
 
+## Significance (−log10 p) vs all protein-coding genes
+
+```{r pthresh}
+pc <- rc[rc$background == "protein_coding", ]
+p_cut <- max(pc$p_value[pc$fdr < 0.05])     # largest p that still passes FDR < 0.05
+```
+
+Two-sided Fisher p-values, signed by direction: positive (red) if the cluster
+has more genes from the set than expected, negative (blue) if fewer. With
+70 tests, FDR < 0.05 corresponds here to p &le; `r formatC(p_cut, format = "e", digits = 1)`
+(−log10 p &ge; `r f2(-log10(p_cut))`).
+
+```{r pheatmap, fig.width=7.6, fig.height=4.8}
+pc$slp <- sign(log(pc$odds_ratio + 1e-12)) * -log10(pc$p_value)   # signed -log10 p
+pc$slp_c <- pmax(pmin(pc$slp, 10), -10)
+pc$lab <- ifelse(pc$fdr < 0.05, f2(-log10(pc$p_value)), "")
+pc$lab_col <- ifelse(abs(pc$slp_c) > 5.5, "#ffffff", INK)
+cap <- pc[abs(pc$slp) > 10, ]
+cap_txt <- if (nrow(cap)) paste0("; above the cap: ", paste0("cluster ", cap$cluster, " ", cap$gene_set, " = ",
+                                 f2(abs(cap$slp)), collapse = ", ")) else ""
+ggplot(pc, aes(gene_set, cluster_f, fill = slp_c)) +
+  geom_tile(colour = SURF, linewidth = 1.2) +
+  geom_text(aes(label = lab, colour = lab_col), size = 3.3, fontface = "bold") +
+  scale_colour_identity() +
+  scale_fill_gradient2(low = BLUE, mid = MID, high = RED, midpoint = 0, limits = c(-10, 10),
+                       breaks = c(-10, -5, 0, 5, 10), labels = c("≤10", "5", "0", "5", "≥10"),
+                       name = "−log10 p\n(red enriched,\nblue depleted)") +
+  labs(x = NULL, y = "Cluster",
+       caption = paste0("Numbers: −log10 p, shown where FDR < 0.05. Colour is capped at 10\n",
+                        "(numbers are not capped", cap_txt, ").")) +
+  th + theme(axis.text.x = element_text(angle = 35, hjust = 1), legend.key.height = unit(14, "pt"))
+```
+
 ## Odds ratios with 95% confidence intervals
 
 Both backgrounds. Each point is one cluster. A filled point means FDR < 0.05;
