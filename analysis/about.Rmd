@@ -1,0 +1,21 @@
+---
+title: "About"
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+---
+
+This site summarizes a collaboration on how GLI-mediated Hedgehog signaling
+affects neuronal progenitor differentiation. GLI is overexpressed and then
+perturbed or removed, and gene expression is measured over time. The
+collaborator grouped the responsive genes into 10 clusters with maSigPro.
+
+We test whether these clusters are enriched for genes implicated in
+neurodevelopmental disorders. Autism (SFARI, TADA) and combined
+neurodevelopmental disorders (NDD) come first. Schizophrenia (MAGMA with GWAS)
+is planned.
+
+Analysis code and data: `/project/xinhe/xsun/GLI-Hedgehog_Signaling`
+(stage 1 scripts in `1.geneset_enrichment/`).

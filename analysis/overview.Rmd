@@ -1,0 +1,113 @@
+---
+title: "Project overview"
+author: "XSun"
+date: "`r Sys.Date()`"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+    toc_depth: 2
+---
+
+```{r setup, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+P   <- "/project/xinhe/xsun/GLI-Hedgehog_Signaling"
+cl  <- read.delim(file.path(P, "data/gene_clusters/maSigPro_clusters_hgnc.tsv"))
+gs  <- read.delim(file.path(P, "data/gene_sets/enrichment_gene_sets.tsv"), check.names = FALSE)
+bg  <- read.delim(file.path(P, "data/gene_sets/background_protein_coding_hgnc.tsv"))
+fmt <- function(x) format(x, big.mark = ",", trim = TRUE)
+```
+
+# Question
+
+The collaborator studies how GLI-mediated Hedgehog signaling affects neuronal
+progenitor differentiation. GLI is overexpressed, then perturbed or removed,
+and gene expression is measured over a time course. Genes that respond were
+grouped into **10 clusters** by their expression pattern (maSigPro).
+
+**Hypothesis:** genes that respond to GLI perturbation are enriched for genes
+implicated in neurodevelopmental disorders.
+
+| Analysis | Approach | Status |
+|---|---|---|
+| Autism | Enrichment with SFARI gene sets (category 1, 2, 1&2) | done |
+| Autism | High- vs medium-confidence TADA genes (Fu et al. 2022) | done |
+| Neurodevelopmental disorders (NDD) | Enrichment with Wang et al. 2022 NDD genes | done |
+| Developmental disorders (DD only) | DD285 list | prepared, not run yet |
+| Schizophrenia | MAGMA with GWAS summary statistics | planned |
+
+# GLI-response clusters
+
+All gene names were updated to current HGNC symbols. Only protein-coding genes
+are kept, to match the background (below). Most dropped genes are lncRNAs,
+antisense transcripts or pseudogenes.
+
+```{r clusters}
+tab <- data.frame(
+  cluster = sort(unique(cl$cluster)),
+  genes_in_file = as.vector(table(cl$cluster)),
+  protein_coding_kept = as.vector(table(factor(cl$cluster[cl$kept], sort(unique(cl$cluster))))))
+tab <- rbind(tab, data.frame(cluster = "total", genes_in_file = sum(tab$genes_in_file),
+                             protein_coding_kept = sum(tab$protein_coding_kept)))
+knitr::kable(tab, col.names = c("Cluster", "Genes in file", "Protein-coding genes kept"),
+             format.args = list(big.mark = ","))
+```
+
+# Gene sets
+
+Seven gene sets, chosen 11/17/2026. Details and sources are on the
+[gene sets page](gene_sets.html).
+
+```{r genesets}
+def <- c(
+  "TADA-high_fu2022"     = "Fu et al. 2022 TADA, autism FDR &le; 0.001",
+  "TADA-med_fu2022"      = "Fu et al. 2022 TADA, 0.001 < autism FDR &le; 0.05",
+  "TADA-high&med_fu2022" = "union of the two (= Fu's 185 autism genes)",
+  "NDD_wang2022"         = "Wang et al. 2022, 615 NDD genes from de novo variants in 46,612 trios",
+  "SFARI_cat1"           = "SFARI Gene, score 1 (release 07-12-2026)",
+  "SFARI_cat2"           = "SFARI Gene, score 2",
+  "SFARI_cat1&2"         = "union of the two")
+n <- table(factor(gs$gene_set, names(def)))
+knitr::kable(data.frame(names(def), unname(def), as.vector(n)),
+             col.names = c("Gene set", "Definition", "Protein-coding genes"),
+             escape = FALSE)
+```
+
+# Test
+
+The test is **Fisher's exact test, two-sided**, as in the earlier rare-variant
+analysis. For each cluster and gene set, the 2&times;2 table compares the cluster
+with the *rest* of the background:
+
+|                  | in gene set | not in gene set |
+|------------------|:-----------:|:---------------:|
+| in cluster k     | a | b |
+| rest of background | c | d |
+
+We use two backgrounds, because they answer different questions:
+
+* **All protein-coding genes** (`r fmt(nrow(bg))` HGNC genes). Is cluster k
+  enriched relative to the genome?
+* **All clustered genes** (`r fmt(sum(cl$kept))`). Is cluster k enriched
+  relative to the *other* GLI-responsive clusters? This is the stricter test. It
+  partly controls for the fact that genes expressed in neural progenitors are
+  generally enriched for neurodevelopmental genes.
+
+FDR is Benjamini–Hochberg within each background (10 clusters &times; 7 gene
+sets). The seven pooled "all clusters vs genome" tests are their own family. A
+two-sided test flags depletion as well as enrichment, so results always show the
+direction.
+
+# Caveats and next steps
+
+* **Background.** The ideal background is every gene measured in the
+  experiment, not every protein-coding gene. If the collaborator can share
+  that list, we will rerun with it.
+* **The gene sets overlap.** SFARI, TADA and NDD share many genes, so
+  results across gene sets are not independent.
+* **Mutation-intolerant genes.** Many NDD genes are highly intolerant of
+  damaging mutations. A cluster rich in such genes could look enriched for that
+  reason alone. Next step: a test that accounts for this, using the
+  constraint and haploinsufficiency lists.
+* **Interpretation** needs the expression pattern of each cluster, e.g. up or
+  down after GLI removal, from the collaborator.

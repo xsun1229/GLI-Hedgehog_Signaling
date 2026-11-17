@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="XSun" />
+
+<meta name="date" content="2026-11-17" />
+
+<title>Project overview</title>
+
+<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.2.1/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.2.1/css/v4-shims.min.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">GLI-Hedgehog Signaling</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling">
+    <span class="fab fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Project overview</h1>
+<h4 class="author">XSun</h4>
+<h4 class="date">2026-11-17</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2026-11-17
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>GLI-Hedgehog_Signaling/</code>
+<span class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20261117code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20261117)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20261117code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20261117)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongnoversioncontrol">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>Repository version:</strong> no
+version control </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongnoversioncontrol"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Tracking code development and connecting the code version to the
+results is critical for reproducibility. To start using Git, open the
+Terminal and type <code>git init</code> in your project directory.</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+This project is not being versioned with Git. To obtain the full
+reproducibility benefits of using workflowr, please see
+<code>?wflow_start</code>.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<pre class="r"><code>knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+P   &lt;- &quot;/project/xinhe/xsun/GLI-Hedgehog_Signaling&quot;
+cl  &lt;- read.delim(file.path(P, &quot;data/gene_clusters/maSigPro_clusters_hgnc.tsv&quot;))
+gs  &lt;- read.delim(file.path(P, &quot;data/gene_sets/enrichment_gene_sets.tsv&quot;), check.names = FALSE)
+bg  &lt;- read.delim(file.path(P, &quot;data/gene_sets/background_protein_coding_hgnc.tsv&quot;))
+fmt &lt;- function(x) format(x, big.mark = &quot;,&quot;, trim = TRUE)</code></pre>
+<div id="question" class="section level1">
+<h1>Question</h1>
+<p>The collaborator studies how GLI-mediated Hedgehog signaling affects
+neuronal progenitor differentiation. GLI is overexpressed, then
+perturbed or removed, and gene expression is measured over a time
+course. Genes that respond were grouped into <strong>10
+clusters</strong> by their expression pattern (maSigPro).</p>
+<p><strong>Hypothesis:</strong> genes that respond to GLI perturbation
+are enriched for genes implicated in neurodevelopmental disorders.</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Analysis</th>
+<th>Approach</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Autism</td>
+<td>Enrichment with SFARI gene sets (category 1, 2, 1&amp;2)</td>
+<td>done</td>
+</tr>
+<tr class="even">
+<td>Autism</td>
+<td>High- vs medium-confidence TADA genes (Fu et al. 2022)</td>
+<td>done</td>
+</tr>
+<tr class="odd">
+<td>Neurodevelopmental disorders (NDD)</td>
+<td>Enrichment with Wang et al. 2022 NDD genes</td>
+<td>done</td>
+</tr>
+<tr class="even">
+<td>Developmental disorders (DD only)</td>
+<td>DD285 list</td>
+<td>prepared, not run yet</td>
+</tr>
+<tr class="odd">
+<td>Schizophrenia</td>
+<td>MAGMA with GWAS summary statistics</td>
+<td>planned</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="gli-response-clusters" class="section level1">
+<h1>GLI-response clusters</h1>
+<p>All gene names were updated to current HGNC symbols. Only
+protein-coding genes are kept, to match the background (below). Most
+dropped genes are lncRNAs, antisense transcripts or pseudogenes.</p>
+<pre class="r"><code>tab &lt;- data.frame(
+  cluster = sort(unique(cl$cluster)),
+  genes_in_file = as.vector(table(cl$cluster)),
+  protein_coding_kept = as.vector(table(factor(cl$cluster[cl$kept], sort(unique(cl$cluster))))))
+tab &lt;- rbind(tab, data.frame(cluster = &quot;total&quot;, genes_in_file = sum(tab$genes_in_file),
+                             protein_coding_kept = sum(tab$protein_coding_kept)))
+knitr::kable(tab, col.names = c(&quot;Cluster&quot;, &quot;Genes in file&quot;, &quot;Protein-coding genes kept&quot;),
+             format.args = list(big.mark = &quot;,&quot;))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Cluster</th>
+<th align="right">Genes in file</th>
+<th align="right">Protein-coding genes kept</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="right">560</td>
+<td align="right">503</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="right">1,090</td>
+<td align="right">1,030</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="right">900</td>
+<td align="right">852</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="right">388</td>
+<td align="right">357</td>
+</tr>
+<tr class="odd">
+<td align="left">5</td>
+<td align="right">998</td>
+<td align="right">965</td>
+</tr>
+<tr class="even">
+<td align="left">6</td>
+<td align="right">1,626</td>
+<td align="right">1,539</td>
+</tr>
+<tr class="odd">
+<td align="left">7</td>
+<td align="right">290</td>
+<td align="right">273</td>
+</tr>
+<tr class="even">
+<td align="left">8</td>
+<td align="right">361</td>
+<td align="right">347</td>
+</tr>
+<tr class="odd">
+<td align="left">9</td>
+<td align="right">236</td>
+<td align="right">213</td>
+</tr>
+<tr class="even">
+<td align="left">10</td>
+<td align="right">387</td>
+<td align="right">354</td>
+</tr>
+<tr class="odd">
+<td align="left">total</td>
+<td align="right">6,836</td>
+<td align="right">6,433</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="gene-sets" class="section level1">
+<h1>Gene sets</h1>
+<p>Seven gene sets, chosen 11/17/2026. Details and sources are on the <a
+href="gene_sets.html">gene sets page</a>.</p>
+<pre class="r"><code>def &lt;- c(
+  &quot;TADA-high_fu2022&quot;     = &quot;Fu et al. 2022 TADA, autism FDR &amp;le; 0.001&quot;,
+  &quot;TADA-med_fu2022&quot;      = &quot;Fu et al. 2022 TADA, 0.001 &lt; autism FDR &amp;le; 0.05&quot;,
+  &quot;TADA-high&amp;med_fu2022&quot; = &quot;union of the two (= Fu&#39;s 185 autism genes)&quot;,
+  &quot;NDD_wang2022&quot;         = &quot;Wang et al. 2022, 615 NDD genes from de novo variants in 46,612 trios&quot;,
+  &quot;SFARI_cat1&quot;           = &quot;SFARI Gene, score 1 (release 07-12-2026)&quot;,
+  &quot;SFARI_cat2&quot;           = &quot;SFARI Gene, score 2&quot;,
+  &quot;SFARI_cat1&amp;2&quot;         = &quot;union of the two&quot;)
+n &lt;- table(factor(gs$gene_set, names(def)))
+knitr::kable(data.frame(names(def), unname(def), as.vector(n)),
+             col.names = c(&quot;Gene set&quot;, &quot;Definition&quot;, &quot;Protein-coding genes&quot;),
+             escape = FALSE)</code></pre>
+<table>
+<colgroup>
+<col width="18%" />
+<col width="62%" />
+<col width="18%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Gene set</th>
+<th align="left">Definition</th>
+<th align="right">Protein-coding genes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">TADA-high_fu2022</td>
+<td align="left">Fu et al. 2022 TADA, autism FDR ≤ 0.001</td>
+<td align="right">72</td>
+</tr>
+<tr class="even">
+<td align="left">TADA-med_fu2022</td>
+<td align="left">Fu et al. 2022 TADA, 0.001 &lt; autism FDR ≤ 0.05</td>
+<td align="right">113</td>
+</tr>
+<tr class="odd">
+<td align="left">TADA-high&amp;med_fu2022</td>
+<td align="left">union of the two (= Fu’s 185 autism genes)</td>
+<td align="right">185</td>
+</tr>
+<tr class="even">
+<td align="left">NDD_wang2022</td>
+<td align="left">Wang et al. 2022, 615 NDD genes from de novo variants
+in 46,612 trios</td>
+<td align="right">614</td>
+</tr>
+<tr class="odd">
+<td align="left">SFARI_cat1</td>
+<td align="left">SFARI Gene, score 1 (release 07-12-2026)</td>
+<td align="right">242</td>
+</tr>
+<tr class="even">
+<td align="left">SFARI_cat2</td>
+<td align="left">SFARI Gene, score 2</td>
+<td align="right">706</td>
+</tr>
+<tr class="odd">
+<td align="left">SFARI_cat1&amp;2</td>
+<td align="left">union of the two</td>
+<td align="right">948</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="test" class="section level1">
+<h1>Test</h1>
+<p>The test is <strong>Fisher’s exact test, two-sided</strong>, as in
+the earlier rare-variant analysis. For each cluster and gene set, the
+2×2 table compares the cluster with the <em>rest</em> of the
+background:</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">in gene set</th>
+<th align="center">not in gene set</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>in cluster k</td>
+<td align="center">a</td>
+<td align="center">b</td>
+</tr>
+<tr class="even">
+<td>rest of background</td>
+<td align="center">c</td>
+<td align="center">d</td>
+</tr>
+</tbody>
+</table>
+<p>We use two backgrounds, because they answer different questions:</p>
+<ul>
+<li><strong>All protein-coding genes</strong> (19,362 HGNC genes). Is
+cluster k enriched relative to the genome?</li>
+<li><strong>All clustered genes</strong> (6,433). Is cluster k enriched
+relative to the <em>other</em> GLI-responsive clusters? This is the
+stricter test. It partly controls for the fact that genes expressed in
+neural progenitors are generally enriched for neurodevelopmental
+genes.</li>
+</ul>
+<p>FDR is Benjamini–Hochberg within each background (10 clusters × 7
+gene sets). The seven pooled “all clusters vs genome” tests are their
+own family. A two-sided test flags depletion as well as enrichment, so
+results always show the direction.</p>
+</div>
+<div id="caveats-and-next-steps" class="section level1">
+<h1>Caveats and next steps</h1>
+<ul>
+<li><strong>Background.</strong> The ideal background is every gene
+measured in the experiment, not every protein-coding gene. If the
+collaborator can share that list, we will rerun with it.</li>
+<li><strong>The gene sets overlap.</strong> SFARI, TADA and NDD share
+many genes, so results across gene sets are not independent.</li>
+<li><strong>Mutation-intolerant genes.</strong> Many NDD genes are
+highly intolerant of damaging mutations. A cluster rich in such genes
+could look enriched for that reason alone. Next step: a test that
+accounts for this, using the constraint and haploinsufficiency
+lists.</li>
+<li><strong>Interpretation</strong> needs the expression pattern of each
+cluster, e.g. up or down after GLI removal, from the collaborator.</li>
+</ul>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.2.0 (2022-04-22)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Red Hat Enterprise Linux 8.10 (Ootpa)
+
+Matrix products: default
+BLAS/LAPACK: /software/openblas-0.3.13-el8-x86_64/lib/libopenblas_skylakexp-r0.3.13.so
+
+locale:
+ [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
+ [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
+ [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
+[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] workflowr_1.7.1
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.1.1-1.1   bslib_0.3.1      jquerylib_0.1.4  compiler_4.2.0  
+ [5] pillar_1.9.0     later_1.3.0      git2r_0.30.1     tools_4.2.0     
+ [9] getPass_0.2-2    digest_0.6.29    jsonlite_2.0.0   evaluate_0.15   
+[13] lifecycle_1.0.4  tibble_3.2.1     pkgconfig_2.0.3  rlang_1.1.2     
+[17] cli_3.6.2        rstudioapi_0.14  yaml_2.3.5       xfun_0.59       
+[21] fastmap_1.1.0    httr_1.4.8       stringr_1.5.0    knitr_1.51      
+[25] sass_0.4.1       fs_1.5.2         vctrs_0.6.1      rprojroot_2.0.3 
+[29] glue_1.6.2       R6_2.5.1         processx_3.5.3   fansi_1.0.3     
+[33] otel_0.2.0       rmarkdown_2.31   callr_3.7.0      magrittr_2.0.3  
+[37] whisker_0.4      ps_1.7.0         promises_1.2.0.1 htmltools_0.5.7 
+[41] httpuv_1.6.5     utf8_1.2.2       stringi_1.7.6   </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
