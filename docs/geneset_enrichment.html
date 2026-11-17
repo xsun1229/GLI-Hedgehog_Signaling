@@ -549,15 +549,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229GLIHedgehogSignalingtree9d5589b3ee4715358b8f41143a581a1f37e57589targetblank9d5589ba">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229GLIHedgehogSignalingtreef05ffefa10a5c4155886905eabea3ddaa2337274targetblankf05ffefa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/tree/9d5589b3ee4715358b8f41143a581a1f37e57589" target="_blank">9d5589b</a>
+<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/tree/f05ffefa10a5c4155886905eabea3ddaa2337274" target="_blank">f05ffef</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229GLIHedgehogSignalingtree9d5589b3ee4715358b8f41143a581a1f37e57589targetblank9d5589ba"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229GLIHedgehogSignalingtreef05ffefa10a5c4155886905eabea3ddaa2337274targetblankf05ffefa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -567,7 +567,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/tree/9d5589b3ee4715358b8f41143a581a1f37e57589" target="_blank">9d5589b</a>.
+<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/tree/f05ffefa10a5c4155886905eabea3ddaa2337274" target="_blank">f05ffef</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -633,6 +633,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/blob/f05ffefa10a5c4155886905eabea3ddaa2337274/analysis/geneset_enrichment.Rmd" target="_blank">f05ffef</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2026-11-17
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/GLI-Hedgehog_Signaling/f05ffefa10a5c4155886905eabea3ddaa2337274/docs/geneset_enrichment.html" target="_blank">f05ffef</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2026-11-17
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/blob/9d5589b3ee4715358b8f41143a581a1f37e57589/analysis/geneset_enrichment.Rmd" target="_blank">9d5589b</a>
 </td>
 <td>
@@ -682,13 +716,13 @@ ndd &lt;- read.delim(file.path(GS, &quot;NDD_genes.tsv&quot;))
 
 set_order &lt;- c(&quot;TADA-high_fu2022&quot;, &quot;TADA-med_fu2022&quot;, &quot;TADA-high&amp;med_fu2022&quot;, &quot;NDD_wang2022&quot;,
                &quot;SFARI_cat1&quot;, &quot;SFARI_cat2&quot;, &quot;SFARI_cat1&amp;2&quot;)
-bg_lab &lt;- c(protein_coding = &quot;vs all protein-coding genes&quot;, clustered = &quot;vs the other 9 clusters&quot;)
 r$gene_set &lt;- factor(r$gene_set, set_order)
-r$bg &lt;- factor(bg_lab[r$background], bg_lab)
-rc &lt;- r[r$cluster != &quot;all&quot;, ]
+rc &lt;- r[r$cluster != &quot;all&quot;, ]                                  # 10 clusters x 7 gene sets
 rc$cluster_f &lt;- factor(rc$cluster, rev(as.character(1:10)))   # cluster 1 on top
-pick &lt;- function(b, k, s, v) r[r$background == b &amp; r$cluster == k &amp; r$gene_set == s, v]
+pick &lt;- function(k, s, v) r[r$cluster == k &amp; r$gene_set == s, v]
 f2  &lt;- function(x) sprintf(&quot;%.1f&quot;, x)
+pv  &lt;- function(p) ifelse(p &gt;= 0.001, sprintf(&quot;%.3f&quot;, p),      # p-value as text (ASCII)
+                          formatC(p, format = &quot;e&quot;, digits = 1))
 fmt &lt;- function(x) format(x, big.mark = &quot;,&quot;, trim = TRUE)
 
 # chart ink and colours (diverging: blue = depleted, gray = no change, red = enriched)
@@ -741,18 +775,10 @@ are enriched for genes implicated in neurodevelopmental disorders.</p>
 <td>Enrichment with Wang et al. 2022 NDD genes</td>
 <td>done</td>
 </tr>
-<tr class="even">
-<td>Developmental disorders only</td>
-<td>DD gene list</td>
-<td>prepared, not run yet</td>
-</tr>
-<tr class="odd">
-<td>Schizophrenia</td>
-<td>MAGMA with GWAS summary statistics</td>
-<td>planned</td>
-</tr>
 </tbody>
 </table>
+<!-- | Developmental disorders only | DD gene list | prepared, not run yet | -->
+<!-- | Schizophrenia | MAGMA with GWAS summary statistics | planned | -->
 </div>
 <div id="gli-response-clusters" class="section level2">
 <h2>GLI-response clusters</h2>
@@ -1034,67 +1060,64 @@ the background:</p>
 </tr>
 </tbody>
 </table>
-<p>Two backgrounds, because they answer different questions:</p>
-<ul>
-<li><strong>All protein-coding genes</strong> (19,362 HGNC genes). Is
-cluster k enriched relative to the genome?</li>
-<li><strong>All clustered genes</strong> (6,433). Is cluster k enriched
-relative to the <em>other</em> GLI-responsive clusters? This is the
-stricter test. It partly controls for the fact that genes expressed in
-neural progenitors are generally enriched for neurodevelopmental
-genes.</li>
-</ul>
-<p>FDR is Benjamini–Hochberg within each background (10 clusters × 7
-gene sets). The seven pooled “all clusters vs genome” tests are their
-own family. A two-sided test flags depletion as well as enrichment, so
-results always show the direction.</p>
+<p><strong>Background:</strong> the whole genome, i.e. all 19,362 HGNC
+protein-coding genes. The question is whether cluster k is enriched
+relative to the genome.</p>
+<p><strong>Significance:</strong> nominal two-sided p &lt; 0.05, not
+corrected for the 70 tests (about 3.5 would pass by chance). A two-sided
+test flags depletion as well as enrichment, so results always show the
+direction.</p>
 </div>
 </div>
 <div id="results" class="section level1">
 <h1>Results</h1>
 <div id="summary" class="section level2">
 <h2>Summary</h2>
-<pre class="r"><code>s  &lt;- rc[rc$fdr &lt; 0.05, ]
-c6 &lt;- function(set, b = &quot;protein_coding&quot;) pick(b, &quot;6&quot;, set, c(&quot;overlap&quot;, &quot;expected&quot;, &quot;fold&quot;, &quot;fdr&quot;))
-t6h &lt;- c6(&quot;TADA-high_fu2022&quot;); t6m &lt;- c6(&quot;TADA-med_fu2022&quot;); t6hc &lt;- c6(&quot;TADA-high_fu2022&quot;, &quot;clustered&quot;)</code></pre>
+<pre class="r"><code>s &lt;- rc[rc$p_value &lt; 0.05, ]
+v &lt;- function(k, set) pick(k, set, c(&quot;overlap&quot;, &quot;expected&quot;, &quot;fold&quot;, &quot;p_value&quot;))
+t6h &lt;- v(&quot;6&quot;, &quot;TADA-high_fu2022&quot;); t6m &lt;- v(&quot;6&quot;, &quot;TADA-med_fu2022&quot;)
+c2n &lt;- v(&quot;2&quot;, &quot;NDD_wang2022&quot;); c2s &lt;- v(&quot;2&quot;, &quot;SFARI_cat1&quot;); c2t &lt;- v(&quot;2&quot;, &quot;TADA-high&amp;med_fu2022&quot;)
+c1s &lt;- v(&quot;1&quot;, &quot;SFARI_cat2&quot;); c10s &lt;- v(&quot;10&quot;, &quot;SFARI_cat1&quot;); c5s &lt;- v(&quot;5&quot;, &quot;SFARI_cat1&amp;2&quot;)</code></pre>
 <ul>
 <li><strong>Cluster 6 is the main signal.</strong> It is enriched for
-all 7 gene sets, against both backgrounds. TADA-high genes: 18 observed
-vs 5.7 expected (3.1× vs the genome; 2.0× vs the other clusters).
-Enrichment is stronger for TADA-high (3.1×) than TADA-med (2.4×), the
-pattern expected if the signal is real.</li>
-<li><strong>Cluster 2</strong> is enriched for NDD and SFARI category 1
-genes; <strong>cluster 1</strong> for SFARI category 2. Neither is
-significant for TADA.</li>
-<li><strong>Cluster 5 is depleted</strong> relative to the other
-clusters: about half the expected number of SFARI and NDD genes.</li>
-<li>Pooling all clusters, GLI-responsive genes are enriched for every
-gene set relative to the genome (fold 1.3–1.5). This may partly reflect
-that genes expressed in neural progenitors are generally NDD-enriched,
-which is why the second background matters.</li>
-<li>In total, 22 cluster tests are significantly enriched and 6 depleted
-(FDR &lt; 0.05).</li>
+all 7 gene sets. TADA-high genes: 18 observed vs 5.7 expected (3.1×, p =
+9.5e-06). Enrichment is stronger for TADA-high (3.1×) than TADA-med
+(2.4×), the pattern expected if the signal is real.</li>
+<li><strong>Cluster 2</strong> is enriched for NDD (2.1×, p = 2.3e-08)
+and SFARI category 1 genes (2.6×, p = 6.6e-07), and weakly for
+TADA-high&amp;med (1.7×, p = 0.030).</li>
+<li><strong>Cluster 1</strong> is enriched for SFARI category 2 (2.1×, p
+= 9.7e-06), and <strong>cluster 10</strong> weakly for SFARI category 1
+(2.3×, p = 0.014).</li>
+<li><strong>Cluster 5</strong> is mildly depleted for SFARI genes (0.7×,
+p = 0.018).</li>
+<li>In total, 16 of 70 tests have p &lt; 0.05 (15 enriched, 1 depleted);
+about 3.5 would be expected by chance.
+<!-- * Pooling all clusters, GLI-responsive genes are enriched for every gene set -->
+<!--   relative to the genome (fold 1.3–1.5). -->
+<!--   This may partly reflect that genes expressed in neural progenitors are -->
+<!--   generally NDD-enriched, so genome-wide enrichment should be read with this in mind. --></li>
 </ul>
 </div>
 <div id="fold-enrichment-vs-all-protein-coding-genes"
 class="section level2">
 <h2>Fold enrichment vs all protein-coding genes</h2>
-<pre class="r"><code>h &lt;- rc[rc$background == &quot;protein_coding&quot;, ]
+<pre class="r"><code>h &lt;- rc
 h$l2 &lt;- pmax(pmin(log2(h$fold), 2), -2)        # fold 0 (no overlap) shows as the darkest blue
-h$lab &lt;- ifelse(h$fdr &lt; 0.05, f2(h$fold), &quot;&quot;)
+h$lab &lt;- ifelse(h$p_value &lt; 0.05, f2(h$fold), &quot;&quot;)
 h$lab_col &lt;- ifelse(abs(h$l2) &gt; 1.1, &quot;#ffffff&quot;, INK)
-h$alpha &lt;- ifelse(h$fdr &lt; 0.05, 1, 0.35)        # fade non-significant cells
+h$alpha &lt;- ifelse(h$p_value &lt; 0.05, 1, 0.35)    # fade cells with p &gt;= 0.05
 ggplot(h, aes(gene_set, cluster_f, fill = l2)) +
   geom_tile(aes(alpha = alpha), colour = SURF, linewidth = 1.2) +
   scale_alpha_identity() +
   geom_text(aes(label = lab, colour = lab_col), size = 3.3, fontface = &quot;bold&quot;) +
   scale_colour_identity() +
   scale_fill_gradient2(low = BLUE, mid = MID, high = RED, midpoint = 0, limits = c(-2, 2),
-                       breaks = log2(c(0.25, 0.5, 1, 2, 4)), labels = c(&quot;≤0.25&quot;, &quot;0.5&quot;, &quot;1&quot;, &quot;2&quot;, &quot;≥4&quot;),
+                       breaks = log2(c(0.25, 0.5, 1, 2, 4)), labels = c(&quot;&lt;=0.25&quot;, &quot;0.5&quot;, &quot;1&quot;, &quot;2&quot;, &quot;&gt;=4&quot;),
                        name = &quot;Fold\n(observed /\nexpected)&quot;) +
   labs(x = NULL, y = &quot;Cluster&quot;,
-       caption = paste0(&quot;Red = enriched, blue = depleted. Solid cells with numbers: FDR &lt; 0.05;\n&quot;,
-                        &quot;faded cells: not significant. Fold 0 (no overlap) shows as the darkest blue.&quot;)) +
+       caption = paste0(&quot;Red = enriched, blue = depleted. Solid cells with numbers: p &lt; 0.05 (nominal);\n&quot;,
+                        &quot;faded cells: p &gt;= 0.05. Fold 0 (no overlap) shows as the darkest blue.&quot;)) +
   th + theme(axis.text.x = element_text(angle = 35, hjust = 1), legend.key.height = unit(14, &quot;pt&quot;))</code></pre>
 <p><img src="figure/geneset_enrichment.Rmd/heatmap-1.png" alt="" width="729.6" style="display: block; margin: auto;" /></p>
 <p>
@@ -1138,15 +1161,13 @@ XSun
 <div id="significance-log10-p-vs-all-protein-coding-genes"
 class="section level2">
 <h2>Significance (−log10 p) vs all protein-coding genes</h2>
-<pre class="r"><code>pc &lt;- rc[rc$background == &quot;protein_coding&quot;, ]
-p_cut &lt;- max(pc$p_value[pc$fdr &lt; 0.05])     # largest p that still passes FDR &lt; 0.05</code></pre>
 <p>Two-sided Fisher p-values, signed by direction: positive (red) if the
 cluster has more genes from the set than expected, negative (blue) if
-fewer. With 70 tests, FDR &lt; 0.05 corresponds here to p ≤ 2.0e-04
-(−log10 p ≥ 3.7).</p>
-<pre class="r"><code>pc$slp &lt;- sign(log(pc$odds_ratio + 1e-12)) * -log10(pc$p_value)   # signed -log10 p
+fewer. Numbers are shown where p &lt; 0.05 (−log10 p &gt; 1.3).</p>
+<pre class="r"><code>pc &lt;- rc
+pc$slp &lt;- sign(log(pc$odds_ratio + 1e-12)) * -log10(pc$p_value)   # signed -log10 p
 pc$slp_c &lt;- pmax(pmin(pc$slp, 10), -10)
-pc$lab &lt;- ifelse(pc$fdr &lt; 0.05, f2(-log10(pc$p_value)), &quot;&quot;)
+pc$lab &lt;- ifelse(pc$p_value &lt; 0.05, f2(-log10(pc$p_value)), &quot;&quot;)
 pc$lab_col &lt;- ifelse(abs(pc$slp_c) &gt; 5.5, &quot;#ffffff&quot;, INK)
 cap &lt;- pc[abs(pc$slp) &gt; 10, ]
 cap_txt &lt;- if (nrow(cap)) paste0(&quot;; above the cap: &quot;, paste0(&quot;cluster &quot;, cap$cluster, &quot; &quot;, cap$gene_set, &quot; = &quot;,
@@ -1156,46 +1177,19 @@ ggplot(pc, aes(gene_set, cluster_f, fill = slp_c)) +
   geom_text(aes(label = lab, colour = lab_col), size = 3.3, fontface = &quot;bold&quot;) +
   scale_colour_identity() +
   scale_fill_gradient2(low = BLUE, mid = MID, high = RED, midpoint = 0, limits = c(-10, 10),
-                       breaks = c(-10, -5, 0, 5, 10), labels = c(&quot;≤10&quot;, &quot;5&quot;, &quot;0&quot;, &quot;5&quot;, &quot;≥10&quot;),
-                       name = &quot;−log10 p\n(red enriched,\nblue depleted)&quot;) +
+                       breaks = c(-10, -5, 0, 5, 10), labels = c(&quot;&lt;=-10&quot;, &quot;-5&quot;, &quot;0&quot;, &quot;5&quot;, &quot;&gt;=10&quot;),
+                       name = &quot;Signed\n-log10 p\n(+ enriched,\n- depleted)&quot;) +
   labs(x = NULL, y = &quot;Cluster&quot;,
-       caption = paste0(&quot;Numbers: −log10 p, shown where FDR &lt; 0.05. Colour is capped at 10\n&quot;,
+       caption = paste0(&quot;Numbers: -log10 p, shown where p &lt; 0.05. Colour is capped at 10\n&quot;,
                         &quot;(numbers are not capped&quot;, cap_txt, &quot;).&quot;)) +
   th + theme(axis.text.x = element_text(angle = 35, hjust = 1), legend.key.height = unit(14, &quot;pt&quot;))</code></pre>
 <p><img src="figure/geneset_enrichment.Rmd/pheatmap-1.png" alt="" width="729.6" style="display: block; margin: auto;" /></p>
-</div>
-<div id="odds-ratios-with-95-confidence-intervals"
-class="section level2">
-<h2>Odds ratios with 95% confidence intervals</h2>
-<p>Both backgrounds. Each point is one cluster. A filled point means FDR
-&lt; 0.05; a hollow one is not significant. Clusters with no overlap
-(odds ratio 0) are drawn at the left edge.</p>
-<pre class="r"><code>fp &lt;- rc
-lo &lt;- 0.05; hi &lt;- 20
-fp$or &lt;- pmin(pmax(fp$odds_ratio, lo), hi)
-fp$cl &lt;- pmax(fp$ci_low, lo); fp$ch &lt;- pmin(fp$ci_high, hi)
-fp$sig &lt;- fp$fdr &lt; 0.05
-ggplot(fp, aes(or, cluster_f, colour = bg, group = bg)) +   # group = bg keeps dodge order fixed
-  geom_vline(xintercept = 1, colour = AXIS, linewidth = 0.5) +
-  geom_errorbarh(aes(xmin = cl, xmax = ch), height = 0, linewidth = 0.6,
-                 position = position_dodge(width = 0.6)) +
-  geom_point(aes(fill = ifelse(sig, as.character(bg), &quot;none&quot;)), shape = 21, size = 2.6, stroke = 0.9,
-             position = position_dodge(width = 0.6)) +
-  scale_colour_manual(values = setNames(c(BLUE, ORANGE), bg_lab), name = &quot;Background&quot;) +
-  scale_fill_manual(values = c(setNames(c(BLUE, ORANGE), bg_lab), none = SURF), guide = &quot;none&quot;) +
-  scale_x_log10(limits = c(lo, hi), breaks = c(0.1, 0.25, 0.5, 1, 2, 4, 10),
-                labels = c(&quot;0.1&quot;, &quot;0.25&quot;, &quot;0.5&quot;, &quot;1&quot;, &quot;2&quot;, &quot;4&quot;, &quot;10&quot;)) +
-  facet_wrap(~ gene_set, ncol = 4) +
-  labs(x = &quot;Odds ratio (log scale)&quot;, y = &quot;Cluster&quot;) +
-  th + theme(panel.grid.major.x = element_line(colour = GRID, linewidth = 0.3),
-             legend.position = &quot;top&quot;, legend.justification = &quot;left&quot;)</code></pre>
-<p><img src="figure/geneset_enrichment.Rmd/forest-1.png" alt="" width="1056" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-forest-1">
-Past versions of forest-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pheatmap-1">
+Past versions of pheatmap-1.png
 </button>
 </p>
-<div id="fig-forest-1" class="collapse">
+<div id="fig-pheatmap-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -1214,7 +1208,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/blob/9d5589b3ee4715358b8f41143a581a1f37e57589/docs/figure/geneset_enrichment.Rmd/forest-1.png" target="_blank">9d5589b</a>
+<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/blob/f05ffefa10a5c4155886905eabea3ddaa2337274/docs/figure/geneset_enrichment.Rmd/pheatmap-1.png" target="_blank">f05ffef</a>
 </td>
 <td>
 XSun
@@ -1228,244 +1222,19 @@ XSun
 </div>
 </div>
 </div>
-<div id="pooled-all-clustered-genes-vs-the-genome"
-class="section level2">
-<h2>Pooled: all clustered genes vs the genome</h2>
-<pre class="r"><code>a &lt;- r[r$cluster == &quot;all&quot;, ]
-a &lt;- a[order(a$gene_set), ]
-knitr::kable(data.frame(a$gene_set, a$n_set, a$overlap, f2(a$expected), sprintf(&quot;%.2f&quot;, a$fold),
-                        sprintf(&quot;%.2f&quot;, a$odds_ratio), signif(a$fdr, 2)),
-             col.names = c(&quot;Gene set&quot;, &quot;Set size&quot;, &quot;In clustered genes&quot;, &quot;Expected&quot;, &quot;Fold&quot;, &quot;Odds ratio&quot;, &quot;FDR&quot;))</code></pre>
-<table>
-<colgroup>
-<col width="25%" />
-<col width="10%" />
-<col width="23%" />
-<col width="10%" />
-<col width="6%" />
-<col width="13%" />
-<col width="9%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Gene set</th>
-<th align="right">Set size</th>
-<th align="right">In clustered genes</th>
-<th align="left">Expected</th>
-<th align="left">Fold</th>
-<th align="left">Odds ratio</th>
-<th align="right">FDR</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">TADA-high_fu2022</td>
-<td align="right">72</td>
-<td align="right">37</td>
-<td align="left">23.9</td>
-<td align="left">1.55</td>
-<td align="left">2.13</td>
-<td align="right">1.6e-03</td>
-</tr>
-<tr class="even">
-<td align="left">TADA-med_fu2022</td>
-<td align="right">113</td>
-<td align="right">54</td>
-<td align="left">37.5</td>
-<td align="left">1.44</td>
-<td align="left">1.85</td>
-<td align="right">1.5e-03</td>
-</tr>
-<tr class="odd">
-<td align="left">TADA-high&amp;med_fu2022</td>
-<td align="right">185</td>
-<td align="right">91</td>
-<td align="left">61.5</td>
-<td align="left">1.48</td>
-<td align="left">1.96</td>
-<td align="right">9.4e-06</td>
-</tr>
-<tr class="even">
-<td align="left">NDD_wang2022</td>
-<td align="right">614</td>
-<td align="right">269</td>
-<td align="left">204.0</td>
-<td align="left">1.32</td>
-<td align="left">1.59</td>
-<td align="right">1.0e-07</td>
-</tr>
-<tr class="odd">
-<td align="left">SFARI_cat1</td>
-<td align="right">242</td>
-<td align="right">123</td>
-<td align="left">80.4</td>
-<td align="left">1.53</td>
-<td align="left">2.10</td>
-<td align="right">0.0e+00</td>
-</tr>
-<tr class="even">
-<td align="left">SFARI_cat2</td>
-<td align="right">706</td>
-<td align="right">314</td>
-<td align="left">234.6</td>
-<td align="left">1.34</td>
-<td align="left">1.64</td>
-<td align="right">0.0e+00</td>
-</tr>
-<tr class="odd">
-<td align="left">SFARI_cat1&amp;2</td>
-<td align="right">948</td>
-<td align="right">437</td>
-<td align="left">315.0</td>
-<td align="left">1.39</td>
-<td align="left">1.77</td>
-<td align="right">0.0e+00</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="cluster-6-overlapping-genes" class="section level2">
-<h2>Cluster 6: overlapping genes</h2>
-<pre class="r"><code>g6 &lt;- r[r$background == &quot;protein_coding&quot; &amp; r$cluster == &quot;6&quot;, ]
-g6 &lt;- g6[order(g6$gene_set), ]
-knitr::kable(data.frame(g6$gene_set, g6$overlap, gsub(&quot;,&quot;, &quot;, &quot;, g6$overlap_genes)),
-             col.names = c(&quot;Gene set&quot;, &quot;Genes&quot;, &quot;Overlapping genes&quot;))</code></pre>
-<table>
-<colgroup>
-<col width="1%" />
-<col width="0%" />
-<col width="97%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Gene set</th>
-<th align="right">Genes</th>
-<th align="left">Overlapping genes</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">TADA-high_fu2022</td>
-<td align="right">18</td>
-<td align="left">ANK2, ASXL3, BRSK2, DLG4, DSCAM, EBF3, GRIN2B, IRF2BPL,
-KCNB1, KCNQ3, KDM6B, KMT5B, MEIS2, NRXN1, PIK3CA, SPAST, STXBP1,
-ZBTB20</td>
-</tr>
-<tr class="even">
-<td align="left">TADA-med_fu2022</td>
-<td align="right">22</td>
-<td align="left">ADCY5, APBB1, ATG13, ATP1A3, CAMTA2, CTNNA2, CYLD,
-DPYSL2, FBXO11, GABBR2, GABRB3, GRIA2, KIF1B, MAPK8IP3, MYO18A, MYT1L,
-NAV3, PHF2, SHANK2, SYT1, YWHAG, ZMYM2</td>
-</tr>
-<tr class="odd">
-<td align="left">TADA-high&amp;med_fu2022</td>
-<td align="right">40</td>
-<td align="left">ADCY5, ANK2, APBB1, ASXL3, ATG13, ATP1A3, BRSK2,
-CAMTA2, CTNNA2, CYLD, DLG4, DPYSL2, DSCAM, EBF3, FBXO11, GABBR2, GABRB3,
-GRIA2, GRIN2B, IRF2BPL, KCNB1, KCNQ3, KDM6B, KIF1B, KMT5B, MAPK8IP3,
-MEIS2, MYO18A, MYT1L, NAV3, NRXN1, PHF2, PIK3CA, SHANK2, SPAST, STXBP1,
-SYT1, YWHAG, ZBTB20, ZMYM2</td>
-</tr>
-<tr class="even">
-<td align="left">NDD_wang2022</td>
-<td align="right">87</td>
-<td align="left">ABL1, ACTL6B, AFF4, AGO1, AKT3, AMIGO1, ANK2, AP5M1,
-ARHGEF9, ASXL3, ATL1, ATP1A3, BCOR, BRSK1, BSDC1, CAMTA1, CDC42BPB,
-CLCN4, CNKSR2, CTNNA2, DLG4, DPYSL5, EBF3, FBXO11, FBXW7, FREM3, FRMD5,
-G3BP2, GABRB3, GARNL3, GDI1, GLRA1, GNAO1, GPR173, GRIA2, GRIN2B, H2AC6,
-IK, INPP5K, JPH3, KCNB1, KCNK3, KCNQ2, KCNQ3, KDM6B, KIF1A, KIF5C, KLF7,
-KLHL25, KMT5B, LDB1, MAPK8IP3, MARCHF4, MAST1, MECP2, MEIS2, MFN2, MIB1,
-MMGT1, MN1, MYT1L, NFIB, NKIRAS2, PAFAH1B1, PAK1, PIK3CA, PPM1B,
-PPP2R2B, PRKAR1B, RGS2, RORA, SATB1, SCN3A, SPAST, STX1B, STXBP1, SYT1,
-TMEM106B, TNPO2, TRIO, UNC80, VAMP2, WDR26, YWHAG, ZBTB18, ZBTB20,
-ZMYM2</td>
-</tr>
-<tr class="odd">
-<td align="left">SFARI_cat1</td>
-<td align="right">44</td>
-<td align="left">ANK2, ARHGEF9, ASXL3, BAZ2B, BCL11A, BRSK2, CAMTA2,
-CELF4, CIC, DLG4, DPYSL2, DSCAM, EBF3, ELAVL3, GABRB3, GRIA2, GRIN2B,
-IRF2BPL, KCNB1, KCNQ2, KCNQ3, KDM6B, KMT5B, LDB1, LRRC4C, MAP1A, MECP2,
-MEIS2, MYT1L, NRXN1, NRXN2, PHF2, RELN, RIMS1, RUNX1T1, SATB1, SHANK2,
-SLC9A6, SPAST, STXBP1, SYN1, TRIO, TSHZ3, ZBTB20</td>
-</tr>
-<tr class="even">
-<td align="left">SFARI_cat2</td>
-<td align="right">119</td>
-<td align="left">ABAT, ABCA7, ACE, ACHE, ADCY5, AGAP1, AGAP2, AGO1,
-APBB1, ATP1A3, BBS4, BICDL1, CACNA1B, CACNA1I, CACNA2D1, CACNG2, CADM2,
-CADPS, CCDC91, CD99L2, CDC42BPB, CELF6, CHMP1A, CHRNA7, CLCN4, CMIP,
-CNKSR2, CNR1, CNTN6, CPEB4, CUX2, DCC, DDC, DLG3, DLGAP3, DNER, DOCK4,
-DPP10, DPYSL3, DST, DVL3, ELAVL2, ELOVL2, EPHB2, FBXO11, G3BP2, GABBR2,
-GALNT14, GLRA2, GPR85, GRID2, GRIK3, GRIK5, GRM5, GRM7, HTR1B, JARID2,
-KATNAL1, KHDRBS2, KIF1A, KIF5C, KIRREL3, LIN7B, LRFN5, MAP1B, MAPK3,
-MAPK8IP3, MARK1, MEGF11, MIB1, MNT, MYO5A, NAV3, NDUFA5, NFIB, NTRK3,
-PAK2, PCDHA10, PCDHA2, PCDHA4, PCDHA9, PLXNA3, PRICKLE2, PRKAR1B,
-PRUNE2, PTBP2, RAB11FIP5, RAB39B, RAPGEF4, RIMS3, RNF38, ROBO2, RPS6KA2,
-SAMD11, SBF1, SEZ6L2, SIN3B, SLC22A15, SLC24A2, SLC25A27, SLC6A8,
-SMURF1, SNAP25, SRGAP3, ST7, ST8SIA2, STK39, STX1A, SYNJ1, TET2, TSPAN7,
-UNC13A, UNC79, UNC80, ZMYM2, ZNF548, ZNF713, ZNF804A, ZNF827</td>
-</tr>
-<tr class="odd">
-<td align="left">SFARI_cat1&amp;2</td>
-<td align="right">163</td>
-<td align="left">ABAT, ABCA7, ACE, ACHE, ADCY5, AGAP1, AGAP2, AGO1,
-ANK2, APBB1, ARHGEF9, ASXL3, ATP1A3, BAZ2B, BBS4, BCL11A, BICDL1, BRSK2,
-CACNA1B, CACNA1I, CACNA2D1, CACNG2, CADM2, CADPS, CAMTA2, CCDC91,
-CD99L2, CDC42BPB, CELF4, CELF6, CHMP1A, CHRNA7, CIC, CLCN4, CMIP,
-CNKSR2, CNR1, CNTN6, CPEB4, CUX2, DCC, DDC, DLG3, DLG4, DLGAP3, DNER,
-DOCK4, DPP10, DPYSL2, DPYSL3, DSCAM, DST, DVL3, EBF3, ELAVL2, ELAVL3,
-ELOVL2, EPHB2, FBXO11, G3BP2, GABBR2, GABRB3, GALNT14, GLRA2, GPR85,
-GRIA2, GRID2, GRIK3, GRIK5, GRIN2B, GRM5, GRM7, HTR1B, IRF2BPL, JARID2,
-KATNAL1, KCNB1, KCNQ2, KCNQ3, KDM6B, KHDRBS2, KIF1A, KIF5C, KIRREL3,
-KMT5B, LDB1, LIN7B, LRFN5, LRRC4C, MAP1A, MAP1B, MAPK3, MAPK8IP3, MARK1,
-MECP2, MEGF11, MEIS2, MIB1, MNT, MYO5A, MYT1L, NAV3, NDUFA5, NFIB,
-NRXN1, NRXN2, NTRK3, PAK2, PCDHA10, PCDHA2, PCDHA4, PCDHA9, PHF2,
-PLXNA3, PRICKLE2, PRKAR1B, PRUNE2, PTBP2, RAB11FIP5, RAB39B, RAPGEF4,
-RELN, RIMS1, RIMS3, RNF38, ROBO2, RPS6KA2, RUNX1T1, SAMD11, SATB1, SBF1,
-SEZ6L2, SHANK2, SIN3B, SLC22A15, SLC24A2, SLC25A27, SLC6A8, SLC9A6,
-SMURF1, SNAP25, SPAST, SRGAP3, ST7, ST8SIA2, STK39, STX1A, STXBP1, SYN1,
-SYNJ1, TET2, TRIO, TSHZ3, TSPAN7, UNC13A, UNC79, UNC80, ZBTB20, ZMYM2,
-ZNF548, ZNF713, ZNF804A, ZNF827</td>
-</tr>
-</tbody>
-</table>
-</div>
 <div id="full-results-table" class="section level2">
 <h2>Full results table</h2>
-<p>All 147 tests, both backgrounds. Use the search boxes to filter.</p>
-<pre class="r"><code>tt &lt;- r[, c(&quot;background&quot;, &quot;cluster&quot;, &quot;gene_set&quot;, &quot;n_cluster&quot;, &quot;n_set&quot;, &quot;overlap&quot;, &quot;expected&quot;,
-            &quot;fold&quot;, &quot;odds_ratio&quot;, &quot;ci_low&quot;, &quot;ci_high&quot;, &quot;direction&quot;, &quot;p_value&quot;, &quot;fdr&quot;, &quot;overlap_genes&quot;)]
+<p>All 70 cluster × gene set tests (background: all protein-coding
+genes; nominal two-sided p). Use the search boxes to filter.</p>
+<pre class="r"><code>tt &lt;- rc[, c(&quot;cluster&quot;, &quot;gene_set&quot;, &quot;n_cluster&quot;, &quot;n_set&quot;, &quot;overlap&quot;, &quot;expected&quot;,
+             &quot;fold&quot;, &quot;odds_ratio&quot;, &quot;ci_low&quot;, &quot;ci_high&quot;, &quot;direction&quot;, &quot;p_value&quot;, &quot;overlap_genes&quot;)]
 for (v in c(&quot;fold&quot;, &quot;odds_ratio&quot;, &quot;ci_low&quot;, &quot;ci_high&quot;)) tt[[v]] &lt;- round(tt[[v]], 2)
-for (v in c(&quot;p_value&quot;, &quot;fdr&quot;)) tt[[v]] &lt;- signif(tt[[v]], 3)
+tt$p_value &lt;- signif(tt$p_value, 3)
 datatable(tt, filter = &quot;top&quot;, rownames = FALSE,
           options = list(pageLength = 15, scrollX = TRUE,
                          columnDefs = list(list(targets = ncol(tt) - 1, width = &quot;300px&quot;))))</code></pre>
 <div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-3c4220f9fb12925239f0" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-3c4220f9fb12925239f0">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;TADA-high_fu2022&quot;,&quot;TADA-med_fu2022&quot;,&quot;TADA-high&amp;med_fu2022&quot;,&quot;NDD_wang2022&quot;,&quot;SFARI_cat1&quot;,&quot;SFARI_cat2&quot;,&quot;SFARI_cat1&amp;2&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"213\" data-max=\"6433\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"37\" data-max=\"948\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0\" data-max=\"437\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.79\" data-max=\"314.98\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0\" data-max=\"3.14\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0\" data-max=\"3.89\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0\" data-max=\"2.23\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.62\" data-max=\"6.77\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0\" data-max=\"1\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0\" data-max=\"1\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered","clustered"],["1","1","1","1","1","1","1","2","2","2","2","2","2","2","3","3","3","3","3","3","3","4","4","4","4","4","4","4","5","5","5","5","5","5","5","6","6","6","6","6","6","6","7","7","7","7","7","7","7","8","8","8","8","8","8","8","9","9","9","9","9","9","9","10","10","10","10","10","10","10","all","all","all","all","all","all","all","1","1","1","1","1","1","1","2","2","2","2","2","2","2","3","3","3","3","3","3","3","4","4","4","4","4","4","4","5","5","5","5","5","5","5","6","6","6","6","6","6","6","7","7","7","7","7","7","7","8","8","8","8","8","8","8","9","9","9","9","9","9","9","10","10","10","10","10","10","10"],["TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2"],[503,503,503,503,503,503,503,1030,1030,1030,1030,1030,1030,1030,852,852,852,852,852,852,852,357,357,357,357,357,357,357,965,965,965,965,965,965,965,1539,1539,1539,1539,1539,1539,1539,273,273,273,273,273,273,273,347,347,347,347,347,347,347,213,213,213,213,213,213,213,354,354,354,354,354,354,354,6433,6433,6433,6433,6433,6433,6433,503,503,503,503,503,503,503,1030,1030,1030,1030,1030,1030,1030,852,852,852,852,852,852,852,357,357,357,357,357,357,357,965,965,965,965,965,965,965,1539,1539,1539,1539,1539,1539,1539,273,273,273,273,273,273,273,347,347,347,347,347,347,347,213,213,213,213,213,213,213,354,354,354,354,354,354,354],[72,113,185,614,242,706,948,72,113,185,614,242,706,948,72,113,185,614,242,706,948,72,113,185,614,242,706,948,72,113,185,614,242,706,948,72,113,185,614,242,706,948,72,113,185,614,242,706,948,72,113,185,614,242,706,948,72,113,185,614,242,706,948,72,113,185,614,242,706,948,72,113,185,614,242,706,948,37,54,91,269,123,314,437,37,54,91,269,123,314,437,37,54,91,269,123,314,437,37,54,91,269,123,314,437,37,54,91,269,123,314,437,37,54,91,269,123,314,437,37,54,91,269,123,314,437,37,54,91,269,123,314,437,37,54,91,269,123,314,437,37,54,91,269,123,314,437],[2,5,7,21,9,39,48,7,10,17,67,33,44,77,3,7,10,28,10,28,38,1,0,1,9,5,13,18,3,4,7,25,6,26,32,18,22,40,87,44,119,163,0,0,0,7,1,7,8,1,1,2,9,4,11,15,0,1,1,4,1,9,10,2,4,6,12,10,18,28,37,54,91,269,123,314,437,2,5,7,21,9,39,48,7,10,17,67,33,44,77,3,7,10,28,10,28,38,1,0,1,9,5,13,18,3,4,7,25,6,26,32,18,22,40,87,44,119,163,0,0,0,7,1,7,8,1,1,2,9,4,11,15,0,1,1,4,1,9,10,2,4,6,12,10,18,28],[1.87,2.94,4.81,15.95,6.29,18.34,24.63,3.83,6.01,9.84,32.66,12.87,37.56,50.43,3.17,4.97,8.140000000000001,27.02,10.65,31.07,41.72,1.33,2.08,3.41,11.32,4.46,13.02,17.48,3.59,5.63,9.220000000000001,30.6,12.06,35.19,47.25,5.72,8.98,14.7,48.8,19.24,56.12,75.34999999999999,1.02,1.59,2.61,8.66,3.41,9.949999999999999,13.37,1.29,2.03,3.32,11,4.34,12.65,16.99,0.79,1.24,2.04,6.75,2.66,7.77,10.43,1.32,2.07,3.38,11.23,4.42,12.91,17.33,23.92,37.54,61.47,204,80.40000000000001,234.57,314.97,2.89,4.22,7.12,21.03,9.619999999999999,24.55,34.17,5.92,8.65,14.57,43.07,19.69,50.28,69.97,4.9,7.15,12.05,35.63,16.29,41.59,57.88,2.05,3,5.05,14.93,6.83,17.43,24.25,5.55,8.1,13.65,40.35,18.45,47.1,65.55,8.85,12.92,21.77,64.34999999999999,29.43,75.12,104.55,1.57,2.29,3.86,11.42,5.22,13.33,18.55,2,2.91,4.91,14.51,6.63,16.94,23.57,1.23,1.79,3.01,8.91,4.07,10.4,14.47,2.04,2.97,5.01,14.8,6.77,17.28,24.05],[1.07,1.7,1.46,1.32,1.43,2.13,1.95,1.83,1.66,1.73,2.05,2.56,1.17,1.53,0.95,1.41,1.23,1.04,0.9399999999999999,0.9,0.91,0.75,0,0.29,0.8,1.12,1,1.03,0.84,0.71,0.76,0.82,0.5,0.74,0.68,3.14,2.45,2.72,1.78,2.29,2.12,2.16,0,0,0,0.8100000000000001,0.29,0.7,0.6,0.78,0.49,0.6,0.82,0.92,0.87,0.88,0,0.8,0.49,0.59,0.38,1.16,0.96,1.52,1.94,1.77,1.07,2.26,1.39,1.61,1.55,1.44,1.48,1.32,1.53,1.34,1.39,0.6899999999999999,1.18,0.98,1,0.9399999999999999,1.59,1.41,1.18,1.16,1.17,1.56,1.68,0.88,1.1,0.61,0.98,0.83,0.79,0.61,0.67,0.66,0.49,0,0.2,0.6,0.73,0.75,0.74,0.54,0.49,0.51,0.62,0.32,0.55,0.49,2.03,1.7,1.84,1.35,1.5,1.58,1.56,0,0,0,0.61,0.19,0.52,0.43,0.5,0.34,0.41,0.62,0.6,0.65,0.64,0,0.5600000000000001,0.33,0.45,0.25,0.87,0.6899999999999999,0.98,1.35,1.2,0.8100000000000001,1.48,1.04,1.16],[1.07,1.74,1.48,1.34,1.46,2.29,2.1,1.92,1.74,1.81,2.26,2.87,1.19,1.62,0.9399999999999999,1.44,1.24,1.04,0.9399999999999999,0.89,0.9,0.75,0,0.29,0.79,1.12,1,1.03,0.83,0.7,0.75,0.8,0.48,0.72,0.65,3.89,2.83,3.25,1.97,2.62,2.46,2.57,0,0,0,0.8,0.29,0.6899999999999999,0.58,0.77,0.49,0.6,0.8100000000000001,0.92,0.86,0.88,0,0.8,0.49,0.58,0.37,1.17,0.96,1.54,1.98,1.81,1.07,2.35,1.43,1.69,2.13,1.85,1.96,1.59,2.1,1.64,1.77,0.67,1.2,0.98,1,0.93,1.73,1.5,1.23,1.19,1.21,1.79,1.95,0.85,1.13,0.58,0.98,0.8100000000000001,0.75,0.57,0.63,0.61,0.47,0,0.19,0.58,0.72,0.73,0.72,0.5,0.45,0.47,0.57,0.29,0.5,0.43,3.04,2.2,2.53,1.55,1.79,2.02,2,0,0,0,0.59,0.18,0.5,0.4,0.49,0.33,0.39,0.6,0.58,0.62,0.61,0,0.55,0.32,0.43,0.24,0.86,0.67,0.98,1.38,1.22,0.79,1.53,1.05,1.19],[0.13,0.55,0.58,0.82,0.65,1.59,1.52,0.74,0.8100000000000001,1.03,1.71,1.91,0.85,1.25,0.19,0.5600000000000001,0.58,0.68,0.44,0.59,0.63,0.02,0,0.01,0.35,0.36,0.52,0.6,0.17,0.19,0.3,0.51,0.17,0.47,0.44,2.14,1.68,2.22,1.54,1.84,1.99,2.14,0,0,0,0.32,0.01,0.27,0.25,0.02,0.01,0.07000000000000001,0.37,0.25,0.42,0.48,0,0.02,0.01,0.16,0.01,0.52,0.45,0.18,0.53,0.65,0.55,1.1,0.83,1.1,1.3,1.25,1.45,1.35,1.61,1.41,1.55,0.08,0.37,0.38,0.6,0.41,1.19,1.07,0.45,0.53,0.67,1.33,1.26,0.6,0.86,0.11,0.37,0.37,0.49,0.27,0.41,0.42,0.01,0,0,0.26,0.23,0.38,0.42,0.1,0.12,0.18,0.36,0.1,0.32,0.29,1.5,1.22,1.62,1.18,1.21,1.58,1.62,0,0,0,0.23,0,0.2,0.17,0.01,0.01,0.05,0.27,0.16,0.31,0.33,0,0.01,0.01,0.12,0.01,0.38,0.31,0.11,0.36,0.43,0.4,0.71,0.6,0.77],[4.04,4.22,3.14,2.09,2.84,3.21,2.86,4.21,3.33,3.01,2.95,4.18,1.63,2.07,2.89,3.08,2.36,1.53,1.76,1.31,1.26,4.34,1.77,1.63,1.52,2.69,1.74,1.67,2.53,1.85,1.58,1.21,1.07,1.07,0.9399999999999999,6.77,4.56,4.67,2.49,3.66,3.02,3.08,3.69,2.32,1.4,1.68,1.63,1.45,1.17,4.47,2.79,2.2,1.57,2.41,1.57,1.47,4.75,4.61,2.77,1.52,2.1,2.27,1.8,5.81,5.27,4.07,1.91,4.46,2.31,2.5,3.49,2.72,2.65,1.88,2.73,1.91,2.02,2.63,3.03,2.13,1.58,1.84,2.46,2.07,2.86,2.42,2.08,2.39,2.96,1.18,1.47,1.84,2.18,1.57,1.13,1.1,0.9399999999999999,0.85,2.82,1.2,1.07,1.13,1.74,1.28,1.17,1.59,1.23,1.01,0.87,0.64,0.75,0.62,6.13,3.92,3.93,2.03,2.64,2.57,2.46,2.37,1.59,0.93,1.26,1.04,1.06,0.8100000000000001,2.9,1.93,1.46,1.16,1.55,1.15,1.03,3.07,3.23,1.86,1.13,1.35,1.68,1.27,3.85,3.79,2.79,1.43,2.96,1.71,1.78],["enriched","enriched","enriched","enriched","enriched","enriched","enriched","enriched","enriched","enriched","enriched","enriched","enriched","enriched","depleted","enriched","enriched","enriched","depleted","depleted","depleted","depleted","depleted","depleted","depleted","enriched","depleted","enriched","depleted","depleted","depleted","depleted","depleted","depleted","depleted","enriched","enriched","enriched","enriched","enriched","enriched","enriched","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","enriched","depleted","enriched","enriched","enriched","enriched","enriched","enriched","enriched","enriched","enriched","enriched","enriched","enriched","enriched","enriched","depleted","enriched","depleted","depleted","depleted","enriched","enriched","enriched","enriched","enriched","enriched","enriched","depleted","enriched","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","enriched","enriched","enriched","enriched","enriched","enriched","enriched","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","enriched","enriched","depleted","enriched","enriched","enriched"],[0.711,0.222,0.344,0.196,0.302,9.72e-06,1.27e-05,0.107,0.0935,0.0299,2.3e-08,6.57e-07,0.266,0.000195,1,0.351,0.469,0.841,1,0.64,0.626,1,0.277,0.27,0.646,0.8070000000000001,1,0.901,1,0.663,0.609,0.345,0.0738,0.113,0.0175,9.500000000000001e-06,7.09e-05,4.49e-09,1.21e-07,2.18e-07,2.64e-15,1.47e-21,0.629,0.414,0.119,0.727,0.27,0.417,0.156,1,0.726,0.777,0.644,1,0.772,0.707,1,1,0.727,0.427,0.529,0.581,1,0.38,0.153,0.157,0.759,0.0139,0.15,0.0123,0.00157,0.0013,6.69e-06,2.89e-08,1.82e-08,3.02e-10,3.53e-17,1,0.611,1,1,1,0.00339,0.016,0.651,0.578,0.472,0.00012,0.0018,0.345,0.344,0.47,1,0.64,0.169,0.106,0.0208,0.0027,0.721,0.0737,0.06279999999999999,0.133,0.6879999999999999,0.312,0.195,0.353,0.128,0.0534,0.00663,0.000767,0.000341,6.88e-07,0.00139,0.00593,3.02e-05,0.00129,0.00271,1.37e-08,1.12e-10,0.406,0.173,0.0334,0.215,0.06560000000000001,0.0829,0.00653,0.721,0.367,0.24,0.166,0.417,0.157,0.0619,0.635,1,0.373,0.114,0.194,0.871,0.267,1,0.54,0.639,0.583,0.225,0.8,0.384],[0.9429999999999999,0.575,0.701,0.527,0.662,7.559999999999999e-05,8.91e-05,0.394,0.364,0.131,4.02e-07,6.57e-06,0.627,0.00114,1,0.701,0.821,0.998,1,0.9409999999999999,0.9409999999999999,1,0.627,0.627,0.9409999999999999,0.974,1,1,1,0.9429999999999999,0.9409999999999999,0.701,0.304,0.394,0.0818,7.559999999999999e-05,0.000451,1.05e-07,1.69e-06,2.54e-06,9.23e-14,1.03e-19,0.9409999999999999,0.766,0.396,0.9429999999999999,0.627,0.766,0.439,1,0.9429999999999999,0.954,0.9409999999999999,1,0.954,0.9429999999999999,1,1,0.9429999999999999,0.766,0.903,0.9409999999999999,1,0.739,0.439,0.439,0.954,0.0697,0.439,0.0663,0.00157,0.00151,9.36e-06,5.05e-08,4.26e-08,1.06e-09,2.47e-16,1,0.786,1,1,1,0.0183,0.06569999999999999,0.786,0.771,0.661,0.00167,0.0126,0.574,0.574,0.661,1,0.786,0.367,0.285,0.0809,0.0158,0.828,0.215,0.2,0.32,0.8169999999999999,0.546,0.389,0.575,0.32,0.187,0.029,0.00767,0.00398,1.61e-05,0.0108,0.029,0.000528,0.0108,0.0158,4.78e-07,7.850000000000001e-09,0.605,0.367,0.123,0.418,0.2,0.232,0.029,0.828,0.58,0.443,0.367,0.608,0.367,0.2,0.786,1,0.58,0.294,0.389,0.968,0.479,1,0.741,0.786,0.771,0.426,0.903,0.585],["CASKIN1,SCN2A","ATG9B,CAMK2A,HECTD4,NRXN3,PPP1R9B","ATG9B,CAMK2A,CASKIN1,HECTD4,NRXN3,PPP1R9B,SCN2A","ASIC3,CA10,CAMK2A,CASK,CSMD1,DNM1,FRA10AC1,GABRG2,GNB1,GPR162,GRIA1,KIDINS220,MAP3K12,NALCN,NEXMIF,NFIA,PTPRR,SCN2A,TCEAL1,WDR37,ZMIZ1","CACNA2D3,CAMK2A,CASK,HECTD4,NBEA,NEXMIF,NRXN3,PPP1R9B,SCN2A","ADORA2A,ANKS1B,CASKIN1,CDH13,CDH9,CLTCL1,CNTNAP4,CNTNAP5,CSMD1,DLG2,GRIA1,GSE1,HERC1,KCND2,KCNJ10,KCTD13,LRFN2,NEGR1,NFIA,NXPH1,PCDH10,PCDH9,PCDHA12,PCDHAC2,RBFOX1,RGS7,SH3RF3,SHANK1,SLC12A5,SLC1A1,SLC4A10,SMAP2,SYN2,THRA,TNRC6C,UBR3,ZMIZ1,ZNF18,ZNF385B","ADORA2A,ANKS1B,CACNA2D3,CAMK2A,CASK,CASKIN1,CDH13,CDH9,CLTCL1,CNTNAP4,CNTNAP5,CSMD1,DLG2,GRIA1,GSE1,HECTD4,HERC1,KCND2,KCNJ10,KCTD13,LRFN2,NBEA,NEGR1,NEXMIF,NFIA,NRXN3,NXPH1,PCDH10,PCDH9,PCDHA12,PCDHAC2,PPP1R9B,RBFOX1,RGS7,SCN2A,SH3RF3,SHANK1,SLC12A5,SLC1A1,SLC4A10,SMAP2,SYN2,THRA,TNRC6C,UBR3,ZMIZ1,ZNF18,ZNF385B","ADNP,ARID1B,CTCF,DYNC1H1,EHMT1,KMT2A,NIPBL","CREBBP,HNRNPD,KDM3B,PRR12,RALGAPB,SIN3A,SPEN,TAF4,TNPO3,TSC1","ADNP,ARID1B,CREBBP,CTCF,DYNC1H1,EHMT1,HNRNPD,KDM3B,KMT2A,NIPBL,PRR12,RALGAPB,SIN3A,SPEN,TAF4,TNPO3,TSC1","ADNP,AFF3,ANKRD17,ANKRD40,ARF3,ARID1A,ARID1B,ARID2,BRPF1,CBX5,CCDC7,CENPU,CGGBP1,CHAMP1,CHD4,CHD7,CREBBP,CSE1L,CTCF,CTR9,CXXC1,DYNC1H1,EHMT1,EP300,EZH2,FBXO28,GABRB2,GLI3,HNRNPD,KDM3B,KMT2A,KMT2B,LEO1,MCM6,MSH6,NIPBL,NSD2,PCGF2,PDCD5,PIK3R2,PPIP5K2,PPP2R5D,PRDM10,PRPF8,QRICH1,RNF20,RTF1,SCN8A,SETD2,SIN3A,SMARCA4,SMARCD1,SMARCE1,SNRNP200,SON,SPEN,SRCAP,STAG1,TNPO3,TNRC6A,TRIM66,TSC1,UBTF,UPF3B,USP7,ZNF107,ZNF215","ADNP,AFF2,ARF3,ARID1B,ATRX,CHAMP1,CHD7,CREBBP,CTCF,DYNC1H1,EHMT1,EP300,GABRB2,GIGYF2,KDM2B,KDM3B,KMT2A,MYCBP2,NIPBL,PPP2R5D,PPP5C,PRR12,PRR14L,RALGAPB,SCN8A,SETD2,SIN3A,SMARCA4,SON,SRCAP,TSC1,TSC2,UPF3B","ANKRD17,ARID2,ASPM,CEP135,CX3CR1,DENR,DMXL2,ECPAS,EP400,EXOC3,HNRNPD,HOMER1,KIAA1586,LEO1,LRBA,MBD6,MCM4,MCM6,MEMO1,MSANTD2,NSD2,NUP133,OFD1,PCM1,POLA2,QRICH1,RANBP17,SACS,SLC25A12,SMG6,SPEN,SUPT16H,TAF4,TBC1D31,TMEM39B,TOP3B,TRIM33,UBN2,USP7,YTHDC2,ZC3H11A,ZC3H4,ZFYVE26,ZWILCH","ADNP,AFF2,ANKRD17,ARF3,ARID1B,ARID2,ASPM,ATRX,CEP135,CHAMP1,CHD7,CREBBP,CTCF,CX3CR1,DENR,DMXL2,DYNC1H1,ECPAS,EHMT1,EP300,EP400,EXOC3,GABRB2,GIGYF2,HNRNPD,HOMER1,KDM2B,KDM3B,KIAA1586,KMT2A,LEO1,LRBA,MBD6,MCM4,MCM6,MEMO1,MSANTD2,MYCBP2,NIPBL,NSD2,NUP133,OFD1,PCM1,POLA2,PPP2R5D,PPP5C,PRR12,PRR14L,QRICH1,RALGAPB,RANBP17,SACS,SCN8A,SETD2,SIN3A,SLC25A12,SMARCA4,SMG6,SON,SPEN,SRCAP,SUPT16H,TAF4,TBC1D31,TMEM39B,TOP3B,TRIM33,TSC1,TSC2,UBN2,UPF3B,USP7,YTHDC2,ZC3H11A,ZC3H4,ZFYVE26,ZWILCH","AUTS2,SHANK3,SLC6A1","BTG3,CGREF1,KPNA1,PACS1,PRH1,RAB11FIP4,SRPRA","AUTS2,BTG3,CGREF1,KPNA1,PACS1,PRH1,RAB11FIP4,SHANK3,SLC6A1,SRPRA","ABCA5,ARF1,AUTS2,CDC42,COL3A1,EEF1A2,EML6,FGFR3,GNAS,GNB2,GPR4,GRIN2A,IQSEC2,KCND3,KDM5C,LAMP2,MAP2K1,MAPK1,MYOF,NFE2L1,NR3C2,NTRK2,PAPSS2,PFKM,RYR2,SLC18A3,SLC6A1,SRPRA","ALDH5A1,AUTS2,GRIN2A,IQSEC2,KDM5C,NR3C2,PACS1,SHANK3,SLC6A1,SRPRA","CACNB2,CDH22,CDH8,CDK16,DDHD2,DIXDC1,DLGAP2,FABP5,GDA,GNAS,GPC4,GRIK4,HIVEP3,HLA-A,ICA1,KCND3,MACROD2,MET,MYO16,NPAS2,NTNG1,OTUD7A,P4HA2,PATJ,SORCS3,SPARCL1,SYAP1,SYT17","ALDH5A1,AUTS2,CACNB2,CDH22,CDH8,CDK16,DDHD2,DIXDC1,DLGAP2,FABP5,GDA,GNAS,GPC4,GRIK4,GRIN2A,HIVEP3,HLA-A,ICA1,IQSEC2,KCND3,KDM5C,MACROD2,MET,MYO16,NPAS2,NR3C2,NTNG1,OTUD7A,P4HA2,PACS1,PATJ,SHANK3,SLC6A1,SORCS3,SPARCL1,SRPRA,SYAP1,SYT17","TCF20","","TCF20","CFAP90,FOXP2,GATA3,GNAI1,HEATR5A,KAT8,SF3B2,SRP54,WFS1","ARX,FOXP2,GNAI1,TANC2,TCF20","AVPR1A,CCT4,DIPK2A,DRD1,GABRG3,GLO1,HTR3A,LRP2,MAOA,NR1D1,PREX1,SLC9A9,SND1","ARX,AVPR1A,CCT4,DIPK2A,DRD1,FOXP2,GABRG3,GLO1,GNAI1,HTR3A,LRP2,MAOA,NR1D1,PREX1,SLC9A9,SND1,TANC2,TCF20","NAA15,SATB2,TCF7L2","EFTUD2,HNRNPUL2,OBSCN,TRAF2","EFTUD2,HNRNPUL2,NAA15,OBSCN,SATB2,TCF7L2,TRAF2","ATP1A2,BLTP2,C14orf39,CYP27C1,DDB1,EFTUD2,ERF,ETF1,H1-4,IDE,KANK2,LRRK2,MAVS,MTIF2,NAA15,PPFIBP2,PRKD1,PUM3,RPS6KA3,SATB2,SLC39A8,SMC3,TCF7L2,VCP,ZEB2","ABCE1,ADSL,NAA15,NUP155,SATB2,TCF7L2","APH1A,AR,CCDC88C,CNTNAP3,CYFIP1,DLG1,DOCK1,EIF4E,HNRNPF,HNRNPUL2,KIF14,LAMA1,LZTS2,MYO5C,PER2,PHRF1,PRKCA,RNF135,RPS6KA3,SF3B3,SLC25A39,SLC35G1,SLC7A3,SMC3,TBL1X,WWOX","ABCE1,ADSL,APH1A,AR,CCDC88C,CNTNAP3,CYFIP1,DLG1,DOCK1,EIF4E,HNRNPF,HNRNPUL2,KIF14,LAMA1,LZTS2,MYO5C,NAA15,NUP155,PER2,PHRF1,PRKCA,RNF135,RPS6KA3,SATB2,SF3B3,SLC25A39,SLC35G1,SLC7A3,SMC3,TBL1X,TCF7L2,WWOX","ANK2,ASXL3,BRSK2,DLG4,DSCAM,EBF3,GRIN2B,IRF2BPL,KCNB1,KCNQ3,KDM6B,KMT5B,MEIS2,NRXN1,PIK3CA,SPAST,STXBP1,ZBTB20","ADCY5,APBB1,ATG13,ATP1A3,CAMTA2,CTNNA2,CYLD,DPYSL2,FBXO11,GABBR2,GABRB3,GRIA2,KIF1B,MAPK8IP3,MYO18A,MYT1L,NAV3,PHF2,SHANK2,SYT1,YWHAG,ZMYM2","ADCY5,ANK2,APBB1,ASXL3,ATG13,ATP1A3,BRSK2,CAMTA2,CTNNA2,CYLD,DLG4,DPYSL2,DSCAM,EBF3,FBXO11,GABBR2,GABRB3,GRIA2,GRIN2B,IRF2BPL,KCNB1,KCNQ3,KDM6B,KIF1B,KMT5B,MAPK8IP3,MEIS2,MYO18A,MYT1L,NAV3,NRXN1,PHF2,PIK3CA,SHANK2,SPAST,STXBP1,SYT1,YWHAG,ZBTB20,ZMYM2","ABL1,ACTL6B,AFF4,AGO1,AKT3,AMIGO1,ANK2,AP5M1,ARHGEF9,ASXL3,ATL1,ATP1A3,BCOR,BRSK1,BSDC1,CAMTA1,CDC42BPB,CLCN4,CNKSR2,CTNNA2,DLG4,DPYSL5,EBF3,FBXO11,FBXW7,FREM3,FRMD5,G3BP2,GABRB3,GARNL3,GDI1,GLRA1,GNAO1,GPR173,GRIA2,GRIN2B,H2AC6,IK,INPP5K,JPH3,KCNB1,KCNK3,KCNQ2,KCNQ3,KDM6B,KIF1A,KIF5C,KLF7,KLHL25,KMT5B,LDB1,MAPK8IP3,MARCHF4,MAST1,MECP2,MEIS2,MFN2,MIB1,MMGT1,MN1,MYT1L,NFIB,NKIRAS2,PAFAH1B1,PAK1,PIK3CA,PPM1B,PPP2R2B,PRKAR1B,RGS2,RORA,SATB1,SCN3A,SPAST,STX1B,STXBP1,SYT1,TMEM106B,TNPO2,TRIO,UNC80,VAMP2,WDR26,YWHAG,ZBTB18,ZBTB20,ZMYM2","ANK2,ARHGEF9,ASXL3,BAZ2B,BCL11A,BRSK2,CAMTA2,CELF4,CIC,DLG4,DPYSL2,DSCAM,EBF3,ELAVL3,GABRB3,GRIA2,GRIN2B,IRF2BPL,KCNB1,KCNQ2,KCNQ3,KDM6B,KMT5B,LDB1,LRRC4C,MAP1A,MECP2,MEIS2,MYT1L,NRXN1,NRXN2,PHF2,RELN,RIMS1,RUNX1T1,SATB1,SHANK2,SLC9A6,SPAST,STXBP1,SYN1,TRIO,TSHZ3,ZBTB20","ABAT,ABCA7,ACE,ACHE,ADCY5,AGAP1,AGAP2,AGO1,APBB1,ATP1A3,BBS4,BICDL1,CACNA1B,CACNA1I,CACNA2D1,CACNG2,CADM2,CADPS,CCDC91,CD99L2,CDC42BPB,CELF6,CHMP1A,CHRNA7,CLCN4,CMIP,CNKSR2,CNR1,CNTN6,CPEB4,CUX2,DCC,DDC,DLG3,DLGAP3,DNER,DOCK4,DPP10,DPYSL3,DST,DVL3,ELAVL2,ELOVL2,EPHB2,FBXO11,G3BP2,GABBR2,GALNT14,GLRA2,GPR85,GRID2,GRIK3,GRIK5,GRM5,GRM7,HTR1B,JARID2,KATNAL1,KHDRBS2,KIF1A,KIF5C,KIRREL3,LIN7B,LRFN5,MAP1B,MAPK3,MAPK8IP3,MARK1,MEGF11,MIB1,MNT,MYO5A,NAV3,NDUFA5,NFIB,NTRK3,PAK2,PCDHA10,PCDHA2,PCDHA4,PCDHA9,PLXNA3,PRICKLE2,PRKAR1B,PRUNE2,PTBP2,RAB11FIP5,RAB39B,RAPGEF4,RIMS3,RNF38,ROBO2,RPS6KA2,SAMD11,SBF1,SEZ6L2,SIN3B,SLC22A15,SLC24A2,SLC25A27,SLC6A8,SMURF1,SNAP25,SRGAP3,ST7,ST8SIA2,STK39,STX1A,SYNJ1,TET2,TSPAN7,UNC13A,UNC79,UNC80,ZMYM2,ZNF548,ZNF713,ZNF804A,ZNF827","ABAT,ABCA7,ACE,ACHE,ADCY5,AGAP1,AGAP2,AGO1,ANK2,APBB1,ARHGEF9,ASXL3,ATP1A3,BAZ2B,BBS4,BCL11A,BICDL1,BRSK2,CACNA1B,CACNA1I,CACNA2D1,CACNG2,CADM2,CADPS,CAMTA2,CCDC91,CD99L2,CDC42BPB,CELF4,CELF6,CHMP1A,CHRNA7,CIC,CLCN4,CMIP,CNKSR2,CNR1,CNTN6,CPEB4,CUX2,DCC,DDC,DLG3,DLG4,DLGAP3,DNER,DOCK4,DPP10,DPYSL2,DPYSL3,DSCAM,DST,DVL3,EBF3,ELAVL2,ELAVL3,ELOVL2,EPHB2,FBXO11,G3BP2,GABBR2,GABRB3,GALNT14,GLRA2,GPR85,GRIA2,GRID2,GRIK3,GRIK5,GRIN2B,GRM5,GRM7,HTR1B,IRF2BPL,JARID2,KATNAL1,KCNB1,KCNQ2,KCNQ3,KDM6B,KHDRBS2,KIF1A,KIF5C,KIRREL3,KMT5B,LDB1,LIN7B,LRFN5,LRRC4C,MAP1A,MAP1B,MAPK3,MAPK8IP3,MARK1,MECP2,MEGF11,MEIS2,MIB1,MNT,MYO5A,MYT1L,NAV3,NDUFA5,NFIB,NRXN1,NRXN2,NTRK3,PAK2,PCDHA10,PCDHA2,PCDHA4,PCDHA9,PHF2,PLXNA3,PRICKLE2,PRKAR1B,PRUNE2,PTBP2,RAB11FIP5,RAB39B,RAPGEF4,RELN,RIMS1,RIMS3,RNF38,ROBO2,RPS6KA2,RUNX1T1,SAMD11,SATB1,SBF1,SEZ6L2,SHANK2,SIN3B,SLC22A15,SLC24A2,SLC25A27,SLC6A8,SLC9A6,SMURF1,SNAP25,SPAST,SRGAP3,ST7,ST8SIA2,STK39,STX1A,STXBP1,SYN1,SYNJ1,TET2,TRIO,TSHZ3,TSPAN7,UNC13A,UNC79,UNC80,ZBTB20,ZMYM2,ZNF548,ZNF713,ZNF804A,ZNF827","","","","FGFR2,JAG1,LRP10,MYO1E,NEUROG3,PCK2,SLC5A12","POMGNT1","ADRB2,CD276,EPPK1,ERMN,MYO1E,REEP3,SMAD4","ADRB2,CD276,EPPK1,ERMN,MYO1E,POMGNT1,REEP3,SMAD4","PLXNA1","MEF2C","MEF2C,PLXNA1","ADISSP,H1-2,ITGA6,ITPR1,MEF2C,PABPC1,PALD1,PUF60,TRAF7","MBOAT7,MEF2C,PCCB,TRAF7","ACAP2,ADA,ADK,CADPS2,GPC6,GPX1,ITPR1,KCNS3,MYH10,PXDN,SNX5","ACAP2,ADA,ADK,CADPS2,GPC6,GPX1,ITPR1,KCNS3,MBOAT7,MEF2C,MYH10,PCCB,PXDN,SNX5,TRAF7","","SLC9A3","SLC9A3","CPZ,GRIN1,KCNT1,PTCH1","GRIN1","CPZ,DRD2,ESRRB,HLA-DPB1,PDCD1,SLC6A4,SLC7A5,SNTG2,TSPAN4","CPZ,DRD2,ESRRB,GRIN1,HLA-DPB1,PDCD1,SLC6A4,SLC7A5,SNTG2,TSPAN4","CTNNB1,DLL1","CHD3,CORO1A,DEDD,PRDM16","CHD3,CORO1A,CTNNB1,DEDD,DLL1,PRDM16","CHD3,CTNNB1,DDX3X,DDX6,DLL1,GSK3B,HDAC2,LZTR1,PCDH19,RAF1,TFAP2A,TFAP2B","CHD3,CORO1A,CTNNB1,DDX3X,HNRNPH2,KLHL20,LZTR1,MSL3,PCDH19,SOS2","ASAP2,CTNND2,DLL1,FRG1,LMX1B,LRRC4,MLANA,NAALADL2,PAFAH1B2,PDK2,PLXNB1,PRODH,SHOX,SLC27A4,TAOK2,TECTA,TOP2B,TRPM1","ASAP2,CHD3,CORO1A,CTNNB1,CTNND2,DDX3X,DLL1,FRG1,HNRNPH2,KLHL20,LMX1B,LRRC4,LZTR1,MLANA,MSL3,NAALADL2,PAFAH1B2,PCDH19,PDK2,PLXNB1,PRODH,SHOX,SLC27A4,SOS2,TAOK2,TECTA,TOP2B,TRPM1","ADNP,ANK2,ARID1B,ASXL3,AUTS2,BRSK2,CASKIN1,CTCF,CTNNB1,DLG4,DLL1,DSCAM,DYNC1H1,EBF3,EHMT1,GRIN2B,IRF2BPL,KCNB1,KCNQ3,KDM6B,KMT2A,KMT5B,MEIS2,NAA15,NIPBL,NRXN1,PIK3CA,PLXNA1,SATB2,SCN2A,SHANK3,SLC6A1,SPAST,STXBP1,TCF20,TCF7L2,ZBTB20","ADCY5,APBB1,ATG13,ATG9B,ATP1A3,BTG3,CAMK2A,CAMTA2,CGREF1,CHD3,CORO1A,CREBBP,CTNNA2,CYLD,DEDD,DPYSL2,EFTUD2,FBXO11,GABBR2,GABRB3,GRIA2,HECTD4,HNRNPD,HNRNPUL2,KDM3B,KIF1B,KPNA1,MAPK8IP3,MEF2C,MYO18A,MYT1L,NAV3,NRXN3,OBSCN,PACS1,PHF2,PPP1R9B,PRDM16,PRH1,PRR12,RAB11FIP4,RALGAPB,SHANK2,SIN3A,SLC9A3,SPEN,SRPRA,SYT1,TAF4,TNPO3,TRAF2,TSC1,YWHAG,ZMYM2","ADCY5,ADNP,ANK2,APBB1,ARID1B,ASXL3,ATG13,ATG9B,ATP1A3,AUTS2,BRSK2,BTG3,CAMK2A,CAMTA2,CASKIN1,CGREF1,CHD3,CORO1A,CREBBP,CTCF,CTNNA2,CTNNB1,CYLD,DEDD,DLG4,DLL1,DPYSL2,DSCAM,DYNC1H1,EBF3,EFTUD2,EHMT1,FBXO11,GABBR2,GABRB3,GRIA2,GRIN2B,HECTD4,HNRNPD,HNRNPUL2,IRF2BPL,KCNB1,KCNQ3,KDM3B,KDM6B,KIF1B,KMT2A,KMT5B,KPNA1,MAPK8IP3,MEF2C,MEIS2,MYO18A,MYT1L,NAA15,NAV3,NIPBL,NRXN1,NRXN3,OBSCN,PACS1,PHF2,PIK3CA,PLXNA1,PPP1R9B,PRDM16,PRH1,PRR12,RAB11FIP4,RALGAPB,SATB2,SCN2A,SHANK2,SHANK3,SIN3A,SLC6A1,SLC9A3,SPAST,SPEN,SRPRA,STXBP1,SYT1,TAF4,TCF20,TCF7L2,TNPO3,TRAF2,TSC1,YWHAG,ZBTB20,ZMYM2","ABCA5,ABL1,ACTL6B,ADISSP,ADNP,AFF3,AFF4,AGO1,AKT3,AMIGO1,ANK2,ANKRD17,ANKRD40,AP5M1,ARF1,ARF3,ARHGEF9,ARID1A,ARID1B,ARID2,ASIC3,ASXL3,ATL1,ATP1A2,ATP1A3,AUTS2,BCOR,BLTP2,BRPF1,BRSK1,BSDC1,C14orf39,CA10,CAMK2A,CAMTA1,CASK,CBX5,CCDC7,CDC42,CDC42BPB,CENPU,CFAP90,CGGBP1,CHAMP1,CHD3,CHD4,CHD7,CLCN4,CNKSR2,COL3A1,CPZ,CREBBP,CSE1L,CSMD1,CTCF,CTNNA2,CTNNB1,CTR9,CXXC1,CYP27C1,DDB1,DDX3X,DDX6,DLG4,DLL1,DNM1,DPYSL5,DYNC1H1,EBF3,EEF1A2,EFTUD2,EHMT1,EML6,EP300,ERF,ETF1,EZH2,FBXO11,FBXO28,FBXW7,FGFR2,FGFR3,FOXP2,FRA10AC1,FREM3,FRMD5,G3BP2,GABRB2,GABRB3,GABRG2,GARNL3,GATA3,GDI1,GLI3,GLRA1,GNAI1,GNAO1,GNAS,GNB1,GNB2,GPR162,GPR173,GPR4,GRIA1,GRIA2,GRIN1,GRIN2A,GRIN2B,GSK3B,H1-2,H1-4,H2AC6,HDAC2,HEATR5A,HNRNPD,IDE,IK,INPP5K,IQSEC2,ITGA6,ITPR1,JAG1,JPH3,KANK2,KAT8,KCNB1,KCND3,KCNK3,KCNQ2,KCNQ3,KCNT1,KDM3B,KDM5C,KDM6B,KIDINS220,KIF1A,KIF5C,KLF7,KLHL25,KMT2A,KMT2B,KMT5B,LAMP2,LDB1,LEO1,LRP10,LRRK2,LZTR1,MAP2K1,MAP3K12,MAPK1,MAPK8IP3,MARCHF4,MAST1,MAVS,MCM6,MECP2,MEF2C,MEIS2,MFN2,MIB1,MMGT1,MN1,MSH6,MTIF2,MYO1E,MYOF,MYT1L,NAA15,NALCN,NEUROG3,NEXMIF,NFE2L1,NFIA,NFIB,NIPBL,NKIRAS2,NR3C2,NSD2,NTRK2,PABPC1,PAFAH1B1,PAK1,PALD1,PAPSS2,PCDH19,PCGF2,PCK2,PDCD5,PFKM,PIK3CA,PIK3R2,PPFIBP2,PPIP5K2,PPM1B,PPP2R2B,PPP2R5D,PRDM10,PRKAR1B,PRKD1,PRPF8,PTCH1,PTPRR,PUF60,PUM3,QRICH1,RAF1,RGS2,RNF20,RORA,RPS6KA3,RTF1,RYR2,SATB1,SATB2,SCN2A,SCN3A,SCN8A,SETD2,SF3B2,SIN3A,SLC18A3,SLC39A8,SLC5A12,SLC6A1,SMARCA4,SMARCD1,SMARCE1,SMC3,SNRNP200,SON,SPAST,SPEN,SRCAP,SRP54,SRPRA,STAG1,STX1B,STXBP1,SYT1,TCEAL1,TCF7L2,TFAP2A,TFAP2B,TMEM106B,TNPO2,TNPO3,TNRC6A,TRAF7,TRIM66,TRIO,TSC1,UBTF,UNC80,UPF3B,USP7,VAMP2,VCP,WDR26,WDR37,WFS1,YWHAG,ZBTB18,ZBTB20,ZEB2,ZMIZ1,ZMYM2,ZNF107,ZNF215","ABCE1,ADNP,ADSL,AFF2,ALDH5A1,ANK2,ARF3,ARHGEF9,ARID1B,ARX,ASXL3,ATRX,AUTS2,BAZ2B,BCL11A,BRSK2,CACNA2D3,CAMK2A,CAMTA2,CASK,CELF4,CHAMP1,CHD3,CHD7,CIC,CORO1A,CREBBP,CTCF,CTNNB1,DDX3X,DLG4,DPYSL2,DSCAM,DYNC1H1,EBF3,EHMT1,ELAVL3,EP300,FOXP2,GABRB2,GABRB3,GIGYF2,GNAI1,GRIA2,GRIN1,GRIN2A,GRIN2B,HECTD4,HNRNPH2,IQSEC2,IRF2BPL,KCNB1,KCNQ2,KCNQ3,KDM2B,KDM3B,KDM5C,KDM6B,KLHL20,KMT2A,KMT5B,LDB1,LRRC4C,LZTR1,MAP1A,MBOAT7,MECP2,MEF2C,MEIS2,MSL3,MYCBP2,MYT1L,NAA15,NBEA,NEXMIF,NIPBL,NR3C2,NRXN1,NRXN2,NRXN3,NUP155,PACS1,PCCB,PCDH19,PHF2,POMGNT1,PPP1R9B,PPP2R5D,PPP5C,PRR12,PRR14L,RALGAPB,RELN,RIMS1,RUNX1T1,SATB1,SATB2,SCN2A,SCN8A,SETD2,SHANK2,SHANK3,SIN3A,SLC6A1,SLC9A6,SMARCA4,SON,SOS2,SPAST,SRCAP,SRPRA,STXBP1,SYN1,TANC2,TCF20,TCF7L2,TRAF7,TRIO,TSC1,TSC2,TSHZ3,UPF3B,ZBTB20","ABAT,ABCA7,ACAP2,ACE,ACHE,ADA,ADCY5,ADK,ADORA2A,ADRB2,AGAP1,AGAP2,AGO1,ANKRD17,ANKS1B,APBB1,APH1A,AR,ARID2,ASAP2,ASPM,ATP1A3,AVPR1A,BBS4,BICDL1,CACNA1B,CACNA1I,CACNA2D1,CACNB2,CACNG2,CADM2,CADPS,CADPS2,CASKIN1,CCDC88C,CCDC91,CCT4,CD276,CD99L2,CDC42BPB,CDH13,CDH22,CDH8,CDH9,CDK16,CELF6,CEP135,CHMP1A,CHRNA7,CLCN4,CLTCL1,CMIP,CNKSR2,CNR1,CNTN6,CNTNAP3,CNTNAP4,CNTNAP5,CPEB4,CPZ,CSMD1,CTNND2,CUX2,CX3CR1,CYFIP1,DCC,DDC,DDHD2,DENR,DIPK2A,DIXDC1,DLG1,DLG2,DLG3,DLGAP2,DLGAP3,DLL1,DMXL2,DNER,DOCK1,DOCK4,DPP10,DPYSL3,DRD1,DRD2,DST,DVL3,ECPAS,EIF4E,ELAVL2,ELOVL2,EP400,EPHB2,EPPK1,ERMN,ESRRB,EXOC3,FABP5,FBXO11,FRG1,G3BP2,GABBR2,GABRG3,GALNT14,GDA,GLO1,GLRA2,GNAS,GPC4,GPC6,GPR85,GPX1,GRIA1,GRID2,GRIK3,GRIK4,GRIK5,GRM5,GRM7,GSE1,HERC1,HIVEP3,HLA-A,HLA-DPB1,HNRNPD,HNRNPF,HNRNPUL2,HOMER1,HTR1B,HTR3A,ICA1,ITPR1,JARID2,KATNAL1,KCND2,KCND3,KCNJ10,KCNS3,KCTD13,KHDRBS2,KIAA1586,KIF14,KIF1A,KIF5C,KIRREL3,LAMA1,LEO1,LIN7B,LMX1B,LRBA,LRFN2,LRFN5,LRP2,LRRC4,LZTS2,MACROD2,MAOA,MAP1B,MAPK3,MAPK8IP3,MARK1,MBD6,MCM4,MCM6,MEGF11,MEMO1,MET,MIB1,MLANA,MNT,MSANTD2,MYH10,MYO16,MYO1E,MYO5A,MYO5C,NAALADL2,NAV3,NDUFA5,NEGR1,NFIA,NFIB,NPAS2,NR1D1,NSD2,NTNG1,NTRK3,NUP133,NXPH1,OFD1,OTUD7A,P4HA2,PAFAH1B2,PAK2,PATJ,PCDH10,PCDH9,PCDHA10,PCDHA12,PCDHA2,PCDHA4,PCDHA9,PCDHAC2,PCM1,PDCD1,PDK2,PER2,PHRF1,PLXNA3,PLXNB1,POLA2,PREX1,PRICKLE2,PRKAR1B,PRKCA,PRODH,PRUNE2,PTBP2,PXDN,QRICH1,RAB11FIP5,RAB39B,RANBP17,RAPGEF4,RBFOX1,REEP3,RGS7,RIMS3,RNF135,RNF38,ROBO2,RPS6KA2,RPS6KA3,SACS,SAMD11,SBF1,SEZ6L2,SF3B3,SH3RF3,SHANK1,SHOX,SIN3B,SLC12A5,SLC1A1,SLC22A15,SLC24A2,SLC25A12,SLC25A27,SLC25A39,SLC27A4,SLC35G1,SLC4A10,SLC6A4,SLC6A8,SLC7A3,SLC7A5,SLC9A9,SMAD4,SMAP2,SMC3,SMG6,SMURF1,SNAP25,SND1,SNTG2,SNX5,SORCS3,SPARCL1,SPEN,SRGAP3,ST7,ST8SIA2,STK39,STX1A,SUPT16H,SYAP1,SYN2,SYNJ1,SYT17,TAF4,TAOK2,TBC1D31,TBL1X,TECTA,TET2,THRA,TMEM39B,TNRC6C,TOP2B,TOP3B,TRIM33,TRPM1,TSPAN4,TSPAN7,UBN2,UBR3,UNC13A,UNC79,UNC80,USP7,WWOX,YTHDC2,ZC3H11A,ZC3H4,ZFYVE26,ZMIZ1,ZMYM2,ZNF18,ZNF385B,ZNF548,ZNF713,ZNF804A,ZNF827,ZWILCH","ABAT,ABCA7,ABCE1,ACAP2,ACE,ACHE,ADA,ADCY5,ADK,ADNP,ADORA2A,ADRB2,ADSL,AFF2,AGAP1,AGAP2,AGO1,ALDH5A1,ANK2,ANKRD17,ANKS1B,APBB1,APH1A,AR,ARF3,ARHGEF9,ARID1B,ARID2,ARX,ASAP2,ASPM,ASXL3,ATP1A3,ATRX,AUTS2,AVPR1A,BAZ2B,BBS4,BCL11A,BICDL1,BRSK2,CACNA1B,CACNA1I,CACNA2D1,CACNA2D3,CACNB2,CACNG2,CADM2,CADPS,CADPS2,CAMK2A,CAMTA2,CASK,CASKIN1,CCDC88C,CCDC91,CCT4,CD276,CD99L2,CDC42BPB,CDH13,CDH22,CDH8,CDH9,CDK16,CELF4,CELF6,CEP135,CHAMP1,CHD3,CHD7,CHMP1A,CHRNA7,CIC,CLCN4,CLTCL1,CMIP,CNKSR2,CNR1,CNTN6,CNTNAP3,CNTNAP4,CNTNAP5,CORO1A,CPEB4,CPZ,CREBBP,CSMD1,CTCF,CTNNB1,CTNND2,CUX2,CX3CR1,CYFIP1,DCC,DDC,DDHD2,DDX3X,DENR,DIPK2A,DIXDC1,DLG1,DLG2,DLG3,DLG4,DLGAP2,DLGAP3,DLL1,DMXL2,DNER,DOCK1,DOCK4,DPP10,DPYSL2,DPYSL3,DRD1,DRD2,DSCAM,DST,DVL3,DYNC1H1,EBF3,ECPAS,EHMT1,EIF4E,ELAVL2,ELAVL3,ELOVL2,EP300,EP400,EPHB2,EPPK1,ERMN,ESRRB,EXOC3,FABP5,FBXO11,FOXP2,FRG1,G3BP2,GABBR2,GABRB2,GABRB3,GABRG3,GALNT14,GDA,GIGYF2,GLO1,GLRA2,GNAI1,GNAS,GPC4,GPC6,GPR85,GPX1,GRIA1,GRIA2,GRID2,GRIK3,GRIK4,GRIK5,GRIN1,GRIN2A,GRIN2B,GRM5,GRM7,GSE1,HECTD4,HERC1,HIVEP3,HLA-A,HLA-DPB1,HNRNPD,HNRNPF,HNRNPH2,HNRNPUL2,HOMER1,HTR1B,HTR3A,ICA1,IQSEC2,IRF2BPL,ITPR1,JARID2,KATNAL1,KCNB1,KCND2,KCND3,KCNJ10,KCNQ2,KCNQ3,KCNS3,KCTD13,KDM2B,KDM3B,KDM5C,KDM6B,KHDRBS2,KIAA1586,KIF14,KIF1A,KIF5C,KIRREL3,KLHL20,KMT2A,KMT5B,LAMA1,LDB1,LEO1,LIN7B,LMX1B,LRBA,LRFN2,LRFN5,LRP2,LRRC4,LRRC4C,LZTR1,LZTS2,MACROD2,MAOA,MAP1A,MAP1B,MAPK3,MAPK8IP3,MARK1,MBD6,MBOAT7,MCM4,MCM6,MECP2,MEF2C,MEGF11,MEIS2,MEMO1,MET,MIB1,MLANA,MNT,MSANTD2,MSL3,MYCBP2,MYH10,MYO16,MYO1E,MYO5A,MYO5C,MYT1L,NAA15,NAALADL2,NAV3,NBEA,NDUFA5,NEGR1,NEXMIF,NFIA,NFIB,NIPBL,NPAS2,NR1D1,NR3C2,NRXN1,NRXN2,NRXN3,NSD2,NTNG1,NTRK3,NUP133,NUP155,NXPH1,OFD1,OTUD7A,P4HA2,PACS1,PAFAH1B2,PAK2,PATJ,PCCB,PCDH10,PCDH19,PCDH9,PCDHA10,PCDHA12,PCDHA2,PCDHA4,PCDHA9,PCDHAC2,PCM1,PDCD1,PDK2,PER2,PHF2,PHRF1,PLXNA3,PLXNB1,POLA2,POMGNT1,PPP1R9B,PPP2R5D,PPP5C,PREX1,PRICKLE2,PRKAR1B,PRKCA,PRODH,PRR12,PRR14L,PRUNE2,PTBP2,PXDN,QRICH1,RAB11FIP5,RAB39B,RALGAPB,RANBP17,RAPGEF4,RBFOX1,REEP3,RELN,RGS7,RIMS1,RIMS3,RNF135,RNF38,ROBO2,RPS6KA2,RPS6KA3,RUNX1T1,SACS,SAMD11,SATB1,SATB2,SBF1,SCN2A,SCN8A,SETD2,SEZ6L2,SF3B3,SH3RF3,SHANK1,SHANK2,SHANK3,SHOX,SIN3A,SIN3B,SLC12A5,SLC1A1,SLC22A15,SLC24A2,SLC25A12,SLC25A27,SLC25A39,SLC27A4,SLC35G1,SLC4A10,SLC6A1,SLC6A4,SLC6A8,SLC7A3,SLC7A5,SLC9A6,SLC9A9,SMAD4,SMAP2,SMARCA4,SMC3,SMG6,SMURF1,SNAP25,SND1,SNTG2,SNX5,SON,SORCS3,SOS2,SPARCL1,SPAST,SPEN,SRCAP,SRGAP3,SRPRA,ST7,ST8SIA2,STK39,STX1A,STXBP1,SUPT16H,SYAP1,SYN1,SYN2,SYNJ1,SYT17,TAF4,TANC2,TAOK2,TBC1D31,TBL1X,TCF20,TCF7L2,TECTA,TET2,THRA,TMEM39B,TNRC6C,TOP2B,TOP3B,TRAF7,TRIM33,TRIO,TRPM1,TSC1,TSC2,TSHZ3,TSPAN4,TSPAN7,UBN2,UBR3,UNC13A,UNC79,UNC80,UPF3B,USP7,WWOX,YTHDC2,ZBTB20,ZC3H11A,ZC3H4,ZFYVE26,ZMIZ1,ZMYM2,ZNF18,ZNF385B,ZNF548,ZNF713,ZNF804A,ZNF827,ZWILCH","CASKIN1,SCN2A","ATG9B,CAMK2A,HECTD4,NRXN3,PPP1R9B","ATG9B,CAMK2A,CASKIN1,HECTD4,NRXN3,PPP1R9B,SCN2A","ASIC3,CA10,CAMK2A,CASK,CSMD1,DNM1,FRA10AC1,GABRG2,GNB1,GPR162,GRIA1,KIDINS220,MAP3K12,NALCN,NEXMIF,NFIA,PTPRR,SCN2A,TCEAL1,WDR37,ZMIZ1","CACNA2D3,CAMK2A,CASK,HECTD4,NBEA,NEXMIF,NRXN3,PPP1R9B,SCN2A","ADORA2A,ANKS1B,CASKIN1,CDH13,CDH9,CLTCL1,CNTNAP4,CNTNAP5,CSMD1,DLG2,GRIA1,GSE1,HERC1,KCND2,KCNJ10,KCTD13,LRFN2,NEGR1,NFIA,NXPH1,PCDH10,PCDH9,PCDHA12,PCDHAC2,RBFOX1,RGS7,SH3RF3,SHANK1,SLC12A5,SLC1A1,SLC4A10,SMAP2,SYN2,THRA,TNRC6C,UBR3,ZMIZ1,ZNF18,ZNF385B","ADORA2A,ANKS1B,CACNA2D3,CAMK2A,CASK,CASKIN1,CDH13,CDH9,CLTCL1,CNTNAP4,CNTNAP5,CSMD1,DLG2,GRIA1,GSE1,HECTD4,HERC1,KCND2,KCNJ10,KCTD13,LRFN2,NBEA,NEGR1,NEXMIF,NFIA,NRXN3,NXPH1,PCDH10,PCDH9,PCDHA12,PCDHAC2,PPP1R9B,RBFOX1,RGS7,SCN2A,SH3RF3,SHANK1,SLC12A5,SLC1A1,SLC4A10,SMAP2,SYN2,THRA,TNRC6C,UBR3,ZMIZ1,ZNF18,ZNF385B","ADNP,ARID1B,CTCF,DYNC1H1,EHMT1,KMT2A,NIPBL","CREBBP,HNRNPD,KDM3B,PRR12,RALGAPB,SIN3A,SPEN,TAF4,TNPO3,TSC1","ADNP,ARID1B,CREBBP,CTCF,DYNC1H1,EHMT1,HNRNPD,KDM3B,KMT2A,NIPBL,PRR12,RALGAPB,SIN3A,SPEN,TAF4,TNPO3,TSC1","ADNP,AFF3,ANKRD17,ANKRD40,ARF3,ARID1A,ARID1B,ARID2,BRPF1,CBX5,CCDC7,CENPU,CGGBP1,CHAMP1,CHD4,CHD7,CREBBP,CSE1L,CTCF,CTR9,CXXC1,DYNC1H1,EHMT1,EP300,EZH2,FBXO28,GABRB2,GLI3,HNRNPD,KDM3B,KMT2A,KMT2B,LEO1,MCM6,MSH6,NIPBL,NSD2,PCGF2,PDCD5,PIK3R2,PPIP5K2,PPP2R5D,PRDM10,PRPF8,QRICH1,RNF20,RTF1,SCN8A,SETD2,SIN3A,SMARCA4,SMARCD1,SMARCE1,SNRNP200,SON,SPEN,SRCAP,STAG1,TNPO3,TNRC6A,TRIM66,TSC1,UBTF,UPF3B,USP7,ZNF107,ZNF215","ADNP,AFF2,ARF3,ARID1B,ATRX,CHAMP1,CHD7,CREBBP,CTCF,DYNC1H1,EHMT1,EP300,GABRB2,GIGYF2,KDM2B,KDM3B,KMT2A,MYCBP2,NIPBL,PPP2R5D,PPP5C,PRR12,PRR14L,RALGAPB,SCN8A,SETD2,SIN3A,SMARCA4,SON,SRCAP,TSC1,TSC2,UPF3B","ANKRD17,ARID2,ASPM,CEP135,CX3CR1,DENR,DMXL2,ECPAS,EP400,EXOC3,HNRNPD,HOMER1,KIAA1586,LEO1,LRBA,MBD6,MCM4,MCM6,MEMO1,MSANTD2,NSD2,NUP133,OFD1,PCM1,POLA2,QRICH1,RANBP17,SACS,SLC25A12,SMG6,SPEN,SUPT16H,TAF4,TBC1D31,TMEM39B,TOP3B,TRIM33,UBN2,USP7,YTHDC2,ZC3H11A,ZC3H4,ZFYVE26,ZWILCH","ADNP,AFF2,ANKRD17,ARF3,ARID1B,ARID2,ASPM,ATRX,CEP135,CHAMP1,CHD7,CREBBP,CTCF,CX3CR1,DENR,DMXL2,DYNC1H1,ECPAS,EHMT1,EP300,EP400,EXOC3,GABRB2,GIGYF2,HNRNPD,HOMER1,KDM2B,KDM3B,KIAA1586,KMT2A,LEO1,LRBA,MBD6,MCM4,MCM6,MEMO1,MSANTD2,MYCBP2,NIPBL,NSD2,NUP133,OFD1,PCM1,POLA2,PPP2R5D,PPP5C,PRR12,PRR14L,QRICH1,RALGAPB,RANBP17,SACS,SCN8A,SETD2,SIN3A,SLC25A12,SMARCA4,SMG6,SON,SPEN,SRCAP,SUPT16H,TAF4,TBC1D31,TMEM39B,TOP3B,TRIM33,TSC1,TSC2,UBN2,UPF3B,USP7,YTHDC2,ZC3H11A,ZC3H4,ZFYVE26,ZWILCH","AUTS2,SHANK3,SLC6A1","BTG3,CGREF1,KPNA1,PACS1,PRH1,RAB11FIP4,SRPRA","AUTS2,BTG3,CGREF1,KPNA1,PACS1,PRH1,RAB11FIP4,SHANK3,SLC6A1,SRPRA","ABCA5,ARF1,AUTS2,CDC42,COL3A1,EEF1A2,EML6,FGFR3,GNAS,GNB2,GPR4,GRIN2A,IQSEC2,KCND3,KDM5C,LAMP2,MAP2K1,MAPK1,MYOF,NFE2L1,NR3C2,NTRK2,PAPSS2,PFKM,RYR2,SLC18A3,SLC6A1,SRPRA","ALDH5A1,AUTS2,GRIN2A,IQSEC2,KDM5C,NR3C2,PACS1,SHANK3,SLC6A1,SRPRA","CACNB2,CDH22,CDH8,CDK16,DDHD2,DIXDC1,DLGAP2,FABP5,GDA,GNAS,GPC4,GRIK4,HIVEP3,HLA-A,ICA1,KCND3,MACROD2,MET,MYO16,NPAS2,NTNG1,OTUD7A,P4HA2,PATJ,SORCS3,SPARCL1,SYAP1,SYT17","ALDH5A1,AUTS2,CACNB2,CDH22,CDH8,CDK16,DDHD2,DIXDC1,DLGAP2,FABP5,GDA,GNAS,GPC4,GRIK4,GRIN2A,HIVEP3,HLA-A,ICA1,IQSEC2,KCND3,KDM5C,MACROD2,MET,MYO16,NPAS2,NR3C2,NTNG1,OTUD7A,P4HA2,PACS1,PATJ,SHANK3,SLC6A1,SORCS3,SPARCL1,SRPRA,SYAP1,SYT17","TCF20","","TCF20","CFAP90,FOXP2,GATA3,GNAI1,HEATR5A,KAT8,SF3B2,SRP54,WFS1","ARX,FOXP2,GNAI1,TANC2,TCF20","AVPR1A,CCT4,DIPK2A,DRD1,GABRG3,GLO1,HTR3A,LRP2,MAOA,NR1D1,PREX1,SLC9A9,SND1","ARX,AVPR1A,CCT4,DIPK2A,DRD1,FOXP2,GABRG3,GLO1,GNAI1,HTR3A,LRP2,MAOA,NR1D1,PREX1,SLC9A9,SND1,TANC2,TCF20","NAA15,SATB2,TCF7L2","EFTUD2,HNRNPUL2,OBSCN,TRAF2","EFTUD2,HNRNPUL2,NAA15,OBSCN,SATB2,TCF7L2,TRAF2","ATP1A2,BLTP2,C14orf39,CYP27C1,DDB1,EFTUD2,ERF,ETF1,H1-4,IDE,KANK2,LRRK2,MAVS,MTIF2,NAA15,PPFIBP2,PRKD1,PUM3,RPS6KA3,SATB2,SLC39A8,SMC3,TCF7L2,VCP,ZEB2","ABCE1,ADSL,NAA15,NUP155,SATB2,TCF7L2","APH1A,AR,CCDC88C,CNTNAP3,CYFIP1,DLG1,DOCK1,EIF4E,HNRNPF,HNRNPUL2,KIF14,LAMA1,LZTS2,MYO5C,PER2,PHRF1,PRKCA,RNF135,RPS6KA3,SF3B3,SLC25A39,SLC35G1,SLC7A3,SMC3,TBL1X,WWOX","ABCE1,ADSL,APH1A,AR,CCDC88C,CNTNAP3,CYFIP1,DLG1,DOCK1,EIF4E,HNRNPF,HNRNPUL2,KIF14,LAMA1,LZTS2,MYO5C,NAA15,NUP155,PER2,PHRF1,PRKCA,RNF135,RPS6KA3,SATB2,SF3B3,SLC25A39,SLC35G1,SLC7A3,SMC3,TBL1X,TCF7L2,WWOX","ANK2,ASXL3,BRSK2,DLG4,DSCAM,EBF3,GRIN2B,IRF2BPL,KCNB1,KCNQ3,KDM6B,KMT5B,MEIS2,NRXN1,PIK3CA,SPAST,STXBP1,ZBTB20","ADCY5,APBB1,ATG13,ATP1A3,CAMTA2,CTNNA2,CYLD,DPYSL2,FBXO11,GABBR2,GABRB3,GRIA2,KIF1B,MAPK8IP3,MYO18A,MYT1L,NAV3,PHF2,SHANK2,SYT1,YWHAG,ZMYM2","ADCY5,ANK2,APBB1,ASXL3,ATG13,ATP1A3,BRSK2,CAMTA2,CTNNA2,CYLD,DLG4,DPYSL2,DSCAM,EBF3,FBXO11,GABBR2,GABRB3,GRIA2,GRIN2B,IRF2BPL,KCNB1,KCNQ3,KDM6B,KIF1B,KMT5B,MAPK8IP3,MEIS2,MYO18A,MYT1L,NAV3,NRXN1,PHF2,PIK3CA,SHANK2,SPAST,STXBP1,SYT1,YWHAG,ZBTB20,ZMYM2","ABL1,ACTL6B,AFF4,AGO1,AKT3,AMIGO1,ANK2,AP5M1,ARHGEF9,ASXL3,ATL1,ATP1A3,BCOR,BRSK1,BSDC1,CAMTA1,CDC42BPB,CLCN4,CNKSR2,CTNNA2,DLG4,DPYSL5,EBF3,FBXO11,FBXW7,FREM3,FRMD5,G3BP2,GABRB3,GARNL3,GDI1,GLRA1,GNAO1,GPR173,GRIA2,GRIN2B,H2AC6,IK,INPP5K,JPH3,KCNB1,KCNK3,KCNQ2,KCNQ3,KDM6B,KIF1A,KIF5C,KLF7,KLHL25,KMT5B,LDB1,MAPK8IP3,MARCHF4,MAST1,MECP2,MEIS2,MFN2,MIB1,MMGT1,MN1,MYT1L,NFIB,NKIRAS2,PAFAH1B1,PAK1,PIK3CA,PPM1B,PPP2R2B,PRKAR1B,RGS2,RORA,SATB1,SCN3A,SPAST,STX1B,STXBP1,SYT1,TMEM106B,TNPO2,TRIO,UNC80,VAMP2,WDR26,YWHAG,ZBTB18,ZBTB20,ZMYM2","ANK2,ARHGEF9,ASXL3,BAZ2B,BCL11A,BRSK2,CAMTA2,CELF4,CIC,DLG4,DPYSL2,DSCAM,EBF3,ELAVL3,GABRB3,GRIA2,GRIN2B,IRF2BPL,KCNB1,KCNQ2,KCNQ3,KDM6B,KMT5B,LDB1,LRRC4C,MAP1A,MECP2,MEIS2,MYT1L,NRXN1,NRXN2,PHF2,RELN,RIMS1,RUNX1T1,SATB1,SHANK2,SLC9A6,SPAST,STXBP1,SYN1,TRIO,TSHZ3,ZBTB20","ABAT,ABCA7,ACE,ACHE,ADCY5,AGAP1,AGAP2,AGO1,APBB1,ATP1A3,BBS4,BICDL1,CACNA1B,CACNA1I,CACNA2D1,CACNG2,CADM2,CADPS,CCDC91,CD99L2,CDC42BPB,CELF6,CHMP1A,CHRNA7,CLCN4,CMIP,CNKSR2,CNR1,CNTN6,CPEB4,CUX2,DCC,DDC,DLG3,DLGAP3,DNER,DOCK4,DPP10,DPYSL3,DST,DVL3,ELAVL2,ELOVL2,EPHB2,FBXO11,G3BP2,GABBR2,GALNT14,GLRA2,GPR85,GRID2,GRIK3,GRIK5,GRM5,GRM7,HTR1B,JARID2,KATNAL1,KHDRBS2,KIF1A,KIF5C,KIRREL3,LIN7B,LRFN5,MAP1B,MAPK3,MAPK8IP3,MARK1,MEGF11,MIB1,MNT,MYO5A,NAV3,NDUFA5,NFIB,NTRK3,PAK2,PCDHA10,PCDHA2,PCDHA4,PCDHA9,PLXNA3,PRICKLE2,PRKAR1B,PRUNE2,PTBP2,RAB11FIP5,RAB39B,RAPGEF4,RIMS3,RNF38,ROBO2,RPS6KA2,SAMD11,SBF1,SEZ6L2,SIN3B,SLC22A15,SLC24A2,SLC25A27,SLC6A8,SMURF1,SNAP25,SRGAP3,ST7,ST8SIA2,STK39,STX1A,SYNJ1,TET2,TSPAN7,UNC13A,UNC79,UNC80,ZMYM2,ZNF548,ZNF713,ZNF804A,ZNF827","ABAT,ABCA7,ACE,ACHE,ADCY5,AGAP1,AGAP2,AGO1,ANK2,APBB1,ARHGEF9,ASXL3,ATP1A3,BAZ2B,BBS4,BCL11A,BICDL1,BRSK2,CACNA1B,CACNA1I,CACNA2D1,CACNG2,CADM2,CADPS,CAMTA2,CCDC91,CD99L2,CDC42BPB,CELF4,CELF6,CHMP1A,CHRNA7,CIC,CLCN4,CMIP,CNKSR2,CNR1,CNTN6,CPEB4,CUX2,DCC,DDC,DLG3,DLG4,DLGAP3,DNER,DOCK4,DPP10,DPYSL2,DPYSL3,DSCAM,DST,DVL3,EBF3,ELAVL2,ELAVL3,ELOVL2,EPHB2,FBXO11,G3BP2,GABBR2,GABRB3,GALNT14,GLRA2,GPR85,GRIA2,GRID2,GRIK3,GRIK5,GRIN2B,GRM5,GRM7,HTR1B,IRF2BPL,JARID2,KATNAL1,KCNB1,KCNQ2,KCNQ3,KDM6B,KHDRBS2,KIF1A,KIF5C,KIRREL3,KMT5B,LDB1,LIN7B,LRFN5,LRRC4C,MAP1A,MAP1B,MAPK3,MAPK8IP3,MARK1,MECP2,MEGF11,MEIS2,MIB1,MNT,MYO5A,MYT1L,NAV3,NDUFA5,NFIB,NRXN1,NRXN2,NTRK3,PAK2,PCDHA10,PCDHA2,PCDHA4,PCDHA9,PHF2,PLXNA3,PRICKLE2,PRKAR1B,PRUNE2,PTBP2,RAB11FIP5,RAB39B,RAPGEF4,RELN,RIMS1,RIMS3,RNF38,ROBO2,RPS6KA2,RUNX1T1,SAMD11,SATB1,SBF1,SEZ6L2,SHANK2,SIN3B,SLC22A15,SLC24A2,SLC25A27,SLC6A8,SLC9A6,SMURF1,SNAP25,SPAST,SRGAP3,ST7,ST8SIA2,STK39,STX1A,STXBP1,SYN1,SYNJ1,TET2,TRIO,TSHZ3,TSPAN7,UNC13A,UNC79,UNC80,ZBTB20,ZMYM2,ZNF548,ZNF713,ZNF804A,ZNF827","","","","FGFR2,JAG1,LRP10,MYO1E,NEUROG3,PCK2,SLC5A12","POMGNT1","ADRB2,CD276,EPPK1,ERMN,MYO1E,REEP3,SMAD4","ADRB2,CD276,EPPK1,ERMN,MYO1E,POMGNT1,REEP3,SMAD4","PLXNA1","MEF2C","MEF2C,PLXNA1","ADISSP,H1-2,ITGA6,ITPR1,MEF2C,PABPC1,PALD1,PUF60,TRAF7","MBOAT7,MEF2C,PCCB,TRAF7","ACAP2,ADA,ADK,CADPS2,GPC6,GPX1,ITPR1,KCNS3,MYH10,PXDN,SNX5","ACAP2,ADA,ADK,CADPS2,GPC6,GPX1,ITPR1,KCNS3,MBOAT7,MEF2C,MYH10,PCCB,PXDN,SNX5,TRAF7","","SLC9A3","SLC9A3","CPZ,GRIN1,KCNT1,PTCH1","GRIN1","CPZ,DRD2,ESRRB,HLA-DPB1,PDCD1,SLC6A4,SLC7A5,SNTG2,TSPAN4","CPZ,DRD2,ESRRB,GRIN1,HLA-DPB1,PDCD1,SLC6A4,SLC7A5,SNTG2,TSPAN4","CTNNB1,DLL1","CHD3,CORO1A,DEDD,PRDM16","CHD3,CORO1A,CTNNB1,DEDD,DLL1,PRDM16","CHD3,CTNNB1,DDX3X,DDX6,DLL1,GSK3B,HDAC2,LZTR1,PCDH19,RAF1,TFAP2A,TFAP2B","CHD3,CORO1A,CTNNB1,DDX3X,HNRNPH2,KLHL20,LZTR1,MSL3,PCDH19,SOS2","ASAP2,CTNND2,DLL1,FRG1,LMX1B,LRRC4,MLANA,NAALADL2,PAFAH1B2,PDK2,PLXNB1,PRODH,SHOX,SLC27A4,TAOK2,TECTA,TOP2B,TRPM1","ASAP2,CHD3,CORO1A,CTNNB1,CTNND2,DDX3X,DLL1,FRG1,HNRNPH2,KLHL20,LMX1B,LRRC4,LZTR1,MLANA,MSL3,NAALADL2,PAFAH1B2,PCDH19,PDK2,PLXNB1,PRODH,SHOX,SLC27A4,SOS2,TAOK2,TECTA,TOP2B,TRPM1"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>background<\/th>\n      <th>cluster<\/th>\n      <th>gene_set<\/th>\n      <th>n_cluster<\/th>\n      <th>n_set<\/th>\n      <th>overlap<\/th>\n      <th>expected<\/th>\n      <th>fold<\/th>\n      <th>odds_ratio<\/th>\n      <th>ci_low<\/th>\n      <th>ci_high<\/th>\n      <th>direction<\/th>\n      <th>p_value<\/th>\n      <th>fdr<\/th>\n      <th>overlap_genes<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":15,"scrollX":true,"columnDefs":[{"targets":14,"width":"300px"},{"className":"dt-right","targets":[3,4,5,6,7,8,9,10,12,13]}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"lengthMenu":[10,15,25,50,100]}},"evals":[],"jsHooks":[]}</script>
-</div>
-</div>
-<div id="caveats-and-next-steps" class="section level1">
-<h1>Caveats and next steps</h1>
-<ul>
-<li><strong>Background.</strong> The genome-wide background includes
-genes not expressed in these cells. The ideal background is every gene
-measured in the experiment. The “other clusters” background is stricter
-but asks a different question.</li>
-<li><strong>Cluster size.</strong> Cluster 6 is the largest cluster
-(1,539 genes), which gives it the most power.</li>
-<li><strong>Overlapping gene sets.</strong> The 7 results per cluster
-are not independent findings.</li>
-<li><strong>Mutation-intolerant genes.</strong> Many NDD genes are
-highly intolerant of damaging mutations. A cluster rich in such genes
-could look enriched for that reason alone. Next step: a test that
-accounts for constraint and haploinsufficiency.</li>
-<li><strong>Interpretation</strong> needs each cluster’s expression
-pattern, e.g. up or down after GLI removal.</li>
-<li><strong>Not yet run:</strong> the DD-only gene list, the NDD
-confidence tiers, and schizophrenia (MAGMA).</li>
-</ul>
+<script type="application/json" data-for="htmlwidget-3c4220f9fb12925239f0">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;TADA-high_fu2022&quot;,&quot;TADA-med_fu2022&quot;,&quot;TADA-high&amp;med_fu2022&quot;,&quot;NDD_wang2022&quot;,&quot;SFARI_cat1&quot;,&quot;SFARI_cat2&quot;,&quot;SFARI_cat1&amp;2&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"213\" data-max=\"1539\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"72\" data-max=\"948\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0\" data-max=\"163\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.79\" data-max=\"75.35\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0\" data-max=\"3.14\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0\" data-max=\"3.89\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0\" data-max=\"2.23\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.94\" data-max=\"6.77\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0\" data-max=\"1\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["1","1","1","1","1","1","1","2","2","2","2","2","2","2","3","3","3","3","3","3","3","4","4","4","4","4","4","4","5","5","5","5","5","5","5","6","6","6","6","6","6","6","7","7","7","7","7","7","7","8","8","8","8","8","8","8","9","9","9","9","9","9","9","10","10","10","10","10","10","10"],["TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2","TADA-high_fu2022","TADA-med_fu2022","TADA-high&amp;med_fu2022","NDD_wang2022","SFARI_cat1","SFARI_cat2","SFARI_cat1&amp;2"],[503,503,503,503,503,503,503,1030,1030,1030,1030,1030,1030,1030,852,852,852,852,852,852,852,357,357,357,357,357,357,357,965,965,965,965,965,965,965,1539,1539,1539,1539,1539,1539,1539,273,273,273,273,273,273,273,347,347,347,347,347,347,347,213,213,213,213,213,213,213,354,354,354,354,354,354,354],[72,113,185,614,242,706,948,72,113,185,614,242,706,948,72,113,185,614,242,706,948,72,113,185,614,242,706,948,72,113,185,614,242,706,948,72,113,185,614,242,706,948,72,113,185,614,242,706,948,72,113,185,614,242,706,948,72,113,185,614,242,706,948,72,113,185,614,242,706,948],[2,5,7,21,9,39,48,7,10,17,67,33,44,77,3,7,10,28,10,28,38,1,0,1,9,5,13,18,3,4,7,25,6,26,32,18,22,40,87,44,119,163,0,0,0,7,1,7,8,1,1,2,9,4,11,15,0,1,1,4,1,9,10,2,4,6,12,10,18,28],[1.87,2.94,4.81,15.95,6.29,18.34,24.63,3.83,6.01,9.84,32.66,12.87,37.56,50.43,3.17,4.97,8.140000000000001,27.02,10.65,31.07,41.72,1.33,2.08,3.41,11.32,4.46,13.02,17.48,3.59,5.63,9.220000000000001,30.6,12.06,35.19,47.25,5.72,8.98,14.7,48.8,19.24,56.12,75.34999999999999,1.02,1.59,2.61,8.66,3.41,9.949999999999999,13.37,1.29,2.03,3.32,11,4.34,12.65,16.99,0.79,1.24,2.04,6.75,2.66,7.77,10.43,1.32,2.07,3.38,11.23,4.42,12.91,17.33],[1.07,1.7,1.46,1.32,1.43,2.13,1.95,1.83,1.66,1.73,2.05,2.56,1.17,1.53,0.95,1.41,1.23,1.04,0.9399999999999999,0.9,0.91,0.75,0,0.29,0.8,1.12,1,1.03,0.84,0.71,0.76,0.82,0.5,0.74,0.68,3.14,2.45,2.72,1.78,2.29,2.12,2.16,0,0,0,0.8100000000000001,0.29,0.7,0.6,0.78,0.49,0.6,0.82,0.92,0.87,0.88,0,0.8,0.49,0.59,0.38,1.16,0.96,1.52,1.94,1.77,1.07,2.26,1.39,1.61],[1.07,1.74,1.48,1.34,1.46,2.29,2.1,1.92,1.74,1.81,2.26,2.87,1.19,1.62,0.9399999999999999,1.44,1.24,1.04,0.9399999999999999,0.89,0.9,0.75,0,0.29,0.79,1.12,1,1.03,0.83,0.7,0.75,0.8,0.48,0.72,0.65,3.89,2.83,3.25,1.97,2.62,2.46,2.57,0,0,0,0.8,0.29,0.6899999999999999,0.58,0.77,0.49,0.6,0.8100000000000001,0.92,0.86,0.88,0,0.8,0.49,0.58,0.37,1.17,0.96,1.54,1.98,1.81,1.07,2.35,1.43,1.69],[0.13,0.55,0.58,0.82,0.65,1.59,1.52,0.74,0.8100000000000001,1.03,1.71,1.91,0.85,1.25,0.19,0.5600000000000001,0.58,0.68,0.44,0.59,0.63,0.02,0,0.01,0.35,0.36,0.52,0.6,0.17,0.19,0.3,0.51,0.17,0.47,0.44,2.14,1.68,2.22,1.54,1.84,1.99,2.14,0,0,0,0.32,0.01,0.27,0.25,0.02,0.01,0.07000000000000001,0.37,0.25,0.42,0.48,0,0.02,0.01,0.16,0.01,0.52,0.45,0.18,0.53,0.65,0.55,1.1,0.83,1.1],[4.04,4.22,3.14,2.09,2.84,3.21,2.86,4.21,3.33,3.01,2.95,4.18,1.63,2.07,2.89,3.08,2.36,1.53,1.76,1.31,1.26,4.34,1.77,1.63,1.52,2.69,1.74,1.67,2.53,1.85,1.58,1.21,1.07,1.07,0.9399999999999999,6.77,4.56,4.67,2.49,3.66,3.02,3.08,3.69,2.32,1.4,1.68,1.63,1.45,1.17,4.47,2.79,2.2,1.57,2.41,1.57,1.47,4.75,4.61,2.77,1.52,2.1,2.27,1.8,5.81,5.27,4.07,1.91,4.46,2.31,2.5],["enriched","enriched","enriched","enriched","enriched","enriched","enriched","enriched","enriched","enriched","enriched","enriched","enriched","enriched","depleted","enriched","enriched","enriched","depleted","depleted","depleted","depleted","depleted","depleted","depleted","enriched","depleted","enriched","depleted","depleted","depleted","depleted","depleted","depleted","depleted","enriched","enriched","enriched","enriched","enriched","enriched","enriched","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","depleted","enriched","depleted","enriched","enriched","enriched","enriched","enriched","enriched","enriched"],[0.711,0.222,0.344,0.196,0.302,9.72e-06,1.27e-05,0.107,0.0935,0.0299,2.3e-08,6.57e-07,0.266,0.000195,1,0.351,0.469,0.841,1,0.64,0.626,1,0.277,0.27,0.646,0.8070000000000001,1,0.901,1,0.663,0.609,0.345,0.0738,0.113,0.0175,9.500000000000001e-06,7.09e-05,4.49e-09,1.21e-07,2.18e-07,2.64e-15,1.47e-21,0.629,0.414,0.119,0.727,0.27,0.417,0.156,1,0.726,0.777,0.644,1,0.772,0.707,1,1,0.727,0.427,0.529,0.581,1,0.38,0.153,0.157,0.759,0.0139,0.15,0.0123],["CASKIN1,SCN2A","ATG9B,CAMK2A,HECTD4,NRXN3,PPP1R9B","ATG9B,CAMK2A,CASKIN1,HECTD4,NRXN3,PPP1R9B,SCN2A","ASIC3,CA10,CAMK2A,CASK,CSMD1,DNM1,FRA10AC1,GABRG2,GNB1,GPR162,GRIA1,KIDINS220,MAP3K12,NALCN,NEXMIF,NFIA,PTPRR,SCN2A,TCEAL1,WDR37,ZMIZ1","CACNA2D3,CAMK2A,CASK,HECTD4,NBEA,NEXMIF,NRXN3,PPP1R9B,SCN2A","ADORA2A,ANKS1B,CASKIN1,CDH13,CDH9,CLTCL1,CNTNAP4,CNTNAP5,CSMD1,DLG2,GRIA1,GSE1,HERC1,KCND2,KCNJ10,KCTD13,LRFN2,NEGR1,NFIA,NXPH1,PCDH10,PCDH9,PCDHA12,PCDHAC2,RBFOX1,RGS7,SH3RF3,SHANK1,SLC12A5,SLC1A1,SLC4A10,SMAP2,SYN2,THRA,TNRC6C,UBR3,ZMIZ1,ZNF18,ZNF385B","ADORA2A,ANKS1B,CACNA2D3,CAMK2A,CASK,CASKIN1,CDH13,CDH9,CLTCL1,CNTNAP4,CNTNAP5,CSMD1,DLG2,GRIA1,GSE1,HECTD4,HERC1,KCND2,KCNJ10,KCTD13,LRFN2,NBEA,NEGR1,NEXMIF,NFIA,NRXN3,NXPH1,PCDH10,PCDH9,PCDHA12,PCDHAC2,PPP1R9B,RBFOX1,RGS7,SCN2A,SH3RF3,SHANK1,SLC12A5,SLC1A1,SLC4A10,SMAP2,SYN2,THRA,TNRC6C,UBR3,ZMIZ1,ZNF18,ZNF385B","ADNP,ARID1B,CTCF,DYNC1H1,EHMT1,KMT2A,NIPBL","CREBBP,HNRNPD,KDM3B,PRR12,RALGAPB,SIN3A,SPEN,TAF4,TNPO3,TSC1","ADNP,ARID1B,CREBBP,CTCF,DYNC1H1,EHMT1,HNRNPD,KDM3B,KMT2A,NIPBL,PRR12,RALGAPB,SIN3A,SPEN,TAF4,TNPO3,TSC1","ADNP,AFF3,ANKRD17,ANKRD40,ARF3,ARID1A,ARID1B,ARID2,BRPF1,CBX5,CCDC7,CENPU,CGGBP1,CHAMP1,CHD4,CHD7,CREBBP,CSE1L,CTCF,CTR9,CXXC1,DYNC1H1,EHMT1,EP300,EZH2,FBXO28,GABRB2,GLI3,HNRNPD,KDM3B,KMT2A,KMT2B,LEO1,MCM6,MSH6,NIPBL,NSD2,PCGF2,PDCD5,PIK3R2,PPIP5K2,PPP2R5D,PRDM10,PRPF8,QRICH1,RNF20,RTF1,SCN8A,SETD2,SIN3A,SMARCA4,SMARCD1,SMARCE1,SNRNP200,SON,SPEN,SRCAP,STAG1,TNPO3,TNRC6A,TRIM66,TSC1,UBTF,UPF3B,USP7,ZNF107,ZNF215","ADNP,AFF2,ARF3,ARID1B,ATRX,CHAMP1,CHD7,CREBBP,CTCF,DYNC1H1,EHMT1,EP300,GABRB2,GIGYF2,KDM2B,KDM3B,KMT2A,MYCBP2,NIPBL,PPP2R5D,PPP5C,PRR12,PRR14L,RALGAPB,SCN8A,SETD2,SIN3A,SMARCA4,SON,SRCAP,TSC1,TSC2,UPF3B","ANKRD17,ARID2,ASPM,CEP135,CX3CR1,DENR,DMXL2,ECPAS,EP400,EXOC3,HNRNPD,HOMER1,KIAA1586,LEO1,LRBA,MBD6,MCM4,MCM6,MEMO1,MSANTD2,NSD2,NUP133,OFD1,PCM1,POLA2,QRICH1,RANBP17,SACS,SLC25A12,SMG6,SPEN,SUPT16H,TAF4,TBC1D31,TMEM39B,TOP3B,TRIM33,UBN2,USP7,YTHDC2,ZC3H11A,ZC3H4,ZFYVE26,ZWILCH","ADNP,AFF2,ANKRD17,ARF3,ARID1B,ARID2,ASPM,ATRX,CEP135,CHAMP1,CHD7,CREBBP,CTCF,CX3CR1,DENR,DMXL2,DYNC1H1,ECPAS,EHMT1,EP300,EP400,EXOC3,GABRB2,GIGYF2,HNRNPD,HOMER1,KDM2B,KDM3B,KIAA1586,KMT2A,LEO1,LRBA,MBD6,MCM4,MCM6,MEMO1,MSANTD2,MYCBP2,NIPBL,NSD2,NUP133,OFD1,PCM1,POLA2,PPP2R5D,PPP5C,PRR12,PRR14L,QRICH1,RALGAPB,RANBP17,SACS,SCN8A,SETD2,SIN3A,SLC25A12,SMARCA4,SMG6,SON,SPEN,SRCAP,SUPT16H,TAF4,TBC1D31,TMEM39B,TOP3B,TRIM33,TSC1,TSC2,UBN2,UPF3B,USP7,YTHDC2,ZC3H11A,ZC3H4,ZFYVE26,ZWILCH","AUTS2,SHANK3,SLC6A1","BTG3,CGREF1,KPNA1,PACS1,PRH1,RAB11FIP4,SRPRA","AUTS2,BTG3,CGREF1,KPNA1,PACS1,PRH1,RAB11FIP4,SHANK3,SLC6A1,SRPRA","ABCA5,ARF1,AUTS2,CDC42,COL3A1,EEF1A2,EML6,FGFR3,GNAS,GNB2,GPR4,GRIN2A,IQSEC2,KCND3,KDM5C,LAMP2,MAP2K1,MAPK1,MYOF,NFE2L1,NR3C2,NTRK2,PAPSS2,PFKM,RYR2,SLC18A3,SLC6A1,SRPRA","ALDH5A1,AUTS2,GRIN2A,IQSEC2,KDM5C,NR3C2,PACS1,SHANK3,SLC6A1,SRPRA","CACNB2,CDH22,CDH8,CDK16,DDHD2,DIXDC1,DLGAP2,FABP5,GDA,GNAS,GPC4,GRIK4,HIVEP3,HLA-A,ICA1,KCND3,MACROD2,MET,MYO16,NPAS2,NTNG1,OTUD7A,P4HA2,PATJ,SORCS3,SPARCL1,SYAP1,SYT17","ALDH5A1,AUTS2,CACNB2,CDH22,CDH8,CDK16,DDHD2,DIXDC1,DLGAP2,FABP5,GDA,GNAS,GPC4,GRIK4,GRIN2A,HIVEP3,HLA-A,ICA1,IQSEC2,KCND3,KDM5C,MACROD2,MET,MYO16,NPAS2,NR3C2,NTNG1,OTUD7A,P4HA2,PACS1,PATJ,SHANK3,SLC6A1,SORCS3,SPARCL1,SRPRA,SYAP1,SYT17","TCF20","","TCF20","CFAP90,FOXP2,GATA3,GNAI1,HEATR5A,KAT8,SF3B2,SRP54,WFS1","ARX,FOXP2,GNAI1,TANC2,TCF20","AVPR1A,CCT4,DIPK2A,DRD1,GABRG3,GLO1,HTR3A,LRP2,MAOA,NR1D1,PREX1,SLC9A9,SND1","ARX,AVPR1A,CCT4,DIPK2A,DRD1,FOXP2,GABRG3,GLO1,GNAI1,HTR3A,LRP2,MAOA,NR1D1,PREX1,SLC9A9,SND1,TANC2,TCF20","NAA15,SATB2,TCF7L2","EFTUD2,HNRNPUL2,OBSCN,TRAF2","EFTUD2,HNRNPUL2,NAA15,OBSCN,SATB2,TCF7L2,TRAF2","ATP1A2,BLTP2,C14orf39,CYP27C1,DDB1,EFTUD2,ERF,ETF1,H1-4,IDE,KANK2,LRRK2,MAVS,MTIF2,NAA15,PPFIBP2,PRKD1,PUM3,RPS6KA3,SATB2,SLC39A8,SMC3,TCF7L2,VCP,ZEB2","ABCE1,ADSL,NAA15,NUP155,SATB2,TCF7L2","APH1A,AR,CCDC88C,CNTNAP3,CYFIP1,DLG1,DOCK1,EIF4E,HNRNPF,HNRNPUL2,KIF14,LAMA1,LZTS2,MYO5C,PER2,PHRF1,PRKCA,RNF135,RPS6KA3,SF3B3,SLC25A39,SLC35G1,SLC7A3,SMC3,TBL1X,WWOX","ABCE1,ADSL,APH1A,AR,CCDC88C,CNTNAP3,CYFIP1,DLG1,DOCK1,EIF4E,HNRNPF,HNRNPUL2,KIF14,LAMA1,LZTS2,MYO5C,NAA15,NUP155,PER2,PHRF1,PRKCA,RNF135,RPS6KA3,SATB2,SF3B3,SLC25A39,SLC35G1,SLC7A3,SMC3,TBL1X,TCF7L2,WWOX","ANK2,ASXL3,BRSK2,DLG4,DSCAM,EBF3,GRIN2B,IRF2BPL,KCNB1,KCNQ3,KDM6B,KMT5B,MEIS2,NRXN1,PIK3CA,SPAST,STXBP1,ZBTB20","ADCY5,APBB1,ATG13,ATP1A3,CAMTA2,CTNNA2,CYLD,DPYSL2,FBXO11,GABBR2,GABRB3,GRIA2,KIF1B,MAPK8IP3,MYO18A,MYT1L,NAV3,PHF2,SHANK2,SYT1,YWHAG,ZMYM2","ADCY5,ANK2,APBB1,ASXL3,ATG13,ATP1A3,BRSK2,CAMTA2,CTNNA2,CYLD,DLG4,DPYSL2,DSCAM,EBF3,FBXO11,GABBR2,GABRB3,GRIA2,GRIN2B,IRF2BPL,KCNB1,KCNQ3,KDM6B,KIF1B,KMT5B,MAPK8IP3,MEIS2,MYO18A,MYT1L,NAV3,NRXN1,PHF2,PIK3CA,SHANK2,SPAST,STXBP1,SYT1,YWHAG,ZBTB20,ZMYM2","ABL1,ACTL6B,AFF4,AGO1,AKT3,AMIGO1,ANK2,AP5M1,ARHGEF9,ASXL3,ATL1,ATP1A3,BCOR,BRSK1,BSDC1,CAMTA1,CDC42BPB,CLCN4,CNKSR2,CTNNA2,DLG4,DPYSL5,EBF3,FBXO11,FBXW7,FREM3,FRMD5,G3BP2,GABRB3,GARNL3,GDI1,GLRA1,GNAO1,GPR173,GRIA2,GRIN2B,H2AC6,IK,INPP5K,JPH3,KCNB1,KCNK3,KCNQ2,KCNQ3,KDM6B,KIF1A,KIF5C,KLF7,KLHL25,KMT5B,LDB1,MAPK8IP3,MARCHF4,MAST1,MECP2,MEIS2,MFN2,MIB1,MMGT1,MN1,MYT1L,NFIB,NKIRAS2,PAFAH1B1,PAK1,PIK3CA,PPM1B,PPP2R2B,PRKAR1B,RGS2,RORA,SATB1,SCN3A,SPAST,STX1B,STXBP1,SYT1,TMEM106B,TNPO2,TRIO,UNC80,VAMP2,WDR26,YWHAG,ZBTB18,ZBTB20,ZMYM2","ANK2,ARHGEF9,ASXL3,BAZ2B,BCL11A,BRSK2,CAMTA2,CELF4,CIC,DLG4,DPYSL2,DSCAM,EBF3,ELAVL3,GABRB3,GRIA2,GRIN2B,IRF2BPL,KCNB1,KCNQ2,KCNQ3,KDM6B,KMT5B,LDB1,LRRC4C,MAP1A,MECP2,MEIS2,MYT1L,NRXN1,NRXN2,PHF2,RELN,RIMS1,RUNX1T1,SATB1,SHANK2,SLC9A6,SPAST,STXBP1,SYN1,TRIO,TSHZ3,ZBTB20","ABAT,ABCA7,ACE,ACHE,ADCY5,AGAP1,AGAP2,AGO1,APBB1,ATP1A3,BBS4,BICDL1,CACNA1B,CACNA1I,CACNA2D1,CACNG2,CADM2,CADPS,CCDC91,CD99L2,CDC42BPB,CELF6,CHMP1A,CHRNA7,CLCN4,CMIP,CNKSR2,CNR1,CNTN6,CPEB4,CUX2,DCC,DDC,DLG3,DLGAP3,DNER,DOCK4,DPP10,DPYSL3,DST,DVL3,ELAVL2,ELOVL2,EPHB2,FBXO11,G3BP2,GABBR2,GALNT14,GLRA2,GPR85,GRID2,GRIK3,GRIK5,GRM5,GRM7,HTR1B,JARID2,KATNAL1,KHDRBS2,KIF1A,KIF5C,KIRREL3,LIN7B,LRFN5,MAP1B,MAPK3,MAPK8IP3,MARK1,MEGF11,MIB1,MNT,MYO5A,NAV3,NDUFA5,NFIB,NTRK3,PAK2,PCDHA10,PCDHA2,PCDHA4,PCDHA9,PLXNA3,PRICKLE2,PRKAR1B,PRUNE2,PTBP2,RAB11FIP5,RAB39B,RAPGEF4,RIMS3,RNF38,ROBO2,RPS6KA2,SAMD11,SBF1,SEZ6L2,SIN3B,SLC22A15,SLC24A2,SLC25A27,SLC6A8,SMURF1,SNAP25,SRGAP3,ST7,ST8SIA2,STK39,STX1A,SYNJ1,TET2,TSPAN7,UNC13A,UNC79,UNC80,ZMYM2,ZNF548,ZNF713,ZNF804A,ZNF827","ABAT,ABCA7,ACE,ACHE,ADCY5,AGAP1,AGAP2,AGO1,ANK2,APBB1,ARHGEF9,ASXL3,ATP1A3,BAZ2B,BBS4,BCL11A,BICDL1,BRSK2,CACNA1B,CACNA1I,CACNA2D1,CACNG2,CADM2,CADPS,CAMTA2,CCDC91,CD99L2,CDC42BPB,CELF4,CELF6,CHMP1A,CHRNA7,CIC,CLCN4,CMIP,CNKSR2,CNR1,CNTN6,CPEB4,CUX2,DCC,DDC,DLG3,DLG4,DLGAP3,DNER,DOCK4,DPP10,DPYSL2,DPYSL3,DSCAM,DST,DVL3,EBF3,ELAVL2,ELAVL3,ELOVL2,EPHB2,FBXO11,G3BP2,GABBR2,GABRB3,GALNT14,GLRA2,GPR85,GRIA2,GRID2,GRIK3,GRIK5,GRIN2B,GRM5,GRM7,HTR1B,IRF2BPL,JARID2,KATNAL1,KCNB1,KCNQ2,KCNQ3,KDM6B,KHDRBS2,KIF1A,KIF5C,KIRREL3,KMT5B,LDB1,LIN7B,LRFN5,LRRC4C,MAP1A,MAP1B,MAPK3,MAPK8IP3,MARK1,MECP2,MEGF11,MEIS2,MIB1,MNT,MYO5A,MYT1L,NAV3,NDUFA5,NFIB,NRXN1,NRXN2,NTRK3,PAK2,PCDHA10,PCDHA2,PCDHA4,PCDHA9,PHF2,PLXNA3,PRICKLE2,PRKAR1B,PRUNE2,PTBP2,RAB11FIP5,RAB39B,RAPGEF4,RELN,RIMS1,RIMS3,RNF38,ROBO2,RPS6KA2,RUNX1T1,SAMD11,SATB1,SBF1,SEZ6L2,SHANK2,SIN3B,SLC22A15,SLC24A2,SLC25A27,SLC6A8,SLC9A6,SMURF1,SNAP25,SPAST,SRGAP3,ST7,ST8SIA2,STK39,STX1A,STXBP1,SYN1,SYNJ1,TET2,TRIO,TSHZ3,TSPAN7,UNC13A,UNC79,UNC80,ZBTB20,ZMYM2,ZNF548,ZNF713,ZNF804A,ZNF827","","","","FGFR2,JAG1,LRP10,MYO1E,NEUROG3,PCK2,SLC5A12","POMGNT1","ADRB2,CD276,EPPK1,ERMN,MYO1E,REEP3,SMAD4","ADRB2,CD276,EPPK1,ERMN,MYO1E,POMGNT1,REEP3,SMAD4","PLXNA1","MEF2C","MEF2C,PLXNA1","ADISSP,H1-2,ITGA6,ITPR1,MEF2C,PABPC1,PALD1,PUF60,TRAF7","MBOAT7,MEF2C,PCCB,TRAF7","ACAP2,ADA,ADK,CADPS2,GPC6,GPX1,ITPR1,KCNS3,MYH10,PXDN,SNX5","ACAP2,ADA,ADK,CADPS2,GPC6,GPX1,ITPR1,KCNS3,MBOAT7,MEF2C,MYH10,PCCB,PXDN,SNX5,TRAF7","","SLC9A3","SLC9A3","CPZ,GRIN1,KCNT1,PTCH1","GRIN1","CPZ,DRD2,ESRRB,HLA-DPB1,PDCD1,SLC6A4,SLC7A5,SNTG2,TSPAN4","CPZ,DRD2,ESRRB,GRIN1,HLA-DPB1,PDCD1,SLC6A4,SLC7A5,SNTG2,TSPAN4","CTNNB1,DLL1","CHD3,CORO1A,DEDD,PRDM16","CHD3,CORO1A,CTNNB1,DEDD,DLL1,PRDM16","CHD3,CTNNB1,DDX3X,DDX6,DLL1,GSK3B,HDAC2,LZTR1,PCDH19,RAF1,TFAP2A,TFAP2B","CHD3,CORO1A,CTNNB1,DDX3X,HNRNPH2,KLHL20,LZTR1,MSL3,PCDH19,SOS2","ASAP2,CTNND2,DLL1,FRG1,LMX1B,LRRC4,MLANA,NAALADL2,PAFAH1B2,PDK2,PLXNB1,PRODH,SHOX,SLC27A4,TAOK2,TECTA,TOP2B,TRPM1","ASAP2,CHD3,CORO1A,CTNNB1,CTNND2,DDX3X,DLL1,FRG1,HNRNPH2,KLHL20,LMX1B,LRRC4,LZTR1,MLANA,MSL3,NAALADL2,PAFAH1B2,PCDH19,PDK2,PLXNB1,PRODH,SHOX,SLC27A4,SOS2,TAOK2,TECTA,TOP2B,TRPM1"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>cluster<\/th>\n      <th>gene_set<\/th>\n      <th>n_cluster<\/th>\n      <th>n_set<\/th>\n      <th>overlap<\/th>\n      <th>expected<\/th>\n      <th>fold<\/th>\n      <th>odds_ratio<\/th>\n      <th>ci_low<\/th>\n      <th>ci_high<\/th>\n      <th>direction<\/th>\n      <th>p_value<\/th>\n      <th>overlap_genes<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":15,"scrollX":true,"columnDefs":[{"targets":12,"width":"300px"},{"className":"dt-right","targets":[2,3,4,5,6,7,8,9,11]}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"lengthMenu":[10,15,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1483,10 +1252,7 @@ Matrix products: default
 BLAS/LAPACK: /software/openblas-0.3.13-el8-x86_64/lib/libopenblas_skylakexp-r0.3.13.so
 
 locale:
- [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
- [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
- [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
-[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
+[1] C
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
@@ -1509,6 +1275,7 @@ loaded via a namespace (and not attached):
 [45] magrittr_2.0.3    sass_0.4.1        tibble_3.2.1      whisker_0.4      
 [49] pkgconfig_2.0.3   ellipsis_0.3.2    rmarkdown_2.31    httr_1.4.8       
 [53] rstudioapi_0.14   R6_2.5.1          git2r_0.30.1      compiler_4.2.0   </code></pre>
+</div>
 </div>
 </div>
 

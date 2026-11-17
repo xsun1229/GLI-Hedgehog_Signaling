@@ -23,13 +23,13 @@ ndd <- read.delim(file.path(GS, "NDD_genes.tsv"))
 
 set_order <- c("TADA-high_fu2022", "TADA-med_fu2022", "TADA-high&med_fu2022", "NDD_wang2022",
                "SFARI_cat1", "SFARI_cat2", "SFARI_cat1&2")
-bg_lab <- c(protein_coding = "vs all protein-coding genes", clustered = "vs the other 9 clusters")
 r$gene_set <- factor(r$gene_set, set_order)
-r$bg <- factor(bg_lab[r$background], bg_lab)
-rc <- r[r$cluster != "all", ]
+rc <- r[r$cluster != "all", ]                                  # 10 clusters x 7 gene sets
 rc$cluster_f <- factor(rc$cluster, rev(as.character(1:10)))   # cluster 1 on top
-pick <- function(b, k, s, v) r[r$background == b & r$cluster == k & r$gene_set == s, v]
+pick <- function(k, s, v) r[r$cluster == k & r$gene_set == s, v]
 f2  <- function(x) sprintf("%.1f", x)
+pv  <- function(p) ifelse(p >= 0.001, sprintf("%.3f", p),      # p-value as text (ASCII)
+                          formatC(p, format = "e", digits = 1))
 fmt <- function(x) format(x, big.mark = ",", trim = TRUE)
 
 # chart ink and colours (diverging: blue = depleted, gray = no change, red = enriched)
@@ -62,8 +62,8 @@ implicated in neurodevelopmental disorders.
 | Autism | Enrichment with SFARI genes (category 1, 2, 1&2) | done |
 | Autism | High- vs medium-confidence TADA genes (Fu et al. 2022) | done |
 | Neurodevelopmental disorders (NDD) | Enrichment with Wang et al. 2022 NDD genes | done |
-| Developmental disorders only | DD gene list | prepared, not run yet |
-| Schizophrenia | MAGMA with GWAS summary statistics | planned |
+<!-- | Developmental disorders only | DD gene list | prepared, not run yet | -->
+<!-- | Schizophrenia | MAGMA with GWAS summary statistics | planned | -->
 
 ## GLI-response clusters
 
@@ -136,17 +136,12 @@ knitr::kable(M, caption = "Shared genes between gene sets (diagonal = set size).
 | in cluster k     | a | b |
 | rest of background | c | d |
 
-Two backgrounds, because they answer different questions:
+**Background:** the whole genome, i.e. all `r fmt(nrow(bg))` HGNC
+protein-coding genes. The question is whether cluster k is enriched relative to
+the genome.
 
-* **All protein-coding genes** (`r fmt(nrow(bg))` HGNC genes). Is cluster k
-  enriched relative to the genome?
-* **All clustered genes** (`r fmt(sum(cl$kept))`). Is cluster k enriched
-  relative to the *other* GLI-responsive clusters? This is the stricter test. It
-  partly controls for the fact that genes expressed in neural progenitors are
-  generally enriched for neurodevelopmental genes.
-
-FDR is Benjamini–Hochberg within each background (10 clusters &times; 7 gene
-sets). The seven pooled "all clusters vs genome" tests are their own family. A
+**Significance:** nominal two-sided p < 0.05, not corrected for the
+`r nrow(rc)` tests (about `r f2(0.05 * nrow(rc))` would pass by chance). A
 two-sided test flags depletion as well as enrichment, so results always show the
 direction.
 
@@ -155,66 +150,70 @@ direction.
 ## Summary
 
 ```{r summary_numbers}
-s  <- rc[rc$fdr < 0.05, ]
-c6 <- function(set, b = "protein_coding") pick(b, "6", set, c("overlap", "expected", "fold", "fdr"))
-t6h <- c6("TADA-high_fu2022"); t6m <- c6("TADA-med_fu2022"); t6hc <- c6("TADA-high_fu2022", "clustered")
+s <- rc[rc$p_value < 0.05, ]
+v <- function(k, set) pick(k, set, c("overlap", "expected", "fold", "p_value"))
+t6h <- v("6", "TADA-high_fu2022"); t6m <- v("6", "TADA-med_fu2022")
+c2n <- v("2", "NDD_wang2022"); c2s <- v("2", "SFARI_cat1"); c2t <- v("2", "TADA-high&med_fu2022")
+c1s <- v("1", "SFARI_cat2"); c10s <- v("10", "SFARI_cat1"); c5s <- v("5", "SFARI_cat1&2")
 ```
 
-* **Cluster 6 is the main signal.** It is enriched for all 7 gene sets, against
-  both backgrounds. TADA-high genes: `r t6h$overlap` observed vs
-  `r f2(t6h$expected)` expected (`r f2(t6h$fold)`&times; vs the genome;
-  `r f2(t6hc$fold)`&times; vs the other clusters). Enrichment is stronger for
+* **Cluster 6 is the main signal.** It is enriched for
+  `r n6 <- sum(s$cluster == "6"); if (n6 == 7) "all 7" else paste(n6, "of the 7")`
+  gene sets. TADA-high genes:
+  `r t6h$overlap` observed vs `r f2(t6h$expected)` expected
+  (`r f2(t6h$fold)`&times;, p = `r pv(t6h$p_value)`). Enrichment is stronger for
   TADA-high (`r f2(t6h$fold)`&times;) than TADA-med (`r f2(t6m$fold)`&times;),
   the pattern expected if the signal is real.
-* **Cluster 2** is enriched for NDD and SFARI category 1 genes;
-  **cluster 1** for SFARI category 2. Neither is significant for TADA.
-* **Cluster 5 is depleted** relative to the other clusters: about half the
-  expected number of SFARI and NDD genes.
-* Pooling all clusters, GLI-responsive genes are enriched for every gene set
-  relative to the genome (fold `r f2(min(r$fold[r$cluster == "all"]))`–`r f2(max(r$fold[r$cluster == "all"]))`).
-  This may partly reflect that genes expressed in neural progenitors are
-  generally NDD-enriched, which is why the second background matters.
-* In total, `r sum(s$direction == "enriched")` cluster tests are significantly
-  enriched and `r sum(s$direction == "depleted")` depleted (FDR < 0.05).
+* **Cluster 2** is enriched for NDD (`r f2(c2n$fold)`&times;,
+  p = `r pv(c2n$p_value)`) and SFARI category 1 genes (`r f2(c2s$fold)`&times;,
+  p = `r pv(c2s$p_value)`), and weakly for TADA-high&med
+  (`r f2(c2t$fold)`&times;, p = `r pv(c2t$p_value)`).
+* **Cluster 1** is enriched for SFARI category 2 (`r f2(c1s$fold)`&times;,
+  p = `r pv(c1s$p_value)`), and **cluster 10** weakly for SFARI category 1
+  (`r f2(c10s$fold)`&times;, p = `r pv(c10s$p_value)`).
+* **Cluster 5** is mildly depleted for SFARI genes
+  (`r f2(c5s$fold)`&times;, p = `r pv(c5s$p_value)`).
+* In total, `r nrow(s)` of `r nrow(rc)` tests have p < 0.05
+  (`r sum(s$direction == "enriched")` enriched, `r sum(s$direction == "depleted")`
+  depleted); about `r f2(0.05 * nrow(rc))` would be expected by chance.
+<!-- * Pooling all clusters, GLI-responsive genes are enriched for every gene set -->
+<!--   relative to the genome (fold `r f2(min(r$fold[r$cluster == "all"]))`–`r f2(max(r$fold[r$cluster == "all"]))`). -->
+<!--   This may partly reflect that genes expressed in neural progenitors are -->
+<!--   generally NDD-enriched, so genome-wide enrichment should be read with this in mind. -->
 
 ## Fold enrichment vs all protein-coding genes
 
 ```{r heatmap, fig.width=7.6, fig.height=4.8}
-h <- rc[rc$background == "protein_coding", ]
+h <- rc
 h$l2 <- pmax(pmin(log2(h$fold), 2), -2)        # fold 0 (no overlap) shows as the darkest blue
-h$lab <- ifelse(h$fdr < 0.05, f2(h$fold), "")
+h$lab <- ifelse(h$p_value < 0.05, f2(h$fold), "")
 h$lab_col <- ifelse(abs(h$l2) > 1.1, "#ffffff", INK)
-h$alpha <- ifelse(h$fdr < 0.05, 1, 0.35)        # fade non-significant cells
+h$alpha <- ifelse(h$p_value < 0.05, 1, 0.35)    # fade cells with p >= 0.05
 ggplot(h, aes(gene_set, cluster_f, fill = l2)) +
   geom_tile(aes(alpha = alpha), colour = SURF, linewidth = 1.2) +
   scale_alpha_identity() +
   geom_text(aes(label = lab, colour = lab_col), size = 3.3, fontface = "bold") +
   scale_colour_identity() +
   scale_fill_gradient2(low = BLUE, mid = MID, high = RED, midpoint = 0, limits = c(-2, 2),
-                       breaks = log2(c(0.25, 0.5, 1, 2, 4)), labels = c("≤0.25", "0.5", "1", "2", "≥4"),
+                       breaks = log2(c(0.25, 0.5, 1, 2, 4)), labels = c("<=0.25", "0.5", "1", "2", ">=4"),
                        name = "Fold\n(observed /\nexpected)") +
   labs(x = NULL, y = "Cluster",
-       caption = paste0("Red = enriched, blue = depleted. Solid cells with numbers: FDR < 0.05;\n",
-                        "faded cells: not significant. Fold 0 (no overlap) shows as the darkest blue.")) +
+       caption = paste0("Red = enriched, blue = depleted. Solid cells with numbers: p < 0.05 (nominal);\n",
+                        "faded cells: p >= 0.05. Fold 0 (no overlap) shows as the darkest blue.")) +
   th + theme(axis.text.x = element_text(angle = 35, hjust = 1), legend.key.height = unit(14, "pt"))
 ```
 
 ## Significance (−log10 p) vs all protein-coding genes
 
-```{r pthresh}
-pc <- rc[rc$background == "protein_coding", ]
-p_cut <- max(pc$p_value[pc$fdr < 0.05])     # largest p that still passes FDR < 0.05
-```
-
 Two-sided Fisher p-values, signed by direction: positive (red) if the cluster
-has more genes from the set than expected, negative (blue) if fewer. With
-70 tests, FDR < 0.05 corresponds here to p &le; `r formatC(p_cut, format = "e", digits = 1)`
-(−log10 p &ge; `r f2(-log10(p_cut))`).
+has more genes from the set than expected, negative (blue) if fewer. Numbers
+are shown where p < 0.05 (−log10 p > 1.3).
 
 ```{r pheatmap, fig.width=7.6, fig.height=4.8}
+pc <- rc
 pc$slp <- sign(log(pc$odds_ratio + 1e-12)) * -log10(pc$p_value)   # signed -log10 p
 pc$slp_c <- pmax(pmin(pc$slp, 10), -10)
-pc$lab <- ifelse(pc$fdr < 0.05, f2(-log10(pc$p_value)), "")
+pc$lab <- ifelse(pc$p_value < 0.05, f2(-log10(pc$p_value)), "")
 pc$lab_col <- ifelse(abs(pc$slp_c) > 5.5, "#ffffff", INK)
 cap <- pc[abs(pc$slp) > 10, ]
 cap_txt <- if (nrow(cap)) paste0("; above the cap: ", paste0("cluster ", cap$cluster, " ", cap$gene_set, " = ",
@@ -224,90 +223,25 @@ ggplot(pc, aes(gene_set, cluster_f, fill = slp_c)) +
   geom_text(aes(label = lab, colour = lab_col), size = 3.3, fontface = "bold") +
   scale_colour_identity() +
   scale_fill_gradient2(low = BLUE, mid = MID, high = RED, midpoint = 0, limits = c(-10, 10),
-                       breaks = c(-10, -5, 0, 5, 10), labels = c("≤10", "5", "0", "5", "≥10"),
-                       name = "−log10 p\n(red enriched,\nblue depleted)") +
+                       breaks = c(-10, -5, 0, 5, 10), labels = c("<=-10", "-5", "0", "5", ">=10"),
+                       name = "Signed\n-log10 p\n(+ enriched,\n- depleted)") +
   labs(x = NULL, y = "Cluster",
-       caption = paste0("Numbers: −log10 p, shown where FDR < 0.05. Colour is capped at 10\n",
+       caption = paste0("Numbers: -log10 p, shown where p < 0.05. Colour is capped at 10\n",
                         "(numbers are not capped", cap_txt, ").")) +
   th + theme(axis.text.x = element_text(angle = 35, hjust = 1), legend.key.height = unit(14, "pt"))
 ```
 
-## Odds ratios with 95% confidence intervals
-
-Both backgrounds. Each point is one cluster. A filled point means FDR < 0.05;
-a hollow one is not significant. Clusters with no overlap (odds ratio 0) are
-drawn at the left edge.
-
-```{r forest, fig.width=11, fig.height=7.2}
-fp <- rc
-lo <- 0.05; hi <- 20
-fp$or <- pmin(pmax(fp$odds_ratio, lo), hi)
-fp$cl <- pmax(fp$ci_low, lo); fp$ch <- pmin(fp$ci_high, hi)
-fp$sig <- fp$fdr < 0.05
-ggplot(fp, aes(or, cluster_f, colour = bg, group = bg)) +   # group = bg keeps dodge order fixed
-  geom_vline(xintercept = 1, colour = AXIS, linewidth = 0.5) +
-  geom_errorbarh(aes(xmin = cl, xmax = ch), height = 0, linewidth = 0.6,
-                 position = position_dodge(width = 0.6)) +
-  geom_point(aes(fill = ifelse(sig, as.character(bg), "none")), shape = 21, size = 2.6, stroke = 0.9,
-             position = position_dodge(width = 0.6)) +
-  scale_colour_manual(values = setNames(c(BLUE, ORANGE), bg_lab), name = "Background") +
-  scale_fill_manual(values = c(setNames(c(BLUE, ORANGE), bg_lab), none = SURF), guide = "none") +
-  scale_x_log10(limits = c(lo, hi), breaks = c(0.1, 0.25, 0.5, 1, 2, 4, 10),
-                labels = c("0.1", "0.25", "0.5", "1", "2", "4", "10")) +
-  facet_wrap(~ gene_set, ncol = 4) +
-  labs(x = "Odds ratio (log scale)", y = "Cluster") +
-  th + theme(panel.grid.major.x = element_line(colour = GRID, linewidth = 0.3),
-             legend.position = "top", legend.justification = "left")
-```
-
-## Pooled: all clustered genes vs the genome
-
-```{r pooled}
-a <- r[r$cluster == "all", ]
-a <- a[order(a$gene_set), ]
-knitr::kable(data.frame(a$gene_set, a$n_set, a$overlap, f2(a$expected), sprintf("%.2f", a$fold),
-                        sprintf("%.2f", a$odds_ratio), signif(a$fdr, 2)),
-             col.names = c("Gene set", "Set size", "In clustered genes", "Expected", "Fold", "Odds ratio", "FDR"))
-```
-
-## Cluster 6: overlapping genes
-
-```{r c6genes}
-g6 <- r[r$background == "protein_coding" & r$cluster == "6", ]
-g6 <- g6[order(g6$gene_set), ]
-knitr::kable(data.frame(g6$gene_set, g6$overlap, gsub(",", ", ", g6$overlap_genes)),
-             col.names = c("Gene set", "Genes", "Overlapping genes"))
-```
-
 ## Full results table
 
-All `r nrow(r)` tests, both backgrounds. Use the search boxes to filter.
+All `r nrow(rc)` cluster &times; gene set tests (background: all protein-coding
+genes; nominal two-sided p). Use the search boxes to filter.
 
 ```{r table}
-tt <- r[, c("background", "cluster", "gene_set", "n_cluster", "n_set", "overlap", "expected",
-            "fold", "odds_ratio", "ci_low", "ci_high", "direction", "p_value", "fdr", "overlap_genes")]
+tt <- rc[, c("cluster", "gene_set", "n_cluster", "n_set", "overlap", "expected",
+             "fold", "odds_ratio", "ci_low", "ci_high", "direction", "p_value", "overlap_genes")]
 for (v in c("fold", "odds_ratio", "ci_low", "ci_high")) tt[[v]] <- round(tt[[v]], 2)
-for (v in c("p_value", "fdr")) tt[[v]] <- signif(tt[[v]], 3)
+tt$p_value <- signif(tt$p_value, 3)
 datatable(tt, filter = "top", rownames = FALSE,
           options = list(pageLength = 15, scrollX = TRUE,
                          columnDefs = list(list(targets = ncol(tt) - 1, width = "300px"))))
 ```
-
-# Caveats and next steps
-
-* **Background.** The genome-wide background includes genes not expressed in
-  these cells. The ideal background is every gene measured in the experiment.
-  The "other clusters" background is stricter but asks a different question.
-* **Cluster size.** Cluster 6 is the largest cluster
-  (`r fmt(pick("protein_coding", "6", "SFARI_cat1", "n_cluster"))` genes), which
-  gives it the most power.
-* **Overlapping gene sets.** The 7 results per cluster are not independent
-  findings.
-* **Mutation-intolerant genes.** Many NDD genes are highly intolerant of
-  damaging mutations. A cluster rich in such genes could look enriched for that
-  reason alone. Next step: a test that accounts for constraint and
-  haploinsufficiency.
-* **Interpretation** needs each cluster's expression pattern, e.g. up or down
-  after GLI removal.
-* **Not yet run:** the DD-only gene list, the NDD confidence tiers, and
-  schizophrenia (MAGMA).
