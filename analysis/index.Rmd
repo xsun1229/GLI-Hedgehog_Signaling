@@ -11,14 +11,6 @@ editor_options:
 Do genes that respond to GLI perturbation in neuronal progenitors carry an
 excess of neurodevelopmental-disorder risk genes?
 
-# Overview
+# Gene-set enrichment
 
-* [Project overview: data, gene sets, and test](overview.html)
-
-# Gene sets
-
-* [Disease gene sets: sources, definitions, and overlaps (SFARI, TADA Fu 2022, NDD Wang 2022)](gene_sets.html)
-
-# Enrichment
-
-* [Autism / NDD gene-set enrichment in the 10 GLI-response clusters (Fisher's exact test), 11/17/2026](enrichment_fisher.html)
+* [Autism / NDD gene-set enrichment in the 10 GLI-response clusters: overview, gene sets, and results (Fisher's exact test), 11/17/2026](geneset_enrichment.html)
