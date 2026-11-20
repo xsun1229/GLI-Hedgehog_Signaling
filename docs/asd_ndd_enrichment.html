@@ -537,15 +537,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229GLIHedgehogSignalingtree89e7d9fdc9db3f14c150ec37fd36f8720d1e176btargetblank89e7d9fa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229GLIHedgehogSignalingtree6a03ec15fa36eb738e250b52685eeeca8fe3ad02targetblank6a03ec1a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/tree/89e7d9fdc9db3f14c150ec37fd36f8720d1e176b" target="_blank">89e7d9f</a>
+<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/tree/6a03ec15fa36eb738e250b52685eeeca8fe3ad02" target="_blank">6a03ec1</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229GLIHedgehogSignalingtree89e7d9fdc9db3f14c150ec37fd36f8720d1e176btargetblank89e7d9fa"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229GLIHedgehogSignalingtree6a03ec15fa36eb738e250b52685eeeca8fe3ad02targetblank6a03ec1a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -555,7 +555,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/tree/89e7d9fdc9db3f14c150ec37fd36f8720d1e176b" target="_blank">89e7d9f</a>.
+<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/tree/6a03ec15fa36eb738e250b52685eeeca8fe3ad02" target="_blank">6a03ec1</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -616,6 +616,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/blob/6a03ec15fa36eb738e250b52685eeeca8fe3ad02/analysis/asd_ndd_enrichment.Rmd" target="_blank">6a03ec1</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2026-11-20
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/GLI-Hedgehog_Signaling/6a03ec15fa36eb738e250b52685eeeca8fe3ad02/docs/asd_ndd_enrichment.html" target="_blank">6a03ec1</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2026-11-20
+</td>
+<td>
+update
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -972,20 +1006,27 @@ tile &lt;- function(fill_var, lab_txt, white_if, alpha_var = NULL) {
 }
 
 h$a_fold &lt;- ifelse(h$sigp, 1, 0.35)
-ggplot(h, aes(set_lab, cluster_f)) +
+p_fold &lt;- ggplot(h, aes(set_lab, cluster_f)) +
   tile(&quot;l2&quot;, f2(h$fold), abs(h$l2) &gt; 1.1, &quot;a_fold&quot;) +
   scale_fill_gradient2(low = BLUE, mid = MID, high = RED, midpoint = 0, limits = c(-2, 2),
                        breaks = log2(c(0.25, 0.5, 1, 2, 4)), labels = c(&quot;&lt;=0.25&quot;, &quot;0.5&quot;, &quot;1&quot;, &quot;2&quot;, &quot;&gt;=4&quot;),
                        name = &quot;Fold&quot;) +
   labs(title = &quot;Fold enrichment&quot;, x = NULL, y = &quot;Cluster&quot;) + th + bar
 
-ggplot(h, aes(set_lab, cluster_f)) +
+p_logp &lt;- ggplot(h, aes(set_lab, cluster_f)) +
   tile(&quot;slp_c&quot;, f2(-log10(h$p_value)), abs(h$slp_c) &gt; 5.5) +
   scale_fill_gradient2(low = BLUE, mid = MID, high = RED, midpoint = 0, limits = c(-10, 10),
                        breaks = c(-10, -5, 0, 5, 10), labels = c(&quot;&lt;=-10&quot;, &quot;-5&quot;, &quot;0&quot;, &quot;5&quot;, &quot;&gt;=10&quot;),
                        name = &quot;Signed -log10 p&quot;) +
-  labs(title = &quot;-log10 p&quot;, x = NULL, y = &quot;Cluster&quot;) + th + bar</code></pre>
-<p><img src="figure/asd_ndd_enrichment.Rmd/heatmaps-1.png" alt="" width="49%" /></p>
+  labs(title = &quot;-log10 p&quot;, x = NULL, y = &quot;Cluster&quot;) + th + bar
+
+# draw both panels in one image (base grid; workflowr inserts a block after each separate figure)
+grid::grid.newpage()
+grid::grid.rect(gp = grid::gpar(fill = SURF, col = NA))
+grid::pushViewport(grid::viewport(layout = grid::grid.layout(1, 2)))
+print(p_fold, vp = grid::viewport(layout.pos.row = 1, layout.pos.col = 1))
+print(p_logp, vp = grid::viewport(layout.pos.row = 1, layout.pos.col = 2))</code></pre>
+<p><img src="figure/asd_ndd_enrichment.Rmd/heatmaps-1.png" alt="" width="806.4" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-heatmaps-1">
 Past versions of heatmaps-1.png
@@ -1011,44 +1052,6 @@ Date
 <tr>
 <td>
 <a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/blob/89e7d9fdc9db3f14c150ec37fd36f8720d1e176b/docs/figure/asd_ndd_enrichment.Rmd/heatmaps-1.png" target="_blank">89e7d9f</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2026-11-20
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/asd_ndd_enrichment.Rmd/heatmaps-2.png" alt="" width="49%" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-heatmaps-2">
-Past versions of heatmaps-2.png
-</button>
-</p>
-<div id="fig-heatmaps-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/blob/89e7d9fdc9db3f14c150ec37fd36f8720d1e176b/docs/figure/asd_ndd_enrichment.Rmd/heatmaps-2.png" target="_blank">89e7d9f</a>
 </td>
 <td>
 XSun

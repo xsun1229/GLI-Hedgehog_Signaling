@@ -153,7 +153,7 @@ cluster with the rest of the background:
 by direction. Red = enriched, blue = depleted. Numbers are shown where
 p < 0.05; on the left, cells with p &ge; 0.05 are faded.
 
-```{r heatmaps, fig.width=4.2, fig.height=5.2, fig.show="hold", out.width="49%", fig.align="default"}
+```{r heatmaps, fig.width=8.4, fig.height=5.2}
 h <- d
 h$set_lab <- factor(ifelse(h$set == "ASD", "ASD\n(SFARI cat 1)", "NDD\n(Wang 2022)"),
                     c("ASD\n(SFARI cat 1)", "NDD\n(Wang 2022)"))
@@ -182,19 +182,26 @@ tile <- function(fill_var, lab_txt, white_if, alpha_var = NULL) {
 }
 
 h$a_fold <- ifelse(h$sigp, 1, 0.35)
-ggplot(h, aes(set_lab, cluster_f)) +
+p_fold <- ggplot(h, aes(set_lab, cluster_f)) +
   tile("l2", f2(h$fold), abs(h$l2) > 1.1, "a_fold") +
   scale_fill_gradient2(low = BLUE, mid = MID, high = RED, midpoint = 0, limits = c(-2, 2),
                        breaks = log2(c(0.25, 0.5, 1, 2, 4)), labels = c("<=0.25", "0.5", "1", "2", ">=4"),
                        name = "Fold") +
   labs(title = "Fold enrichment", x = NULL, y = "Cluster") + th + bar
 
-ggplot(h, aes(set_lab, cluster_f)) +
+p_logp <- ggplot(h, aes(set_lab, cluster_f)) +
   tile("slp_c", f2(-log10(h$p_value)), abs(h$slp_c) > 5.5) +
   scale_fill_gradient2(low = BLUE, mid = MID, high = RED, midpoint = 0, limits = c(-10, 10),
                        breaks = c(-10, -5, 0, 5, 10), labels = c("<=-10", "-5", "0", "5", ">=10"),
                        name = "Signed -log10 p") +
   labs(title = "-log10 p", x = NULL, y = "Cluster") + th + bar
+
+# draw both panels in one image (base grid; workflowr inserts a block after each separate figure)
+grid::grid.newpage()
+grid::grid.rect(gp = grid::gpar(fill = SURF, col = NA))
+grid::pushViewport(grid::viewport(layout = grid::grid.layout(1, 2)))
+print(p_fold, vp = grid::viewport(layout.pos.row = 1, layout.pos.col = 1))
+print(p_logp, vp = grid::viewport(layout.pos.row = 1, layout.pos.col = 2))
 ```
 
 ```{r table}
