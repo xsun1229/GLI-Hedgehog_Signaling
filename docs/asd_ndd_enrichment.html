@@ -441,10 +441,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -537,15 +537,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229GLIHedgehogSignalingtree26525f3058992c527df47938dca25861a56429actargetblank26525f3a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229GLIHedgehogSignalingtreeeb413807cb1bcf5ef8f22fcda85870188af6a5d5targetblankeb41380a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/tree/26525f3058992c527df47938dca25861a56429ac" target="_blank">26525f3</a>
+<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/tree/eb413807cb1bcf5ef8f22fcda85870188af6a5d5" target="_blank">eb41380</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229GLIHedgehogSignalingtree26525f3058992c527df47938dca25861a56429actargetblank26525f3a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229GLIHedgehogSignalingtreeeb413807cb1bcf5ef8f22fcda85870188af6a5d5targetblankeb41380a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -555,7 +555,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/tree/26525f3058992c527df47938dca25861a56429ac" target="_blank">26525f3</a>.
+<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/tree/eb413807cb1bcf5ef8f22fcda85870188af6a5d5" target="_blank">eb41380</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -569,11 +569,8 @@ depends on. Below is the status of the Git repository when the results
 were generated:
 </p>
 <pre><code>
-Untracked files:
-    Untracked:  analysis/asd_ndd_enrichment.Rmd
-
 Unstaged changes:
-    Modified:   analysis/index.Rmd
+    Modified:   analysis/asd_ndd_enrichment.Rmd
 
 </code></pre>
 <p>
@@ -588,10 +585,74 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/asd_ndd_enrichment.Rmd</code>)
+and HTML (<code>docs/asd_ndd_enrichment.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/blob/eb413807cb1bcf5ef8f22fcda85870188af6a5d5/analysis/asd_ndd_enrichment.Rmd" target="_blank">eb41380</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2026-11-20
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/GLI-Hedgehog_Signaling/eb413807cb1bcf5ef8f22fcda85870188af6a5d5/docs/asd_ndd_enrichment.html" target="_blank">eb41380</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2026-11-20
+</td>
+<td>
+update
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -619,9 +680,9 @@ n_set &lt;- function(s) sum(gs$gene_set == sets[[s]])
 shared &lt;- length(intersect(gs$hgnc_id[gs$gene_set == sets[[&quot;ASD&quot;]]], gs$hgnc_id[gs$gene_set == sets[[&quot;NDD&quot;]]]))
 sig &lt;- d[d$p_value &lt; 0.05, ]
 
-# chart ink and colours (two categorical series: blue = ASD, orange = NDD)
-INK &lt;- &quot;#0b0b0b&quot;; INK2 &lt;- &quot;#52514e&quot;; MUTED &lt;- &quot;#898781&quot;; GRID &lt;- &quot;#e1e0d9&quot;; AXIS &lt;- &quot;#c3c2b7&quot;
-SURF &lt;- &quot;#fcfcfb&quot;; COL &lt;- c(ASD = &quot;#2a78d6&quot;, NDD = &quot;#eb6834&quot;)</code></pre>
+# chart ink and diverging colours (blue = depleted, gray = as expected, red = enriched)
+INK &lt;- &quot;#0b0b0b&quot;; INK2 &lt;- &quot;#52514e&quot;; MUTED &lt;- &quot;#898781&quot;
+SURF &lt;- &quot;#fcfcfb&quot;; BLUE &lt;- &quot;#2a78d6&quot;; RED &lt;- &quot;#e34948&quot;; MID &lt;- &quot;#f0efec&quot;</code></pre>
 <div id="summary" class="section level1">
 <h1>Summary</h1>
 <pre class="r"><code>both  &lt;- intersect(sig$k[sig$set == &quot;ASD&quot;], sig$k[sig$set == &quot;NDD&quot;])
@@ -679,31 +740,52 @@ tests (about 1 would reach p &lt; 0.05 by chance).</p>
 </div>
 <div id="results" class="section level1">
 <h1>Results</h1>
-<pre class="r"><code>p &lt;- d
-p$y  &lt;- (11 - p$k) + ifelse(p$set == &quot;ASD&quot;, 0.18, -0.18)    # cluster 1 on top; ASD above NDD
-p$fc &lt;- pmin(pmax(p$fold, 0.2), 5)
-p$fill &lt;- ifelse(p$p_value &lt; 0.05, p$set, &quot;none&quot;)
-p$plab &lt;- ifelse(p$p_value &lt; 0.05, paste0(&quot;p = &quot;, pv(p$p_value)), &quot;&quot;)
-ggplot(p, aes(y = y, colour = set)) +
-  geom_vline(xintercept = 1, colour = AXIS, linewidth = 0.5) +
-  geom_segment(aes(x = 1, xend = fc, yend = y), linewidth = 0.8) +
-  geom_point(aes(x = fc, fill = fill), shape = 21, size = 3, stroke = 1) +
-  geom_text(aes(x = fc * 1.12, label = plab), hjust = 0, size = 3, colour = INK2) +
-  scale_colour_manual(values = COL, labels = lab, name = NULL) +
-  scale_fill_manual(values = c(COL, none = SURF), guide = &quot;none&quot;) +
-  scale_x_continuous(trans = &quot;log2&quot;, limits = c(0.2, 8), breaks = c(0.25, 0.5, 1, 2, 4),
-                     labels = c(&quot;0.25&quot;, &quot;0.5&quot;, &quot;1&quot;, &quot;2&quot;, &quot;4&quot;)) +
-  scale_y_continuous(breaks = 1:10, labels = 10:1, expand = expansion(add = 0.5)) +
-  labs(x = &quot;Fold enrichment (observed / expected, log scale)&quot;, y = &quot;Cluster&quot;,
-       caption = &quot;Filled: p &lt; 0.05 (two-sided Fisher&#39;s exact test). Hollow: p &gt;= 0.05. 1 = as expected by chance.&quot;) +
-  theme_minimal(base_size = 11) +
-  theme(panel.grid = element_blank(),
-        panel.grid.major.x = element_line(colour = GRID, linewidth = 0.3),
-        plot.background = element_rect(fill = SURF, colour = NA),
-        axis.text = element_text(colour = INK2), axis.title = element_text(colour = INK2),
-        legend.position = &quot;top&quot;, legend.justification = &quot;left&quot;, legend.text = element_text(colour = INK, size = 10),
-        plot.caption = element_text(colour = MUTED, hjust = 0))</code></pre>
-<p><img src="figure/asd_ndd_enrichment.Rmd/lollipop-1.png" alt="" width="729.6" style="display: block; margin: auto;" /></p>
+<p><strong>Left:</strong> fold enrichment (observed / expected).
+<strong>Right:</strong> −log10 p, signed by direction. Red = enriched,
+blue = depleted. Numbers are shown where p &lt; 0.05; on the left, cells
+with p ≥ 0.05 are faded.</p>
+<pre class="r"><code>h &lt;- d
+h$set_lab &lt;- factor(ifelse(h$set == &quot;ASD&quot;, &quot;ASD\n(SFARI cat 1)&quot;, &quot;NDD\n(Wang 2022)&quot;),
+                    c(&quot;ASD\n(SFARI cat 1)&quot;, &quot;NDD\n(Wang 2022)&quot;))
+h$cluster_f &lt;- factor(h$k, 10:1)                                  # cluster 1 on top
+h$sigp &lt;- h$p_value &lt; 0.05
+h$l2  &lt;- pmax(pmin(log2(h$fold), 2), -2)                         # fold, log2, capped at 0.25-4
+h$slp &lt;- sign(log(h$odds_ratio + 1e-12)) * -log10(h$p_value)     # signed -log10 p
+h$slp_c &lt;- pmax(pmin(h$slp, 10), -10)
+
+th &lt;- theme_minimal(base_size = 11) +
+  theme(panel.grid = element_blank(), plot.background = element_rect(fill = SURF, colour = NA),
+        plot.title = element_text(colour = INK, face = &quot;bold&quot;, size = 11),
+        axis.text = element_text(colour = INK2), axis.text.x = element_text(colour = INK, size = 10),
+        axis.title = element_text(colour = INK2),
+        legend.position = &quot;bottom&quot;, legend.title = element_text(colour = INK2, size = 9),
+        legend.text = element_text(colour = INK2, size = 9),
+        legend.key.width = unit(32, &quot;pt&quot;), legend.key.height = unit(8, &quot;pt&quot;))
+bar &lt;- guides(fill = guide_colourbar(title.position = &quot;top&quot;, title.hjust = 0.5))
+tile &lt;- function(fill_var, lab_txt, white_if, alpha_var = NULL) {
+  list(geom_tile(aes(fill = .data[[fill_var]], alpha = if (is.null(alpha_var)) 1 else .data[[alpha_var]]),
+                 colour = SURF, linewidth = 1.2),
+       scale_alpha_identity(),
+       geom_text(aes(label = ifelse(sigp, lab_txt, &quot;&quot;),
+                     colour = ifelse(white_if, &quot;#ffffff&quot;, INK)), size = 3.6, fontface = &quot;bold&quot;),
+       scale_colour_identity())
+}
+
+h$a_fold &lt;- ifelse(h$sigp, 1, 0.35)
+ggplot(h, aes(set_lab, cluster_f)) +
+  tile(&quot;l2&quot;, f2(h$fold), abs(h$l2) &gt; 1.1, &quot;a_fold&quot;) +
+  scale_fill_gradient2(low = BLUE, mid = MID, high = RED, midpoint = 0, limits = c(-2, 2),
+                       breaks = log2(c(0.25, 0.5, 1, 2, 4)), labels = c(&quot;&lt;=0.25&quot;, &quot;0.5&quot;, &quot;1&quot;, &quot;2&quot;, &quot;&gt;=4&quot;),
+                       name = &quot;Fold&quot;) +
+  labs(title = &quot;Fold enrichment&quot;, x = NULL, y = &quot;Cluster&quot;) + th + bar
+
+ggplot(h, aes(set_lab, cluster_f)) +
+  tile(&quot;slp_c&quot;, f2(-log10(h$p_value)), abs(h$slp_c) &gt; 5.5) +
+  scale_fill_gradient2(low = BLUE, mid = MID, high = RED, midpoint = 0, limits = c(-10, 10),
+                       breaks = c(-10, -5, 0, 5, 10), labels = c(&quot;&lt;=-10&quot;, &quot;-5&quot;, &quot;0&quot;, &quot;5&quot;, &quot;&gt;=10&quot;),
+                       name = &quot;Signed -log10 p&quot;) +
+  labs(title = &quot;-log10 p&quot;, x = NULL, y = &quot;Cluster&quot;) + th + bar</code></pre>
+<p><img src="figure/asd_ndd_enrichment.Rmd/heatmaps-1.png" alt="" width="49%" /><img src="figure/asd_ndd_enrichment.Rmd/heatmaps-2.png" alt="" width="49%" /></p>
 <pre class="r"><code>w &lt;- function(s) d[d$set == s, ]
 a &lt;- w(&quot;ASD&quot;); n &lt;- w(&quot;NDD&quot;)
 bold &lt;- function(x, p) ifelse(p &lt; 0.05, paste0(&quot;**&quot;, x, &quot;**&quot;), x)

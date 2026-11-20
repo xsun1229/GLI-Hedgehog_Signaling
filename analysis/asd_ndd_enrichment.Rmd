@@ -33,9 +33,9 @@ n_set <- function(s) sum(gs$gene_set == sets[[s]])
 shared <- length(intersect(gs$hgnc_id[gs$gene_set == sets[["ASD"]]], gs$hgnc_id[gs$gene_set == sets[["NDD"]]]))
 sig <- d[d$p_value < 0.05, ]
 
-# chart ink and colours (two categorical series: blue = ASD, orange = NDD)
-INK <- "#0b0b0b"; INK2 <- "#52514e"; MUTED <- "#898781"; GRID <- "#e1e0d9"; AXIS <- "#c3c2b7"
-SURF <- "#fcfcfb"; COL <- c(ASD = "#2a78d6", NDD = "#eb6834")
+# chart ink and diverging colours (blue = depleted, gray = as expected, red = enriched)
+INK <- "#0b0b0b"; INK2 <- "#52514e"; MUTED <- "#898781"
+SURF <- "#fcfcfb"; BLUE <- "#2a78d6"; RED <- "#e34948"; MID <- "#f0efec"
 ```
 
 # Summary
@@ -76,31 +76,52 @@ protein-coding genes). p-values are not corrected for the `r nrow(d)` tests
 
 # Results
 
-```{r lollipop, fig.width=7.6, fig.height=5.4}
-p <- d
-p$y  <- (11 - p$k) + ifelse(p$set == "ASD", 0.18, -0.18)    # cluster 1 on top; ASD above NDD
-p$fc <- pmin(pmax(p$fold, 0.2), 5)
-p$fill <- ifelse(p$p_value < 0.05, p$set, "none")
-p$plab <- ifelse(p$p_value < 0.05, paste0("p = ", pv(p$p_value)), "")
-ggplot(p, aes(y = y, colour = set)) +
-  geom_vline(xintercept = 1, colour = AXIS, linewidth = 0.5) +
-  geom_segment(aes(x = 1, xend = fc, yend = y), linewidth = 0.8) +
-  geom_point(aes(x = fc, fill = fill), shape = 21, size = 3, stroke = 1) +
-  geom_text(aes(x = fc * 1.12, label = plab), hjust = 0, size = 3, colour = INK2) +
-  scale_colour_manual(values = COL, labels = lab, name = NULL) +
-  scale_fill_manual(values = c(COL, none = SURF), guide = "none") +
-  scale_x_continuous(trans = "log2", limits = c(0.2, 8), breaks = c(0.25, 0.5, 1, 2, 4),
-                     labels = c("0.25", "0.5", "1", "2", "4")) +
-  scale_y_continuous(breaks = 1:10, labels = 10:1, expand = expansion(add = 0.5)) +
-  labs(x = "Fold enrichment (observed / expected, log scale)", y = "Cluster",
-       caption = "Filled: p < 0.05 (two-sided Fisher's exact test). Hollow: p >= 0.05. 1 = as expected by chance.") +
-  theme_minimal(base_size = 11) +
-  theme(panel.grid = element_blank(),
-        panel.grid.major.x = element_line(colour = GRID, linewidth = 0.3),
-        plot.background = element_rect(fill = SURF, colour = NA),
-        axis.text = element_text(colour = INK2), axis.title = element_text(colour = INK2),
-        legend.position = "top", legend.justification = "left", legend.text = element_text(colour = INK, size = 10),
-        plot.caption = element_text(colour = MUTED, hjust = 0))
+**Left:** fold enrichment (observed / expected). **Right:** −log10 p, signed
+by direction. Red = enriched, blue = depleted. Numbers are shown where
+p < 0.05; on the left, cells with p &ge; 0.05 are faded.
+
+```{r heatmaps, fig.width=4.2, fig.height=5.2, fig.show="hold", out.width="49%", fig.align="default"}
+h <- d
+h$set_lab <- factor(ifelse(h$set == "ASD", "ASD\n(SFARI cat 1)", "NDD\n(Wang 2022)"),
+                    c("ASD\n(SFARI cat 1)", "NDD\n(Wang 2022)"))
+h$cluster_f <- factor(h$k, 10:1)                                  # cluster 1 on top
+h$sigp <- h$p_value < 0.05
+h$l2  <- pmax(pmin(log2(h$fold), 2), -2)                         # fold, log2, capped at 0.25-4
+h$slp <- sign(log(h$odds_ratio + 1e-12)) * -log10(h$p_value)     # signed -log10 p
+h$slp_c <- pmax(pmin(h$slp, 10), -10)
+
+th <- theme_minimal(base_size = 11) +
+  theme(panel.grid = element_blank(), plot.background = element_rect(fill = SURF, colour = NA),
+        plot.title = element_text(colour = INK, face = "bold", size = 11),
+        axis.text = element_text(colour = INK2), axis.text.x = element_text(colour = INK, size = 10),
+        axis.title = element_text(colour = INK2),
+        legend.position = "bottom", legend.title = element_text(colour = INK2, size = 9),
+        legend.text = element_text(colour = INK2, size = 9),
+        legend.key.width = unit(32, "pt"), legend.key.height = unit(8, "pt"))
+bar <- guides(fill = guide_colourbar(title.position = "top", title.hjust = 0.5))
+tile <- function(fill_var, lab_txt, white_if, alpha_var = NULL) {
+  list(geom_tile(aes(fill = .data[[fill_var]], alpha = if (is.null(alpha_var)) 1 else .data[[alpha_var]]),
+                 colour = SURF, linewidth = 1.2),
+       scale_alpha_identity(),
+       geom_text(aes(label = ifelse(sigp, lab_txt, ""),
+                     colour = ifelse(white_if, "#ffffff", INK)), size = 3.6, fontface = "bold"),
+       scale_colour_identity())
+}
+
+h$a_fold <- ifelse(h$sigp, 1, 0.35)
+ggplot(h, aes(set_lab, cluster_f)) +
+  tile("l2", f2(h$fold), abs(h$l2) > 1.1, "a_fold") +
+  scale_fill_gradient2(low = BLUE, mid = MID, high = RED, midpoint = 0, limits = c(-2, 2),
+                       breaks = log2(c(0.25, 0.5, 1, 2, 4)), labels = c("<=0.25", "0.5", "1", "2", ">=4"),
+                       name = "Fold") +
+  labs(title = "Fold enrichment", x = NULL, y = "Cluster") + th + bar
+
+ggplot(h, aes(set_lab, cluster_f)) +
+  tile("slp_c", f2(-log10(h$p_value)), abs(h$slp_c) > 5.5) +
+  scale_fill_gradient2(low = BLUE, mid = MID, high = RED, midpoint = 0, limits = c(-10, 10),
+                       breaks = c(-10, -5, 0, 5, 10), labels = c("<=-10", "-5", "0", "5", ">=10"),
+                       name = "Signed -log10 p") +
+  labs(title = "-log10 p", x = NULL, y = "Cluster") + th + bar
 ```
 
 ```{r table}
