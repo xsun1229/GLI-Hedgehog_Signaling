@@ -41,7 +41,6 @@ ids  <- function(s) gs$hgnc_id[gs$gene_set == sets[[s]]]
 n_set <- function(s) length(ids(s))
 shared <- length(intersect(ids("ASD"), ids("NDD")))
 w <- nd[nd$source == "Wang2022", ]
-n_clust <- function(k) sum(cl$kept & cl$cluster == k)
 
 # chart ink and diverging colours (blue = depleted, gray = as expected, red = enriched)
 INK <- "#0b0b0b"; INK2 <- "#52514e"; MUTED <- "#898781"
@@ -54,7 +53,8 @@ SURF <- "#fcfcfb"; BLUE <- "#2a78d6"; RED <- "#e34948"; MID <- "#f0efec"
   over what the cluster size predicts.
   * Cluster 2: ASD `r desc("ASD", 2)`; NDD `r desc("NDD", 2)`.
   * Cluster 6: ASD `r desc("ASD", 6)`; NDD `r desc("NDD", 6)`.
-* The genes differ between the two clusters. **Cluster 6** genes are largely
+* Judging from the overlapping genes (table at the end), the two clusters
+  differ. **Cluster 6** genes are largely
   synaptic and neuronal (ion channels, glutamate and GABA receptors, synapse
   proteins), while **cluster 2** genes are mostly chromatin and transcription
   regulators.
@@ -138,9 +138,27 @@ cluster with the rest of the background:
 | rest of background | c | d |
 
 * **Background:** the whole genome, i.e. all `r fmt(nrow(bg))` HGNC
-  protein-coding genes.
-* **Fold enrichment** = observed overlap (a) &divide; the overlap expected from
-  the cluster and gene-set sizes alone.
+  protein-coding genes. Clusters and gene sets are restricted to these genes.
+* **Observed** = the number of genes in both the cluster and the gene set
+  (cell a).
+* **Expected** = (genes in cluster) &times; (genes in gene set) &divide;
+  (genes in background). This is the overlap expected if the cluster's genes
+  were drawn at random from the genome: the cluster size times the fraction of
+  the genome that belongs to the gene set.
+* **Fold enrichment** = observed &divide; expected. A fold of 1 means as many
+  gene-set genes as expected by chance; 2 means twice as many.
+* **Example (cluster 6, ASD):** cluster 6 has `r fmt(get1("ASD", 6, "n_cluster"))`
+  genes, and the ASD set has `r get1("ASD", 6, "n_set")` of the
+  `r fmt(get1("ASD", 6, "n_background"))` genome genes
+  (`r sprintf("%.2f", 100 * get1("ASD", 6, "n_set") / get1("ASD", 6, "n_background"))`%).
+  Expected = `r fmt(get1("ASD", 6, "n_cluster"))` &times; `r get1("ASD", 6, "n_set")`
+  &divide; `r fmt(get1("ASD", 6, "n_background"))` = `r f2(get1("ASD", 6, "expected"))`.
+  Observed = `r get1("ASD", 6, "overlap")`, so fold =
+  `r get1("ASD", 6, "overlap")` &divide; `r f2(get1("ASD", 6, "expected"))` =
+  `r f2(get1("ASD", 6, "fold"))`.
+* **p-value:** the probability, under random sampling, of an overlap at least
+  as far from the expected count as the one observed (Fisher's exact test).
+  For the example, p = `r pv(get1("ASD", 6, "p_value"))`.
 * **p-values** are nominal and not corrected for the `r nrow(d)` tests
   (10 clusters &times; 2 gene sets). About `r round(0.05 * nrow(d), 1)` test
   would reach p < 0.05 by chance.
@@ -219,44 +237,6 @@ knitr::kable(tab, format = "pipe", align = "rrrrrrrr",
              caption = "Bold: p < 0.05.")
 ```
 
-## Cluster by cluster
-
-**Cluster 6** (`r fmt(n_clust(6))` genes, the largest cluster)
-
-* ASD: `r desc("ASD", 6)`. NDD: `r desc("NDD", 6)`.
-* The ASD genes are largely **synaptic and neuronal**:
-  * ion channels and neurotransmitter receptors: GRIN2B, GRIA2, GABRB3, KCNB1,
-    KCNQ2, KCNQ3
-  * synapse proteins: DLG4, NRXN1, NRXN2, SHANK2, STXBP1, SYN1, RIMS1
-  * neuronal transcription factors: MYT1L, BCL11A, SATB1, TSHZ3, EBF3, ZBTB20
-* The NDD genes follow the same pattern, adding synaptic-vesicle and
-  channel genes such as SYT1, VAMP2, STX1B, SCN3A, ATP1A3 and KIF1A.
-
-**Cluster 2** (`r fmt(n_clust(2))` genes)
-
-* ASD: `r desc("ASD", 2)`. NDD: `r desc("NDD", 2)`. This is the strongest
-  NDD result.
-* The genes are mostly **chromatin and transcription regulators**:
-  * ASD: ARID1B, ADNP, ATRX, CHD7, CREBBP, EP300, KMT2A, NIPBL, SMARCA4, SETD2,
-    SIN3A
-  * NDD adds ARID1A, ARID2, CHD4, EZH2, NSD2, SMARCD1 and SMARCE1.
-* The NDD genes in this cluster include GLI3 itself.
-
-**Cluster 10** (`r fmt(n_clust(10))` genes)
-
-* ASD: `r desc("ASD", 10)`, including CTNNB1, DDX3X, CHD3 and PCDH19.
-* NDD is not enriched: `r desc("NDD", 10)`.
-
-**Other clusters**
-
-* No result reaches p < 0.05.
-* A few have fewer ASD genes than expected, but none significantly:
-  * cluster 5: `r desc("ASD", 5)`
-  * cluster 7: `r desc("ASD", 7)`
-
-The gene-type patterns above come from reading the gene lists; they are
-descriptive, not a formal test.
-
 ## Genes behind the significant results
 
 ```{r genes}
@@ -264,22 +244,3 @@ g <- sig[order(sig$k, sig$set), ]
 knitr::kable(data.frame(g$k, lab[g$set], g$overlap, gsub(",", ", ", g$overlap_genes)),
              col.names = c("Cluster", "Gene set", "Genes", "Overlapping genes"), row.names = FALSE)
 ```
-
-# Notes
-
-* **Strength of evidence.** The four results for clusters 2 and 6 have
-  p &le; `r pv(max(d$p_value[d$k %in% c(2, 6)]))`, far below
-  0.05 / `r nrow(d)` = `r 0.05 / nrow(d)`. The cluster 10 result
-  (p = `r pv(get1("ASD", 10, "p_value"))`) is weaker and could be a chance
-  finding.
-* **Background.** The genome-wide background includes genes not expressed in
-  these cells. Genes expressed in neural progenitors are generally enriched
-  for neurodevelopmental genes, which can inflate genome-wide enrichment.
-* **Cluster size.** Cluster 6 is the largest cluster, so it has the most power
-  to detect enrichment.
-* **Mutation-intolerant genes.** Many ASD and NDD genes are highly intolerant
-  of damaging mutations. A cluster rich in such genes could look enriched for
-  that reason alone; this has not yet been tested.
-
-Detailed results for all 7 gene sets (SFARI categories 1 and 2, TADA tiers,
-NDD) are on the [detailed page](geneset_enrichment.html).
