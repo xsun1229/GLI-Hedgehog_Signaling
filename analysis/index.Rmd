@@ -13,4 +13,5 @@ excess of neurodevelopmental-disorder risk genes?
 
 # Gene-set enrichment
 
-* [Autism / NDD gene-set enrichment in the 10 GLI-response clusters: overview, gene sets, and results (Fisher's exact test), 11/17/2026](geneset_enrichment.html)
+* [ASD and NDD genes in the 10 GLI-response clusters: concise results (2 gene sets), 11/20/2026](asd_ndd_enrichment.html)
+* [Detailed results: 7 gene sets (SFARI categories, TADA tiers, NDD), with overview and gene-set details, 11/17/2026](geneset_enrichment.html)

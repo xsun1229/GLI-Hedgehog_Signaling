@@ -1,0 +1,131 @@
+---
+title: "ASD and NDD genes in GLI-response clusters"
+author: "XSun"
+date: "`r Sys.Date()`"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+    toc_depth: 2
+---
+
+```{r setup, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+suppressMessages(library(ggplot2))
+P  <- "/project/xinhe/xsun/GLI-Hedgehog_Signaling"
+r  <- read.delim(file.path(P, "results/1.geneset_enrichment/enrichment_fisher.tsv"), check.names = FALSE)
+gs <- read.delim(file.path(P, "data/gene_sets/enrichment_gene_sets.tsv"), check.names = FALSE)
+bg <- read.delim(file.path(P, "data/gene_sets/background_protein_coding_hgnc.tsv"))
+
+# the two gene sets used on this page
+sets <- c(ASD = "SFARI_cat1", NDD = "NDD_wang2022")
+lab  <- c(ASD = "ASD (SFARI category 1)", NDD = "NDD (Wang et al. 2022)")
+d <- r[r$cluster != "all" & r$gene_set %in% sets, ]
+d$set <- names(sets)[match(d$gene_set, sets)]
+d$k <- as.integer(d$cluster)
+d <- d[order(d$set, d$k), ]
+
+f2  <- function(x) sprintf("%.1f", x)
+pv  <- function(p) ifelse(p >= 0.001, sprintf("%.3f", p), formatC(p, format = "e", digits = 1))
+fmt <- function(x) format(x, big.mark = ",", trim = TRUE)
+get1 <- function(s, k, v) d[d$set == s & d$k == k, v]
+n_set <- function(s) sum(gs$gene_set == sets[[s]])
+shared <- length(intersect(gs$hgnc_id[gs$gene_set == sets[["ASD"]]], gs$hgnc_id[gs$gene_set == sets[["NDD"]]]))
+sig <- d[d$p_value < 0.05, ]
+
+# chart ink and colours (two categorical series: blue = ASD, orange = NDD)
+INK <- "#0b0b0b"; INK2 <- "#52514e"; MUTED <- "#898781"; GRID <- "#e1e0d9"; AXIS <- "#c3c2b7"
+SURF <- "#fcfcfb"; COL <- c(ASD = "#2a78d6", NDD = "#eb6834")
+```
+
+# Summary
+
+```{r summary_text}
+both  <- intersect(sig$k[sig$set == "ASD"], sig$k[sig$set == "NDD"])
+fold_rng <- range(d$fold[d$k %in% both])
+asd_only <- setdiff(sig$k[sig$set == "ASD"], sig$k[sig$set == "NDD"])
+ndd_only <- setdiff(sig$k[sig$set == "NDD"], sig$k[sig$set == "ASD"])
+```
+
+* **Clusters `r paste(both, collapse = " and ")`** are enriched for both ASD and
+  NDD genes, `r f2(fold_rng[1])`&ndash;`r f2(fold_rng[2])` times more than expected by chance:
+  `r paste0("cluster ", both, ": ASD ", f2(sapply(both, function(k) get1("ASD", k, "fold"))), "x (p = ",
+            pv(sapply(both, function(k) get1("ASD", k, "p_value"))), "), NDD ",
+            f2(sapply(both, function(k) get1("NDD", k, "fold"))), "x (p = ",
+            pv(sapply(both, function(k) get1("NDD", k, "p_value"))), ")", collapse = "; ")`.
+`r if (length(asd_only)) paste0("* **Cluster ", paste(asd_only, collapse = ", "), "** is enriched for ASD genes only, more weakly (",
+   paste0(f2(sapply(asd_only, function(k) get1("ASD", k, "fold"))), "x, p = ",
+          pv(sapply(asd_only, function(k) get1("ASD", k, "p_value"))), collapse = "; "), ").") else ""`
+`r if (length(ndd_only)) paste0("* **Cluster ", paste(ndd_only, collapse = ", "), "** is enriched for NDD genes only.") else ""`
+* No other cluster reaches p < 0.05 for either gene set.
+
+# Gene sets and test
+
+| Gene set | Source | Genes |
+|---|---|---|
+| **ASD** | [SFARI Gene](https://gene.sfari.org/) category 1 (high-confidence autism genes), release 07-12-2026 | `r n_set("ASD")` |
+| **NDD** | [Wang et al. 2022, *PNAS*](https://www.pnas.org/doi/10.1073/pnas.2203491119): genes with an excess of damaging de novo variants in 46,612 autism and developmental-delay trios | `r n_set("NDD")` |
+
+Counts are protein-coding genes after updating names to current HGNC symbols.
+The two sets share `r shared` genes.
+
+**Test.** For each cluster and gene set, a two-sided Fisher's exact test
+compares the cluster with the rest of the genome (all `r fmt(nrow(bg))`
+protein-coding genes). p-values are not corrected for the `r nrow(d)` tests
+(about `r round(0.05 * nrow(d), 1)` would reach p < 0.05 by chance).
+
+# Results
+
+```{r lollipop, fig.width=7.6, fig.height=5.4}
+p <- d
+p$y  <- (11 - p$k) + ifelse(p$set == "ASD", 0.18, -0.18)    # cluster 1 on top; ASD above NDD
+p$fc <- pmin(pmax(p$fold, 0.2), 5)
+p$fill <- ifelse(p$p_value < 0.05, p$set, "none")
+p$plab <- ifelse(p$p_value < 0.05, paste0("p = ", pv(p$p_value)), "")
+ggplot(p, aes(y = y, colour = set)) +
+  geom_vline(xintercept = 1, colour = AXIS, linewidth = 0.5) +
+  geom_segment(aes(x = 1, xend = fc, yend = y), linewidth = 0.8) +
+  geom_point(aes(x = fc, fill = fill), shape = 21, size = 3, stroke = 1) +
+  geom_text(aes(x = fc * 1.12, label = plab), hjust = 0, size = 3, colour = INK2) +
+  scale_colour_manual(values = COL, labels = lab, name = NULL) +
+  scale_fill_manual(values = c(COL, none = SURF), guide = "none") +
+  scale_x_continuous(trans = "log2", limits = c(0.2, 8), breaks = c(0.25, 0.5, 1, 2, 4),
+                     labels = c("0.25", "0.5", "1", "2", "4")) +
+  scale_y_continuous(breaks = 1:10, labels = 10:1, expand = expansion(add = 0.5)) +
+  labs(x = "Fold enrichment (observed / expected, log scale)", y = "Cluster",
+       caption = "Filled: p < 0.05 (two-sided Fisher's exact test). Hollow: p >= 0.05. 1 = as expected by chance.") +
+  theme_minimal(base_size = 11) +
+  theme(panel.grid = element_blank(),
+        panel.grid.major.x = element_line(colour = GRID, linewidth = 0.3),
+        plot.background = element_rect(fill = SURF, colour = NA),
+        axis.text = element_text(colour = INK2), axis.title = element_text(colour = INK2),
+        legend.position = "top", legend.justification = "left", legend.text = element_text(colour = INK, size = 10),
+        plot.caption = element_text(colour = MUTED, hjust = 0))
+```
+
+```{r table}
+w <- function(s) d[d$set == s, ]
+a <- w("ASD"); n <- w("NDD")
+bold <- function(x, p) ifelse(p < 0.05, paste0("**", x, "**"), x)
+tab <- data.frame(
+  cluster = a$k, genes = fmt(a$n_cluster),
+  a_obs = paste0(a$overlap, " / ", f2(a$expected)), a_fold = bold(sprintf("%.2f", a$fold), a$p_value),
+  a_p = bold(pv(a$p_value), a$p_value),
+  n_obs = paste0(n$overlap, " / ", f2(n$expected)), n_fold = bold(sprintf("%.2f", n$fold), n$p_value),
+  n_p = bold(pv(n$p_value), n$p_value))
+knitr::kable(tab, format = "pipe", align = "rrrrrrrr",
+             col.names = c("Cluster", "Genes", "ASD: observed / expected", "ASD: fold", "ASD: p",
+                           "NDD: observed / expected", "NDD: fold", "NDD: p"),
+             caption = "Bold: p < 0.05.")
+```
+
+## Genes behind the significant results
+
+```{r genes}
+g <- sig[order(sig$k, sig$set), ]
+knitr::kable(data.frame(g$k, lab[g$set], g$overlap, gsub(",", ", ", g$overlap_genes)),
+             col.names = c("Cluster", "Gene set", "Genes", "Overlapping genes"), row.names = FALSE)
+```
+
+Detailed results for all 7 gene sets (SFARI categories 1 and 2, TADA tiers, NDD)
+are on the [detailed page](geneset_enrichment.html).
