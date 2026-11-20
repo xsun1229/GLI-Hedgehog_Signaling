@@ -16,6 +16,9 @@ P  <- "/project/xinhe/xsun/GLI-Hedgehog_Signaling"
 r  <- read.delim(file.path(P, "results/1.geneset_enrichment/enrichment_fisher.tsv"), check.names = FALSE)
 gs <- read.delim(file.path(P, "data/gene_sets/enrichment_gene_sets.tsv"), check.names = FALSE)
 bg <- read.delim(file.path(P, "data/gene_sets/background_protein_coding_hgnc.tsv"))
+cl <- read.delim(file.path(P, "data/gene_clusters/maSigPro_clusters_hgnc.tsv"))
+sf <- read.delim(file.path(P, "data/gene_sets/SFARI_cat1_cat2_07-12-2026release.tsv"))
+nd <- read.delim(file.path(P, "data/gene_sets/NDD_genes.tsv"))
 
 # the two gene sets used on this page
 sets <- c(ASD = "SFARI_cat1", NDD = "NDD_wang2022")
@@ -24,14 +27,21 @@ d <- r[r$cluster != "all" & r$gene_set %in% sets, ]
 d$set <- names(sets)[match(d$gene_set, sets)]
 d$k <- as.integer(d$cluster)
 d <- d[order(d$set, d$k), ]
+sig <- d[d$p_value < 0.05, ]
 
 f2  <- function(x) sprintf("%.1f", x)
 pv  <- function(p) ifelse(p >= 0.001, sprintf("%.3f", p), formatC(p, format = "e", digits = 1))
 fmt <- function(x) format(x, big.mark = ",", trim = TRUE)
 get1 <- function(s, k, v) d[d$set == s & d$k == k, v]
-n_set <- function(s) sum(gs$gene_set == sets[[s]])
-shared <- length(intersect(gs$hgnc_id[gs$gene_set == sets[["ASD"]]], gs$hgnc_id[gs$gene_set == sets[["NDD"]]]))
-sig <- d[d$p_value < 0.05, ]
+# one-line description of a result: "44 genes vs 19.2 expected (2.3x, p = 2.2e-07)"
+desc <- function(s, k) paste0(get1(s, k, "overlap"), ifelse(get1(s, k, "overlap") == 1, " gene", " genes"),
+                              " vs ", f2(get1(s, k, "expected")),
+                              " expected (", f2(get1(s, k, "fold")), "x, p = ", pv(get1(s, k, "p_value")), ")")
+ids  <- function(s) gs$hgnc_id[gs$gene_set == sets[[s]]]
+n_set <- function(s) length(ids(s))
+shared <- length(intersect(ids("ASD"), ids("NDD")))
+w <- nd[nd$source == "Wang2022", ]
+n_clust <- function(k) sum(cl$kept & cl$cluster == k)
 
 # chart ink and diverging colours (blue = depleted, gray = as expected, red = enriched)
 INK <- "#0b0b0b"; INK2 <- "#52514e"; MUTED <- "#898781"
@@ -40,39 +50,102 @@ SURF <- "#fcfcfb"; BLUE <- "#2a78d6"; RED <- "#e34948"; MID <- "#f0efec"
 
 # Summary
 
-```{r summary_text}
-both  <- intersect(sig$k[sig$set == "ASD"], sig$k[sig$set == "NDD"])
-fold_rng <- range(d$fold[d$k %in% both])
-asd_only <- setdiff(sig$k[sig$set == "ASD"], sig$k[sig$set == "NDD"])
-ndd_only <- setdiff(sig$k[sig$set == "NDD"], sig$k[sig$set == "ASD"])
+* **Clusters 2 and 6 are enriched for both ASD and NDD genes**, about two-fold
+  over what the cluster size predicts.
+  * Cluster 2: ASD `r desc("ASD", 2)`; NDD `r desc("NDD", 2)`.
+  * Cluster 6: ASD `r desc("ASD", 6)`; NDD `r desc("NDD", 6)`.
+* The genes differ between the two clusters. **Cluster 6** genes are largely
+  synaptic and neuronal (ion channels, glutamate and GABA receptors, synapse
+  proteins), while **cluster 2** genes are mostly chromatin and transcription
+  regulators.
+* **Cluster 10** is enriched for ASD genes only, more weakly:
+  `r desc("ASD", 10)`.
+* No other cluster reaches p < 0.05 for either gene set, and no cluster is
+  significantly depleted.
+
+# Data
+
+## GLI-response clusters
+
+GLI transcription factors mediate Hedgehog signaling, which shapes how neuronal
+progenitors differentiate. In this experiment, GLI is overexpressed and then
+perturbed or removed, and gene expression is measured over a time course. Genes
+that respond were grouped into **10 clusters** by their expression pattern over
+time (maSigPro).
+
+All gene names were updated to current HGNC symbols, using previous symbols and
+aliases for outdated names. Only protein-coding genes are kept, to match the
+background; most dropped genes are lncRNAs, antisense transcripts or
+pseudogenes.
+
+```{r clusters}
+k <- sort(unique(cl$cluster))
+tab <- data.frame(cluster = k, genes_in_file = as.vector(table(cl$cluster)),
+                  kept = as.vector(table(factor(cl$cluster[cl$kept], k))))
+tab <- rbind(tab, data.frame(cluster = "total", genes_in_file = sum(tab$genes_in_file), kept = sum(tab$kept)))
+knitr::kable(tab, col.names = c("Cluster", "Genes in file", "Protein-coding genes used"),
+             format.args = list(big.mark = ","))
 ```
 
-* **Clusters `r paste(both, collapse = " and ")`** are enriched for both ASD and
-  NDD genes, `r f2(fold_rng[1])`&ndash;`r f2(fold_rng[2])` times more than expected by chance:
-  `r paste0("cluster ", both, ": ASD ", f2(sapply(both, function(k) get1("ASD", k, "fold"))), "x (p = ",
-            pv(sapply(both, function(k) get1("ASD", k, "p_value"))), "), NDD ",
-            f2(sapply(both, function(k) get1("NDD", k, "fold"))), "x (p = ",
-            pv(sapply(both, function(k) get1("NDD", k, "p_value"))), ")", collapse = "; ")`.
-`r if (length(asd_only)) paste0("* **Cluster ", paste(asd_only, collapse = ", "), "** is enriched for ASD genes only, more weakly (",
-   paste0(f2(sapply(asd_only, function(k) get1("ASD", k, "fold"))), "x, p = ",
-          pv(sapply(asd_only, function(k) get1("ASD", k, "p_value"))), collapse = "; "), ").") else ""`
-`r if (length(ndd_only)) paste0("* **Cluster ", paste(ndd_only, collapse = ", "), "** is enriched for NDD genes only.") else ""`
-* No other cluster reaches p < 0.05 for either gene set.
+## Gene sets
 
-# Gene sets and test
-
-| Gene set | Source | Genes |
+| Gene set | Source | Genes used |
 |---|---|---|
-| **ASD** | [SFARI Gene](https://gene.sfari.org/) category 1 (high-confidence autism genes), release 07-12-2026 | `r n_set("ASD")` |
-| **NDD** | [Wang et al. 2022, *PNAS*](https://www.pnas.org/doi/10.1073/pnas.2203491119): genes with an excess of damaging de novo variants in 46,612 autism and developmental-delay trios | `r n_set("NDD")` |
+| **ASD** | [SFARI Gene](https://gene.sfari.org/), category 1, release 07-12-2026 | `r n_set("ASD")` |
+| **NDD** | [Wang et al. 2022, *PNAS*](https://www.pnas.org/doi/10.1073/pnas.2203491119), all 615 candidate genes | `r n_set("NDD")` |
 
-Counts are protein-coding genes after updating names to current HGNC symbols.
-The two sets share `r shared` genes.
+**ASD: SFARI Gene category 1.** SFARI Gene is an expert-curated database of
+autism genes, scored by strength of evidence. Category 1 ("high confidence")
+genes have been clearly implicated in autism, typically by at least three
+de novo likely gene-disrupting mutations reported in the literature. The
+07-12-2026 release has `r sum(sf$gene_score == 1)` category 1 genes
+(`r sum(sf$gene_score == 1 & sf$syndromic == 1)` also flagged as syndromic);
+`r n_set("ASD")` are protein-coding and used here. The three dropped genes are
+small nuclear RNA genes (RNU2-2, RNU4-2, RNU5B-1).
 
-**Test.** For each cluster and gene set, a two-sided Fisher's exact test
-compares the cluster with the rest of the genome (all `r fmt(nrow(bg))`
-protein-coding genes). p-values are not corrected for the `r nrow(d)` tests
-(about `r round(0.05 * nrow(d), 1)` would reach p < 0.05 by chance).
+**NDD: Wang et al. 2022.** *Integrated gene analyses of de novo variants from
+46,612 trios with autism and developmental disorders* (PNAS 119:e2203491119).
+
+* **Data:** exome and genome sequencing of 46,612 parent–child trios from
+  11 cohorts: 15,560 with autism (including 6,557 from SPARK) and 31,052
+  with developmental delay. Only *de novo* variants are used: variants present
+  in the child but in neither parent.
+* **Method:** for each gene, the observed number of damaging de novo variants
+  (likely gene-disrupting, missense, and severe missense with CADD > 30) is
+  compared with the number expected from the gene's mutation rate. Three
+  statistical models are used: chimpanzee–human divergence, denovolyzeR and
+  DeNovoWEST.
+* **Genes:** 615 genes reach FDR < 5% in at least one model. Of these,
+  `r sum(w$tier %in% c("high", "med"))` reach FDR < 5% in all three models,
+  and `r sum(w$tier == "high")` are exome-wide significant in all three. We use
+  all 615 (`r n_set("NDD")` protein-coding).
+* Two-thirds of the trios have developmental delay, so the list leans toward
+  developmental-delay genes; the paper found no autism-specific genes. It
+  updates the earlier Coe et al. 2019 analysis (10,927 cases, 253 genes).
+
+**Overlap.** The two sets share `r shared` genes:
+`r n_set("ASD") - shared` genes are ASD-only and `r n_set("NDD") - shared` are
+NDD-only. Results for the two sets are therefore related, not independent.
+
+## Test
+
+For each cluster and gene set, a **two-sided Fisher's exact test** compares the
+cluster with the rest of the background:
+
+|                    | in gene set | not in gene set |
+|--------------------|:-----------:|:---------------:|
+| in cluster k       | a | b |
+| rest of background | c | d |
+
+* **Background:** the whole genome, i.e. all `r fmt(nrow(bg))` HGNC
+  protein-coding genes.
+* **Fold enrichment** = observed overlap (a) &divide; the overlap expected from
+  the cluster and gene-set sizes alone.
+* **p-values** are nominal and not corrected for the `r nrow(d)` tests
+  (10 clusters &times; 2 gene sets). About `r round(0.05 * nrow(d), 1)` test
+  would reach p < 0.05 by chance.
+* The test is two-sided, so it detects depletion (fewer genes than expected)
+  as well as enrichment.
 
 # Results
 
@@ -125,8 +198,7 @@ ggplot(h, aes(set_lab, cluster_f)) +
 ```
 
 ```{r table}
-w <- function(s) d[d$set == s, ]
-a <- w("ASD"); n <- w("NDD")
+a <- d[d$set == "ASD", ]; n <- d[d$set == "NDD", ]
 bold <- function(x, p) ifelse(p < 0.05, paste0("**", x, "**"), x)
 tab <- data.frame(
   cluster = a$k, genes = fmt(a$n_cluster),
@@ -140,6 +212,44 @@ knitr::kable(tab, format = "pipe", align = "rrrrrrrr",
              caption = "Bold: p < 0.05.")
 ```
 
+## Cluster by cluster
+
+**Cluster 6** (`r fmt(n_clust(6))` genes, the largest cluster)
+
+* ASD: `r desc("ASD", 6)`. NDD: `r desc("NDD", 6)`.
+* The ASD genes are largely **synaptic and neuronal**:
+  * ion channels and neurotransmitter receptors: GRIN2B, GRIA2, GABRB3, KCNB1,
+    KCNQ2, KCNQ3
+  * synapse proteins: DLG4, NRXN1, NRXN2, SHANK2, STXBP1, SYN1, RIMS1
+  * neuronal transcription factors: MYT1L, BCL11A, SATB1, TSHZ3, EBF3, ZBTB20
+* The NDD genes follow the same pattern, adding synaptic-vesicle and
+  channel genes such as SYT1, VAMP2, STX1B, SCN3A, ATP1A3 and KIF1A.
+
+**Cluster 2** (`r fmt(n_clust(2))` genes)
+
+* ASD: `r desc("ASD", 2)`. NDD: `r desc("NDD", 2)`. This is the strongest
+  NDD result.
+* The genes are mostly **chromatin and transcription regulators**:
+  * ASD: ARID1B, ADNP, ATRX, CHD7, CREBBP, EP300, KMT2A, NIPBL, SMARCA4, SETD2,
+    SIN3A
+  * NDD adds ARID1A, ARID2, CHD4, EZH2, NSD2, SMARCD1 and SMARCE1.
+* The NDD genes in this cluster include GLI3 itself.
+
+**Cluster 10** (`r fmt(n_clust(10))` genes)
+
+* ASD: `r desc("ASD", 10)`, including CTNNB1, DDX3X, CHD3 and PCDH19.
+* NDD is not enriched: `r desc("NDD", 10)`.
+
+**Other clusters**
+
+* No result reaches p < 0.05.
+* A few have fewer ASD genes than expected, but none significantly:
+  * cluster 5: `r desc("ASD", 5)`
+  * cluster 7: `r desc("ASD", 7)`
+
+The gene-type patterns above come from reading the gene lists; they are
+descriptive, not a formal test.
+
 ## Genes behind the significant results
 
 ```{r genes}
@@ -148,5 +258,21 @@ knitr::kable(data.frame(g$k, lab[g$set], g$overlap, gsub(",", ", ", g$overlap_ge
              col.names = c("Cluster", "Gene set", "Genes", "Overlapping genes"), row.names = FALSE)
 ```
 
-Detailed results for all 7 gene sets (SFARI categories 1 and 2, TADA tiers, NDD)
-are on the [detailed page](geneset_enrichment.html).
+# Notes
+
+* **Strength of evidence.** The four results for clusters 2 and 6 have
+  p &le; `r pv(max(d$p_value[d$k %in% c(2, 6)]))`, far below
+  0.05 / `r nrow(d)` = `r 0.05 / nrow(d)`. The cluster 10 result
+  (p = `r pv(get1("ASD", 10, "p_value"))`) is weaker and could be a chance
+  finding.
+* **Background.** The genome-wide background includes genes not expressed in
+  these cells. Genes expressed in neural progenitors are generally enriched
+  for neurodevelopmental genes, which can inflate genome-wide enrichment.
+* **Cluster size.** Cluster 6 is the largest cluster, so it has the most power
+  to detect enrichment.
+* **Mutation-intolerant genes.** Many ASD and NDD genes are highly intolerant
+  of damaging mutations. A cluster rich in such genes could look enriched for
+  that reason alone; this has not yet been tested.
+
+Detailed results for all 7 gene sets (SFARI categories 1 and 2, TADA tiers,
+NDD) are on the [detailed page](geneset_enrichment.html).

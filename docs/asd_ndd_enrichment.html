@@ -537,15 +537,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229GLIHedgehogSignalingtreeeb413807cb1bcf5ef8f22fcda85870188af6a5d5targetblankeb41380a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229GLIHedgehogSignalingtree89e7d9fdc9db3f14c150ec37fd36f8720d1e176btargetblank89e7d9fa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/tree/eb413807cb1bcf5ef8f22fcda85870188af6a5d5" target="_blank">eb41380</a>
+<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/tree/89e7d9fdc9db3f14c150ec37fd36f8720d1e176b" target="_blank">89e7d9f</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229GLIHedgehogSignalingtreeeb413807cb1bcf5ef8f22fcda85870188af6a5d5targetblankeb41380a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229GLIHedgehogSignalingtree89e7d9fdc9db3f14c150ec37fd36f8720d1e176btargetblank89e7d9fa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -555,7 +555,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/tree/eb413807cb1bcf5ef8f22fcda85870188af6a5d5" target="_blank">eb41380</a>.
+<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/tree/89e7d9fdc9db3f14c150ec37fd36f8720d1e176b" target="_blank">89e7d9f</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -621,6 +621,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/blob/89e7d9fdc9db3f14c150ec37fd36f8720d1e176b/analysis/asd_ndd_enrichment.Rmd" target="_blank">89e7d9f</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2026-11-20
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/GLI-Hedgehog_Signaling/89e7d9fdc9db3f14c150ec37fd36f8720d1e176b/docs/asd_ndd_enrichment.html" target="_blank">89e7d9f</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2026-11-20
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/blob/eb413807cb1bcf5ef8f22fcda85870188af6a5d5/analysis/asd_ndd_enrichment.Rmd" target="_blank">eb41380</a>
 </td>
 <td>
@@ -663,6 +697,9 @@ P  &lt;- &quot;/project/xinhe/xsun/GLI-Hedgehog_Signaling&quot;
 r  &lt;- read.delim(file.path(P, &quot;results/1.geneset_enrichment/enrichment_fisher.tsv&quot;), check.names = FALSE)
 gs &lt;- read.delim(file.path(P, &quot;data/gene_sets/enrichment_gene_sets.tsv&quot;), check.names = FALSE)
 bg &lt;- read.delim(file.path(P, &quot;data/gene_sets/background_protein_coding_hgnc.tsv&quot;))
+cl &lt;- read.delim(file.path(P, &quot;data/gene_clusters/maSigPro_clusters_hgnc.tsv&quot;))
+sf &lt;- read.delim(file.path(P, &quot;data/gene_sets/SFARI_cat1_cat2_07-12-2026release.tsv&quot;))
+nd &lt;- read.delim(file.path(P, &quot;data/gene_sets/NDD_genes.tsv&quot;))
 
 # the two gene sets used on this page
 sets &lt;- c(ASD = &quot;SFARI_cat1&quot;, NDD = &quot;NDD_wang2022&quot;)
@@ -671,37 +708,135 @@ d &lt;- r[r$cluster != &quot;all&quot; &amp; r$gene_set %in% sets, ]
 d$set &lt;- names(sets)[match(d$gene_set, sets)]
 d$k &lt;- as.integer(d$cluster)
 d &lt;- d[order(d$set, d$k), ]
+sig &lt;- d[d$p_value &lt; 0.05, ]
 
 f2  &lt;- function(x) sprintf(&quot;%.1f&quot;, x)
 pv  &lt;- function(p) ifelse(p &gt;= 0.001, sprintf(&quot;%.3f&quot;, p), formatC(p, format = &quot;e&quot;, digits = 1))
 fmt &lt;- function(x) format(x, big.mark = &quot;,&quot;, trim = TRUE)
 get1 &lt;- function(s, k, v) d[d$set == s &amp; d$k == k, v]
-n_set &lt;- function(s) sum(gs$gene_set == sets[[s]])
-shared &lt;- length(intersect(gs$hgnc_id[gs$gene_set == sets[[&quot;ASD&quot;]]], gs$hgnc_id[gs$gene_set == sets[[&quot;NDD&quot;]]]))
-sig &lt;- d[d$p_value &lt; 0.05, ]
+# one-line description of a result: &quot;44 genes vs 19.2 expected (2.3x, p = 2.2e-07)&quot;
+desc &lt;- function(s, k) paste0(get1(s, k, &quot;overlap&quot;), ifelse(get1(s, k, &quot;overlap&quot;) == 1, &quot; gene&quot;, &quot; genes&quot;),
+                              &quot; vs &quot;, f2(get1(s, k, &quot;expected&quot;)),
+                              &quot; expected (&quot;, f2(get1(s, k, &quot;fold&quot;)), &quot;x, p = &quot;, pv(get1(s, k, &quot;p_value&quot;)), &quot;)&quot;)
+ids  &lt;- function(s) gs$hgnc_id[gs$gene_set == sets[[s]]]
+n_set &lt;- function(s) length(ids(s))
+shared &lt;- length(intersect(ids(&quot;ASD&quot;), ids(&quot;NDD&quot;)))
+w &lt;- nd[nd$source == &quot;Wang2022&quot;, ]
+n_clust &lt;- function(k) sum(cl$kept &amp; cl$cluster == k)
 
 # chart ink and diverging colours (blue = depleted, gray = as expected, red = enriched)
 INK &lt;- &quot;#0b0b0b&quot;; INK2 &lt;- &quot;#52514e&quot;; MUTED &lt;- &quot;#898781&quot;
 SURF &lt;- &quot;#fcfcfb&quot;; BLUE &lt;- &quot;#2a78d6&quot;; RED &lt;- &quot;#e34948&quot;; MID &lt;- &quot;#f0efec&quot;</code></pre>
 <div id="summary" class="section level1">
 <h1>Summary</h1>
-<pre class="r"><code>both  &lt;- intersect(sig$k[sig$set == &quot;ASD&quot;], sig$k[sig$set == &quot;NDD&quot;])
-fold_rng &lt;- range(d$fold[d$k %in% both])
-asd_only &lt;- setdiff(sig$k[sig$set == &quot;ASD&quot;], sig$k[sig$set == &quot;NDD&quot;])
-ndd_only &lt;- setdiff(sig$k[sig$set == &quot;NDD&quot;], sig$k[sig$set == &quot;ASD&quot;])</code></pre>
 <ul>
-<li><p><strong>Clusters 2 and 6</strong> are enriched for both ASD and
-NDD genes, 1.8–2.6 times more than expected by chance: cluster 2: ASD
-2.6x (p = 6.6e-07), NDD 2.1x (p = 2.3e-08); cluster 6: ASD 2.3x (p =
-2.2e-07), NDD 1.8x (p = 1.2e-07).</p></li>
-<li><p><strong>Cluster 10</strong> is enriched for ASD genes only, more
-weakly (2.3x, p = 0.014).</p></li>
-<li><p>No other cluster reaches p &lt; 0.05 for either gene
-set.</p></li>
+<li><strong>Clusters 2 and 6 are enriched for both ASD and NDD
+genes</strong>, about two-fold over what the cluster size predicts.
+<ul>
+<li>Cluster 2: ASD 33 genes vs 12.9 expected (2.6x, p = 6.6e-07); NDD 67
+genes vs 32.7 expected (2.1x, p = 2.3e-08).</li>
+<li>Cluster 6: ASD 44 genes vs 19.2 expected (2.3x, p = 2.2e-07); NDD 87
+genes vs 48.8 expected (1.8x, p = 1.2e-07).</li>
+</ul></li>
+<li>The genes differ between the two clusters. <strong>Cluster
+6</strong> genes are largely synaptic and neuronal (ion channels,
+glutamate and GABA receptors, synapse proteins), while <strong>cluster
+2</strong> genes are mostly chromatin and transcription regulators.</li>
+<li><strong>Cluster 10</strong> is enriched for ASD genes only, more
+weakly: 10 genes vs 4.4 expected (2.3x, p = 0.014).</li>
+<li>No other cluster reaches p &lt; 0.05 for either gene set, and no
+cluster is significantly depleted.</li>
 </ul>
 </div>
-<div id="gene-sets-and-test" class="section level1">
-<h1>Gene sets and test</h1>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<div id="gli-response-clusters" class="section level2">
+<h2>GLI-response clusters</h2>
+<p>GLI transcription factors mediate Hedgehog signaling, which shapes
+how neuronal progenitors differentiate. In this experiment, GLI is
+overexpressed and then perturbed or removed, and gene expression is
+measured over a time course. Genes that respond were grouped into
+<strong>10 clusters</strong> by their expression pattern over time
+(maSigPro).</p>
+<p>All gene names were updated to current HGNC symbols, using previous
+symbols and aliases for outdated names. Only protein-coding genes are
+kept, to match the background; most dropped genes are lncRNAs, antisense
+transcripts or pseudogenes.</p>
+<pre class="r"><code>k &lt;- sort(unique(cl$cluster))
+tab &lt;- data.frame(cluster = k, genes_in_file = as.vector(table(cl$cluster)),
+                  kept = as.vector(table(factor(cl$cluster[cl$kept], k))))
+tab &lt;- rbind(tab, data.frame(cluster = &quot;total&quot;, genes_in_file = sum(tab$genes_in_file), kept = sum(tab$kept)))
+knitr::kable(tab, col.names = c(&quot;Cluster&quot;, &quot;Genes in file&quot;, &quot;Protein-coding genes used&quot;),
+             format.args = list(big.mark = &quot;,&quot;))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Cluster</th>
+<th align="right">Genes in file</th>
+<th align="right">Protein-coding genes used</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="right">560</td>
+<td align="right">503</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="right">1,090</td>
+<td align="right">1,030</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="right">900</td>
+<td align="right">852</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="right">388</td>
+<td align="right">357</td>
+</tr>
+<tr class="odd">
+<td align="left">5</td>
+<td align="right">998</td>
+<td align="right">965</td>
+</tr>
+<tr class="even">
+<td align="left">6</td>
+<td align="right">1,626</td>
+<td align="right">1,539</td>
+</tr>
+<tr class="odd">
+<td align="left">7</td>
+<td align="right">290</td>
+<td align="right">273</td>
+</tr>
+<tr class="even">
+<td align="left">8</td>
+<td align="right">361</td>
+<td align="right">347</td>
+</tr>
+<tr class="odd">
+<td align="left">9</td>
+<td align="right">236</td>
+<td align="right">213</td>
+</tr>
+<tr class="even">
+<td align="left">10</td>
+<td align="right">387</td>
+<td align="right">354</td>
+</tr>
+<tr class="odd">
+<td align="left">total</td>
+<td align="right">6,836</td>
+<td align="right">6,433</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="gene-sets" class="section level2">
+<h2>Gene sets</h2>
 <table>
 <colgroup>
 <col width="33%" />
@@ -712,31 +847,96 @@ set.</p></li>
 <tr class="header">
 <th>Gene set</th>
 <th>Source</th>
-<th>Genes</th>
+<th>Genes used</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><strong>ASD</strong></td>
-<td><a href="https://gene.sfari.org/">SFARI Gene</a> category 1
-(high-confidence autism genes), release 07-12-2026</td>
+<td><a href="https://gene.sfari.org/">SFARI Gene</a>, category 1,
+release 07-12-2026</td>
 <td>242</td>
 </tr>
 <tr class="even">
 <td><strong>NDD</strong></td>
 <td><a href="https://www.pnas.org/doi/10.1073/pnas.2203491119">Wang et
-al. 2022, <em>PNAS</em></a>: genes with an excess of damaging de novo
-variants in 46,612 autism and developmental-delay trios</td>
+al. 2022, <em>PNAS</em></a>, all 615 candidate genes</td>
 <td>614</td>
 </tr>
 </tbody>
 </table>
-<p>Counts are protein-coding genes after updating names to current HGNC
-symbols. The two sets share 140 genes.</p>
-<p><strong>Test.</strong> For each cluster and gene set, a two-sided
-Fisher’s exact test compares the cluster with the rest of the genome
-(all 19,362 protein-coding genes). p-values are not corrected for the 20
-tests (about 1 would reach p &lt; 0.05 by chance).</p>
+<p><strong>ASD: SFARI Gene category 1.</strong> SFARI Gene is an
+expert-curated database of autism genes, scored by strength of evidence.
+Category 1 (“high confidence”) genes have been clearly implicated in
+autism, typically by at least three de novo likely gene-disrupting
+mutations reported in the literature. The 07-12-2026 release has 245
+category 1 genes (121 also flagged as syndromic); 242 are protein-coding
+and used here. The three dropped genes are small nuclear RNA genes
+(RNU2-2, RNU4-2, RNU5B-1).</p>
+<p><strong>NDD: Wang et al. 2022.</strong> <em>Integrated gene analyses
+of de novo variants from 46,612 trios with autism and developmental
+disorders</em> (PNAS 119:e2203491119).</p>
+<ul>
+<li><strong>Data:</strong> exome and genome sequencing of 46,612
+parent–child trios from 11 cohorts: 15,560 with autism (including 6,557
+from SPARK) and 31,052 with developmental delay. Only <em>de novo</em>
+variants are used: variants present in the child but in neither
+parent.</li>
+<li><strong>Method:</strong> for each gene, the observed number of
+damaging de novo variants (likely gene-disrupting, missense, and severe
+missense with CADD &gt; 30) is compared with the number expected from
+the gene’s mutation rate. Three statistical models are used:
+chimpanzee–human divergence, denovolyzeR and DeNovoWEST.</li>
+<li><strong>Genes:</strong> 615 genes reach FDR &lt; 5% in at least one
+model. Of these, 237 reach FDR &lt; 5% in all three models, and 138 are
+exome-wide significant in all three. We use all 615 (614
+protein-coding).</li>
+<li>Two-thirds of the trios have developmental delay, so the list leans
+toward developmental-delay genes; the paper found no autism-specific
+genes. It updates the earlier Coe et al. 2019 analysis (10,927 cases,
+253 genes).</li>
+</ul>
+<p><strong>Overlap.</strong> The two sets share 140 genes: 102 genes are
+ASD-only and 474 are NDD-only. Results for the two sets are therefore
+related, not independent.</p>
+</div>
+<div id="test" class="section level2">
+<h2>Test</h2>
+<p>For each cluster and gene set, a <strong>two-sided Fisher’s exact
+test</strong> compares the cluster with the rest of the background:</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">in gene set</th>
+<th align="center">not in gene set</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>in cluster k</td>
+<td align="center">a</td>
+<td align="center">b</td>
+</tr>
+<tr class="even">
+<td>rest of background</td>
+<td align="center">c</td>
+<td align="center">d</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Background:</strong> the whole genome, i.e. all 19,362 HGNC
+protein-coding genes.</li>
+<li><strong>Fold enrichment</strong> = observed overlap (a) ÷ the
+overlap expected from the cluster and gene-set sizes alone.</li>
+<li><strong>p-values</strong> are nominal and not corrected for the 20
+tests (10 clusters × 2 gene sets). About 1 test would reach p &lt; 0.05
+by chance.</li>
+<li>The test is two-sided, so it detects depletion (fewer genes than
+expected) as well as enrichment.</li>
+</ul>
+</div>
 </div>
 <div id="results" class="section level1">
 <h1>Results</h1>
@@ -785,9 +985,83 @@ ggplot(h, aes(set_lab, cluster_f)) +
                        breaks = c(-10, -5, 0, 5, 10), labels = c(&quot;&lt;=-10&quot;, &quot;-5&quot;, &quot;0&quot;, &quot;5&quot;, &quot;&gt;=10&quot;),
                        name = &quot;Signed -log10 p&quot;) +
   labs(title = &quot;-log10 p&quot;, x = NULL, y = &quot;Cluster&quot;) + th + bar</code></pre>
-<p><img src="figure/asd_ndd_enrichment.Rmd/heatmaps-1.png" alt="" width="49%" /><img src="figure/asd_ndd_enrichment.Rmd/heatmaps-2.png" alt="" width="49%" /></p>
-<pre class="r"><code>w &lt;- function(s) d[d$set == s, ]
-a &lt;- w(&quot;ASD&quot;); n &lt;- w(&quot;NDD&quot;)
+<p><img src="figure/asd_ndd_enrichment.Rmd/heatmaps-1.png" alt="" width="49%" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-heatmaps-1">
+Past versions of heatmaps-1.png
+</button>
+</p>
+<div id="fig-heatmaps-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/blob/89e7d9fdc9db3f14c150ec37fd36f8720d1e176b/docs/figure/asd_ndd_enrichment.Rmd/heatmaps-1.png" target="_blank">89e7d9f</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2026-11-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/asd_ndd_enrichment.Rmd/heatmaps-2.png" alt="" width="49%" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-heatmaps-2">
+Past versions of heatmaps-2.png
+</button>
+</p>
+<div id="fig-heatmaps-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/GLI-Hedgehog_Signaling/blob/89e7d9fdc9db3f14c150ec37fd36f8720d1e176b/docs/figure/asd_ndd_enrichment.Rmd/heatmaps-2.png" target="_blank">89e7d9f</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2026-11-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>a &lt;- d[d$set == &quot;ASD&quot;, ]; n &lt;- d[d$set == &quot;NDD&quot;, ]
 bold &lt;- function(x, p) ifelse(p &lt; 0.05, paste0(&quot;**&quot;, x, &quot;**&quot;), x)
 tab &lt;- data.frame(
   cluster = a$k, genes = fmt(a$n_cluster),
@@ -926,6 +1200,57 @@ knitr::kable(tab, format = &quot;pipe&quot;, align = &quot;rrrrrrrr&quot;,
 </tr>
 </tbody>
 </table>
+<div id="cluster-by-cluster" class="section level2">
+<h2>Cluster by cluster</h2>
+<p><strong>Cluster 6</strong> (1,539 genes, the largest cluster)</p>
+<ul>
+<li>ASD: 44 genes vs 19.2 expected (2.3x, p = 2.2e-07). NDD: 87 genes vs
+48.8 expected (1.8x, p = 1.2e-07).</li>
+<li>The ASD genes are largely <strong>synaptic and neuronal</strong>:
+<ul>
+<li>ion channels and neurotransmitter receptors: GRIN2B, GRIA2, GABRB3,
+KCNB1, KCNQ2, KCNQ3</li>
+<li>synapse proteins: DLG4, NRXN1, NRXN2, SHANK2, STXBP1, SYN1,
+RIMS1</li>
+<li>neuronal transcription factors: MYT1L, BCL11A, SATB1, TSHZ3, EBF3,
+ZBTB20</li>
+</ul></li>
+<li>The NDD genes follow the same pattern, adding synaptic-vesicle and
+channel genes such as SYT1, VAMP2, STX1B, SCN3A, ATP1A3 and KIF1A.</li>
+</ul>
+<p><strong>Cluster 2</strong> (1,030 genes)</p>
+<ul>
+<li>ASD: 33 genes vs 12.9 expected (2.6x, p = 6.6e-07). NDD: 67 genes vs
+32.7 expected (2.1x, p = 2.3e-08). This is the strongest NDD
+result.</li>
+<li>The genes are mostly <strong>chromatin and transcription
+regulators</strong>:
+<ul>
+<li>ASD: ARID1B, ADNP, ATRX, CHD7, CREBBP, EP300, KMT2A, NIPBL, SMARCA4,
+SETD2, SIN3A</li>
+<li>NDD adds ARID1A, ARID2, CHD4, EZH2, NSD2, SMARCD1 and SMARCE1.</li>
+</ul></li>
+<li>The NDD genes in this cluster include GLI3 itself.</li>
+</ul>
+<p><strong>Cluster 10</strong> (354 genes)</p>
+<ul>
+<li>ASD: 10 genes vs 4.4 expected (2.3x, p = 0.014), including CTNNB1,
+DDX3X, CHD3 and PCDH19.</li>
+<li>NDD is not enriched: 12 genes vs 11.2 expected (1.1x, p =
+0.759).</li>
+</ul>
+<p><strong>Other clusters</strong></p>
+<ul>
+<li>No result reaches p &lt; 0.05.</li>
+<li>A few have fewer ASD genes than expected, but none significantly:
+<ul>
+<li>cluster 5: 6 genes vs 12.1 expected (0.5x, p = 0.074)</li>
+<li>cluster 7: 1 gene vs 3.4 expected (0.3x, p = 0.270)</li>
+</ul></li>
+</ul>
+<p>The gene-type patterns above come from reading the gene lists; they
+are descriptive, not a formal test.</p>
+</div>
 <div id="genes-behind-the-significant-results" class="section level2">
 <h2>Genes behind the significant results</h2>
 <pre class="r"><code>g &lt;- sig[order(sig$k, sig$set), ]
@@ -1003,6 +1328,25 @@ MSL3, PCDH19, SOS2</td>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+<div id="notes" class="section level1">
+<h1>Notes</h1>
+<ul>
+<li><strong>Strength of evidence.</strong> The four results for clusters
+2 and 6 have p ≤ 6.6e-07, far below 0.05 / 20 = 0.0025. The cluster 10
+result (p = 0.014) is weaker and could be a chance finding.</li>
+<li><strong>Background.</strong> The genome-wide background includes
+genes not expressed in these cells. Genes expressed in neural
+progenitors are generally enriched for neurodevelopmental genes, which
+can inflate genome-wide enrichment.</li>
+<li><strong>Cluster size.</strong> Cluster 6 is the largest cluster, so
+it has the most power to detect enrichment.</li>
+<li><strong>Mutation-intolerant genes.</strong> Many ASD and NDD genes
+are highly intolerant of damaging mutations. A cluster rich in such
+genes could look enriched for that reason alone; this has not yet been
+tested.</li>
+</ul>
 <p>Detailed results for all 7 gene sets (SFARI categories 1 and 2, TADA
 tiers, NDD) are on the <a href="geneset_enrichment.html">detailed
 page</a>.</p>
@@ -1046,7 +1390,6 @@ loaded via a namespace (and not attached):
 [45] scales_1.2.0     ps_1.7.0         promises_1.2.0.1 htmltools_0.5.7 
 [49] colorspace_2.0-3 httpuv_1.6.5     utf8_1.2.2       stringi_1.7.6   
 [53] munsell_0.5.0   </code></pre>
-</div>
 </div>
 </div>
 
